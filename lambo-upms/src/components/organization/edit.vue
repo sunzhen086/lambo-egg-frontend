@@ -62,13 +62,13 @@
 							description: self.form.description
 						}
 						if(self.organizationId) {
-							util.ajax.post("/manage/organization/update/" + self.organizationId, util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/organization/update/" + self.organizationId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							}).catch(function(err) {
 								self.$Message.error('保存失败,请联系系统管理员');
 							});
 						} else {
-							util.ajax.post("/manage/organization/create", util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/organization/create", params).then(function(resp) {
 								self.$Message.success('新增组织成功');
 								self.created = true;
 							}).catch(function(err) {

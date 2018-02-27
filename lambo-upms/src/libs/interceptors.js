@@ -21,18 +21,18 @@ function requestError(error){
 
 function responseInterceptors(response){
     var data = response.data;
-    if(data instanceof Object){
-    	var code = data["code"];
-    	if(code == "10106"){
-    		vm.$Message.error({
-                content: '会话超时,请重新登录',
-                duration: 3
-            });
-            setTimeout(function(){
-            	window.location.href = Config.login_page_url;
-            },3000)
-    	}
+  if(data instanceof Object){
+    var code = data["code"];
+    if(code == "10106"){
+      vm.$Message.error({
+        content: '会话超时,请重新登录',
+        duration: 3
+      });
+      setTimeout(function(){
+        window.location.href = Config.login_page_url;
+      },3000)
     }
+  }
     return response;
 }
 

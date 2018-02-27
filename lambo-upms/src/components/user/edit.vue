@@ -93,13 +93,13 @@
 							sex: self.form.sex
 						}
 						if(self.userId) {
-							util.ajax.post("/manage/user/update/" + self.userId, util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/user/update/" + self.userId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							}).catch(function(err) {
 								self.$Message.error('保存失败,请联系系统管理员');
 							});
 						} else {
-							util.ajax.post("/manage/user/create", util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/user/create", params).then(function(resp) {
 								self.$Message.success('新增资源成功');
 								self.created = true;
 							}).catch(function(err) {

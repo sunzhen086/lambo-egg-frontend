@@ -62,7 +62,7 @@
 				var params = {
 					dataJson: JSON.stringify(self.changeDatas)
 				}
-				util.ajax.post("/manage/role/permission/"+self.roleId, util.params(params)).then(function(resp) {
+				util.ajax.post("/manage/role/permission/"+self.roleId, params).then(function(resp) {
 					self.$Message.success('修改角色权限成功');
 				}).catch(function(err) {
 					self.$Message.error('修改角色权限失败,请联系角色管理员');

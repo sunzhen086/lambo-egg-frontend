@@ -157,13 +157,13 @@
 							status: self.form.status
 						}
 						if(self.permissionId) {
-							util.ajax.post("/manage/permission/update/" + self.permissionId, util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/permission/update/" + self.permissionId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							}).catch(function(err) {
 								self.$Message.error('保存失败,请联系系统管理员');
 							});
 						} else {
-							util.ajax.post("/manage/permission/create", util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/permission/create", params).then(function(resp) {
 								self.$Message.success('新增资源成功');
 								self.created = true;
 							}).catch(function(err) {

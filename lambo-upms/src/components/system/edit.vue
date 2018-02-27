@@ -87,13 +87,13 @@
 							status: self.form.status
 						}
 						if(self.systemId) {
-							util.ajax.post("/manage/system/update/" + self.systemId, util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/system/update/" + self.systemId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							}).catch(function(err) {
 								self.$Message.error('保存失败,请联系系统管理员');
 							});
 						} else {
-							util.ajax.post("/manage/system/create", util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/system/create", params).then(function(resp) {
 								self.$Message.success('新增资源成功');
 								self.created = true;
 							}).catch(function(err) {

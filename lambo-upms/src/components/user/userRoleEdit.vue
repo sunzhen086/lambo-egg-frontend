@@ -58,7 +58,7 @@
 				var params = {
 					roleIds:self.userRoleArr.join(",")
 				};
-				util.ajax.post("/manage/user/role/"+self.userId,util.params(params)).then(function(result){
+				util.ajax.post("/manage/user/role/"+self.userId,params).then(function(result){
 					self.$Message.success('修改用户角色成功');
 				}).catch(function(err) {
 					self.$Message.error('修改用户角色失败,请联系角色管理员');

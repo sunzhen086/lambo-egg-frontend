@@ -58,7 +58,7 @@
 				var params = {
 					orgIds:self.userOrganArr.join(",")
 				};
-				util.ajax.post("/manage/user/organization/"+self.userId,util.params(params)).then(function(result){
+				util.ajax.post("/manage/user/organization/"+self.userId,params).then(function(result){
 					self.$Message.success('修改用户组织成功');
 				}).catch(function(err) {
 					self.$Message.error('修改用户组织失败,请联系角色管理员');

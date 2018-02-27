@@ -71,13 +71,13 @@
 							description: self.form.description
 						}
 						if(self.roleId) {
-							util.ajax.post("/manage/role/update/" + self.roleId, util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/role/update/" + self.roleId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							}).catch(function(err) {
 								self.$Message.error('保存失败,请联系角色管理员');
 							});
 						} else {
-							util.ajax.post("/manage/role/create", util.params(params)).then(function(resp) {
+							util.ajax.post("/manage/role/create", params).then(function(resp) {
 								self.$Message.success('新增角色成功');
 								self.created = true;
 							}).catch(function(err) {
