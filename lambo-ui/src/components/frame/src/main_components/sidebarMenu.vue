@@ -84,7 +84,7 @@
             });
         },
         created(){
-            this.activeName = localStorage.activeName*1;
+            this.activeName = localStorage.activeName;
             this.openedSubmenuArr = JSON.parse(localStorage.openedSubmenuArr);
         }
 

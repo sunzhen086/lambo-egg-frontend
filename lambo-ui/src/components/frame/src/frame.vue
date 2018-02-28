@@ -118,7 +118,7 @@
                 //初始化变量
                 this.currentPath = localStorage.currentPath ? JSON.parse(localStorage.currentPath) : [];
                 this.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [];
-                this.currentPageName = localStorage.currentPageName ? localStorage.currentPageName*1 : 0;
+                this.currentPageName = localStorage.currentPageName ? localStorage.currentPageName : '';
             },
             toggleClick () {
                 this.hideMenuText = !this.hideMenuText;

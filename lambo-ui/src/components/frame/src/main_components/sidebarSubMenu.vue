@@ -5,12 +5,12 @@
 <template>
     <div>
         <template v-for="item in menuList">
-            <MenuItem v-if="!item.children" :name="item.name" :key="item.path">
-                <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
-                <span class="layout-text" :key="item.path">{{ item.title }}</span>
+            <MenuItem v-if="!item.children" :name="item.name" :key="item.id">
+                <Icon :type="item.icon" :size="iconSize"></Icon>
+                <span class="layout-text">{{ item.title }}</span>
             </MenuItem>
 
-            <Submenu v-else :name="item.name" :key="item.path">
+            <Submenu v-else :name="item.name" :key="item.id">
                 <template slot="title">
                     <Icon :type="item.icon" :size="iconSize"></Icon>
                     <span class="layout-text">{{item.title}}</span>
