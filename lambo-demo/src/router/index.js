@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import login from '@/components/login/login'
 import frame from '@/components/frame/frame'
 import pagingTable from '@/components/table/paging-table'
+import editableTable from '@/components/table/editable-table'
 
 Vue.use(Router)
 const router = new Router({
@@ -31,6 +32,14 @@ const router = new Router({
           },
           name:'分页表格',
           component: pagingTable
+        },
+        {
+          path: 'table/editable-table',
+          meta:{
+            title: '可编辑表格示例',
+          },
+          name:'可编辑表格',
+          component: editableTable
         }
       ]
     }
