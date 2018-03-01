@@ -2,15 +2,15 @@
   <LamboLogin :defaultUserName="defaultUserName" :defaultPassword="defaultPassword" @do-login="doLogin"></LamboLogin>
 </template>
 <script>
-  import Cookies from 'js-cookie';
   import util from '@/libs/util';
+  import config from '@/config/config';
 
   export default {
     data() {
       return {
         defaultUserName:"admin",
         defaultPassword:"123456",
-        successForwardUrl: process.env.NODE_ENV == "production" ? "/demo/#/main" : "/#/main"
+        successForwardUrl: config.homePage
       }
     },
     methods:{

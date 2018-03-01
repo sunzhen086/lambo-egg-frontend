@@ -147,6 +147,7 @@
         },
         watch: {
             menuList(data){
+                console.log(data);
                 if(data){
                     localStorage.menuList = JSON.stringify(data);
                     this.setTagsList(data);

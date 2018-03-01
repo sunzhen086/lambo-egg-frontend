@@ -85,7 +85,7 @@
                 tempForm.id = "formForExportExcel";
                 tempForm.name = "formForExportExcel";
                 tempForm.method = 'post';
-                tempForm.action = '/upms' + self.dataUrl;
+                tempForm.action = self.dataUrl;
                 tempForm.target = "_blank";
                 document.body.appendChild(tempForm);
                 var input = document.createElement("input");

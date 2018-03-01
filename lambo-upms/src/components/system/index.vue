@@ -1,24 +1,24 @@
 <template>
-	<div>
-		<Card>
-			<p slot="title">
-				<Icon type="help-buoy"></Icon> {{title}}
-			</p>
-			<div slot="extra">
-				<a href="#" @click.prevent="goCreatePage">
-					<Icon type="plus-round"></Icon>
-					新增系统
-				</a>
-			</div>
+  <div>
+    <Card>
+      <p slot="title">
+        <Icon type="help-buoy"></Icon> {{title}}
+      </p>
+      <div slot="extra">
+        <a href="#" @click.prevent="goCreatePage">
+          <Icon type="plus-round"></Icon>
+          新增系统
+        </a>
+      </div>
 
-			<LamboTable dataUrl="/manage/system/list" :columns="tableColumn" :searchParams="tableSearchParams">
-				<div slot="search">
-					<Input v-model="searchSystemName" placeholder="按系统名称搜索" style="width: 200px" />
-					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-				</div>
-			</LamboTable>
-		</Card>
-	</div>
+      <LamboTable dataUrl="/manage/system/list" :columns="tableColumn" :searchParams="tableSearchParams">
+        <div slot="search">
+          <Input v-model="searchSystemName" placeholder="按系统名称搜索" style="width: 200px" />
+          <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+        </div>
+      </LamboTable>
+    </Card>
+  </div>
 </template>
 <script>
 	import util from '@/libs/util.js';
@@ -61,7 +61,8 @@
 		data() {
 			return {
 				searchSystemName: "",
-				tableSearchParams: {}
+				tableSearchParams: {},
+        value:1
 			}
 		},
 		computed: {

@@ -5,6 +5,7 @@
 <script>
 	import ztree from "ztreev";
 	import util from '@/libs/util.js';
+	import config from '@/config/config';
 	export default {
 		props:{
 			roleId:Number,
@@ -23,7 +24,7 @@
 						}
 					},
 					once: {
-						url: '/upms/manage/permission/role/'+self.roleId,
+						url: '/'+config.serverContext+'/manage/permission/role/'+self.roleId,
 						type: 'GET',
 						dataFilter: function(data) {
 							return data

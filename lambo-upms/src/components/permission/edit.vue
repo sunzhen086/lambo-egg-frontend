@@ -12,9 +12,9 @@
 			<Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
 				<FormItem label="资源类型">
 					<RadioGroup v-model="form.type" @on-change="typeChange">
-						<Radio label="1">目录</Radio>
-						<Radio label="2">菜单</Radio>
-						<Radio label="3">按钮</Radio>
+						<Radio :label= 1>目录</Radio>
+						<Radio :label= 2>菜单</Radio>
+						<Radio :label= 3>按钮</Radio>
 					</RadioGroup>
 				</FormItem>
 				<FormItem label="上级系统" placeholder="选择上级系统" prop="parentSystem">
@@ -35,7 +35,7 @@
 				<FormItem label="资源名称" prop="name">
 					<Input v-model="form.name" placeholder="请输入资源名称"></Input>
 				</FormItem>
-				<FormItem label="资源图标" v-if="form.type == 1" prop="icon">
+				<FormItem label="资源图标" v-if="form.type == 1  || form.type == 2" prop="icon">
 					<Input v-model="form.icon" placeholder="请输入图标"></Input>
 				</FormItem>
 				<FormItem label="资源值" v-if="form.type == 2 || form.type == 3" prop="value">
@@ -46,8 +46,8 @@
 				</FormItem>
 				<FormItem label="资源状态">
 					<RadioGroup v-model="form.status">
-						<Radio label="1">正常</Radio>
-						<Radio label="0">锁定</Radio>
+						<Radio :label="1">正常</Radio>
+						<Radio :label="0">锁定</Radio>
 					</RadioGroup>
 				</FormItem>
 				<FormItem v-if="!created">
@@ -140,7 +140,7 @@
 					if(valid) {
 						var pid = "";
 						if(self.form.type == 1) {
-							pid = self.form.parentSystem;
+							pid = 0;//暂时只支持1级目录，所以让所有的目录的上级都是0
 						} else if(self.form.type == 2) {
 							pid = self.form.parentCatalog
 						} else if(self.form.type == 3) {

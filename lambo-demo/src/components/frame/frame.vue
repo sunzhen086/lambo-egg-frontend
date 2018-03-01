@@ -18,6 +18,7 @@
   import defaultImg from '../../assets/avatar.jpg';
   import logoImg from '../../assets/logo.png';
   import util from '@/libs/util.js';
+  import config from '@/config/config';
   export default {
     data() {
       return {
@@ -42,16 +43,13 @@
     methods: {
       init() {
         var self = this;
-        util.ajax.get('/api/menu/getList').then(function(resp){
+        util.ajax.get('/manage/menu/list').then(function(resp){
           var result = resp.data;
           if(result.code == 1){
             self.menuList = result.data[0].children;
           }
         }).catch(function(){
           self.$Message.error("获取菜单异常,请稍候再试.");
-          self.$router.push({
-            name:'登录页'
-          })
         })
       },
       dropAction(id){

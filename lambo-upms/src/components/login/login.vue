@@ -16,20 +16,20 @@
 		methods:{
 			doLogin:function(params){
 				var self = this;
-                util.ajax.post('/login', {
-                  username:params.username,
-                  password:params.password
-                }).then(function (resp) {
-                    var result = resp.data;
-                    if (result.code == 1) {
-                        window.location.href = self.successForwardUrl;
-                    } else {
-                        self.$Message.error(result.data);
-                    }
-                }).catch(function (err) {
-                	console.log(err);
-                    self.$Message.error("服务器内部异常,请稍候再试.");
-                })
+        util.ajax.post('/login', {
+          username:params.username,
+          password:params.password
+        }).then(function (resp) {
+          var result = resp.data;
+          if (result.code == 1) {
+            window.location.href = self.successForwardUrl;
+          } else {
+            self.$Message.error(result.data);
+          }
+        }).catch(function (err) {
+          console.log(err);
+          self.$Message.error("服务器内部异常,请稍候再试.");
+        })
 			}
 		},
 		mounted() {

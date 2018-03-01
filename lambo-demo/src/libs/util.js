@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import ai from './interceptors';
+import config from '@/config/config';
 var qs = require('qs');
 var vm = new Vue();
 
@@ -11,7 +12,7 @@ util.title = function (title) {
 };
 
 util.ajax = axios.create({
-  baseURL: '/demo-server/',
+  baseURL: '/' +config.serverContext+ '/',
 });
 util.ajax.interceptors.request.use(ai.requestInterceptors,ai.requestError);
 util.ajax.interceptors.response.use(ai.responseInterceptors,ai.responseError);

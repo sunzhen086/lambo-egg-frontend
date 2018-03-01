@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cookies from 'js-cookie'
-import Config from '@/config/config'
-import util from '@/libs/util';
 import login from '@/components/login/login'
-import main from '@/components/main/main'
 import frame from '@/components/frame/frame'
+import pagingTable from '@/components/table/paging-table'
 
 Vue.use(Router)
 const router = new Router({
@@ -23,25 +20,20 @@ const router = new Router({
       }
     },
     {
-      path: '/main',
-      name: '首页',
-      component: main
-    },
-    // {
-    //   path: "/frame",
-    //   name: "菜单框架",
-    //   component: frame,
-    //   children: [
-    //     {
-    //       path: 'manage/system/index',
-    //       meta:{
-    //         title: '系统管理',
-    //       },
-    //       name:'系统管理',
-    //       component: systemIndex
-    //     }
-    //   ]
-    // }
+      path: "/frame",
+      name: "菜单框架",
+      component: frame,
+      children: [
+        {
+          path: 'table/paging-table',
+          meta:{
+            title: '分页表格示例',
+          },
+          name:'分页表格',
+          component: pagingTable
+        }
+      ]
+    }
   ]
 })
 

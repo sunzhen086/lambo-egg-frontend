@@ -59,43 +59,43 @@
 		</Row>
 		<Row style="margin-top:15px;">
 			<Col span="24">
-			<Table 
-				:columns="tableColumns" 
-				:data="tableData" 
-				:stripe="tableStripe" 
-				:border="tableBorder" 
-				:showHeader="tableShowHeader" 
-				:width="tableWidth" 
-				:height="tableHeight" 
-				:loading="tableLoading" 
-				:disabledHover="disabledHover" 
-				:highlightRow="highlightRow" 
-				:rowClassName="rowClassName" 
-				:size="tableSize" 
-				:noDataText="noDataText" 
-				:noFilteredDataText="noFilteredDataText" 
-				@on-sort-change="onSortChange" 
-				@on-current-change="onCurrentChange" 
-				@on-select="onSelect" 
-				@on-select-cancel="onSelectCancel" 
-				@on-select-all="onSelectAll" 
-				@on-selection-change="onSelectionChange" 
-				@on-filter-change="onFilterChange" 
-				@on-row-click="onRowClick" 
-				@on-row-dblclick="onRowDblclick" 
+			<Table
+				:columns="tableColumns"
+				:data="tableData"
+				:stripe="tableStripe"
+				:border="tableBorder"
+				:showHeader="tableShowHeader"
+				:width="tableWidth"
+				:height="tableHeight"
+				:loading="tableLoading"
+				:disabledHover="disabledHover"
+				:highlightRow="highlightRow"
+				:rowClassName="rowClassName"
+				:size="tableSize"
+				:noDataText="noDataText"
+				:noFilteredDataText="noFilteredDataText"
+				@on-sort-change="onSortChange"
+				@on-current-change="onCurrentChange"
+				@on-select="onSelect"
+				@on-select-cancel="onSelectCancel"
+				@on-select-all="onSelectAll"
+				@on-selection-change="onSelectionChange"
+				@on-filter-change="onFilterChange"
+				@on-row-click="onRowClick"
+				@on-row-dblclick="onRowDblclick"
 				@on-expand="onExpand">
 			</Table>
 			</Col>
 		</Row>
 		<Row style="margin-top:15px;">
 			<Col span="24" style="text-align:right">
-			<Page 
-				:total="totalNumber" 
-				:current="currentPage" 
-				show-sizer 
-				show-total 
-				show-elevator 
-				@on-change="onPageChange" 
+			<Page
+				:total="totalNumber"
+				:current="currentPage"
+				show-sizer
+				show-total
+				show-elevator
+				@on-change="onPageChange"
 				@on-page-size-change="onPageSizeChange">
 			</Page>
 			</Col>
@@ -236,9 +236,14 @@
 				util.ajax.get(self.dataUrl, {
 					params: Object.assign({},self.paginationParams, self.searchParams, self.sortParams)
 				}).then(function(resp) {
-					self.tableData = resp.data.rows;
-					self.totalNumber = resp.data.total;
-					self.tableLoading = false;
+				    if("code" in resp.data){
+                        self.tableData = resp.data.data.rows;
+                        self.totalNumber = resp.data.data.total;
+					}else{
+                        self.tableData = resp.data.rows;
+                        self.totalNumber = resp.data.total;
+					}
+                    self.tableLoading = false;
 				})
 			},
 			onPageChange: function(currentPageIndex) {

@@ -13,11 +13,11 @@
 
 			<LamboTable dataUrl="/manage/permission/list" :columns="tableColumn" :searchParams="tableSearchParams">
 				<div slot="search">
+          <Select v-model="searchPermissionType" placeholder="按权限类型搜索" style="width:200px">
+            <Option value="">全部</Option>
+            <Option v-for="item in permissionTypeEnum" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
 					<Input v-model="searchPermissionName" placeholder="按权限名称搜索" style="width: 200px" />
-					<Select v-model="searchPermissionType" placeholder="按权限类型搜索" style="width:200px">
-						<Option value="">全部</Option>
-						<Option v-for="item in permissionTypeEnum" :value="item.value" :key="item.value">{{ item.label }}</Option>
-					</Select>
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
 				</div>
 			</LamboTable>
