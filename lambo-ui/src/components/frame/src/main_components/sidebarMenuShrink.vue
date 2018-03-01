@@ -1,16 +1,19 @@
 <template>
     <div>
         <template v-for="(item, index) in menuList">
-            <div style="text-align: center;" :key="index">
-                <Dropdown transfer placement="right-start" :key="index" @on-click="changeMenu">
+            <div style="text-align: center;">
+                <Dropdown transfer placement="right-start" :key="item.id" @on-click="changeMenu">
                     <Button style="width: 70px;margin-left: -5px;padding:10px 0;" type="text">
                         <Icon :size="20" :color="iconColor" :type="item.icon"></Icon>
                     </Button>
-                    <sidebarMenuShrink v-if="item.children.children" :menuList = "item.children" :iconColor="iconColor"></sidebarMenuShrink>
                     <DropdownMenu style="width: 200px;" slot="list">
                         <template v-for="(child, i) in item.children">
-                            <DropdownItem :name="child.name" :key="i"><Icon :type="child.icon"></Icon><span style="padding-left:10px;">{{ child.title }}</span></DropdownItem>
+                            <DropdownItem :name="child.name" :key="child.id"><Icon :type="child.icon"></Icon><span style="padding-left:10px;">{{ child.title }}</span></DropdownItem>
                         </template>
+                        <!--<DropdownItem :name="item.name" :key="index" v-if="!item.children">
+                            <Icon :type="item.icon"></Icon><span style="padding-left:10px;">{{ item.title }}</span>
+                        </DropdownItem>
+                        <sidebarSubMenuShrink v-else :menuList = "item.children" :iconColor="iconColor"></sidebarSubMenuShrink>-->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -20,7 +23,7 @@
 
 <script>
     import util from '../../../../libs/util';
-    import sidebarMenuShrink from './sidebarMenuShrink.vue';
+    import sidebarSubMenuShrink from './sidebarSubMenuShrink.vue';
     export default {
         name: 'sidebarMenuShrink',
         props: {
@@ -39,7 +42,7 @@
             };
         },
         components: {
-            sidebarMenuShrink
+            sidebarSubMenuShrink
         },
         computed: {
 
