@@ -53,15 +53,11 @@
           单元行和单元格两种方式编辑(始终显示编辑单元格按钮)
         </p>
         <p slot="extra">
-          <Button style="margin-top:-5px;" @click="addRow">新增一行</Button>
+          <Button style="margin-top:-5px;" @click="addRow" icon="plus">新增一行</Button>
+          <Button style="margin-top:-5px;" @click="getCurrentData" icon="ios-search">当前数据</Button>
         </p>
         <Row :gutter="10">
-          <Col span="2">
-          <Row type="flex" justify="center" align="middle" class="edittable-table-get-currentdata-con">
-            <Button type="primary" @click="getCurrentData">当前数据</Button>
-          </Row>
-          </Col>
-          <Col span="22">
+          <Col span="24">
           <div class="edittable-table-height-con">
             <can-edit-table
               refs="table4"
