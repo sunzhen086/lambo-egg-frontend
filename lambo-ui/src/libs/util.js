@@ -1,42 +1,28 @@
 import axios from 'axios';
-import env from '../config/env';
+import Vue from 'vue';
+import ai from './interceptors';
+import config from '@/config/config';
 var qs = require('qs');
+var vm = new Vue();
 
-var util = {
-
-};
+let util = {};
 util.title = function (title) {
     title = title || 'lambo';
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development'
-    ? ''
-    : env === 'production'
-    ? '/auth'
-    : '';
-
 util.ajax = axios.create({
-    baseURL: ajaxUrl,
-    timeout: 30000
+  baseURL: '/' +config.serverContext+ '/',
 });
+util.ajax.interceptors.request.use(ai.requestInterceptors,ai.requestError);
+util.ajax.interceptors.response.use(ai.responseInterceptors,ai.responseError);
+
 util.params = function (obj){
 	return qs.stringify(obj);
 }
-
-
-util.oneOf = function (ele, targetArr) {
-    if (targetArr.indexOf(ele) >= 0) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-util.handleTitle = function (vm, item) {
-    return item.title;
-};
-
+util.isJson = function(arg){
+	return typeof(arg) == "object" &&  Object.prototype.toString.call(arg).toLowerCase() == "[object object]" && !arg.length
+}
 util.openNewPage = function (name, argu, query) {
     var pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [];
     var openedPageLen = pageOpenedList.length;
@@ -89,5 +75,4 @@ util.openNewPage = function (name, argu, query) {
     }
     localStorage.currentPageName = name;
 };
-
-export default util
+export default util;
