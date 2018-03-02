@@ -12,7 +12,7 @@ util.title = function (title) {
 };
 
 util.ajax = axios.create({
-  baseURL: '/' +config.serverContext+ '/',
+  baseURL: '/' +config.serverContext,
 });
 util.ajax.interceptors.request.use(ai.requestInterceptors,ai.requestError);
 util.ajax.interceptors.response.use(ai.responseInterceptors,ai.responseError);

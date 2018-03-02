@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import config from '@/config/config';
     export default {
         props:{
             tableColumns:{
@@ -85,7 +86,7 @@
                 tempForm.id = "formForExportExcel";
                 tempForm.name = "formForExportExcel";
                 tempForm.method = 'post';
-                tempForm.action = self.dataUrl;
+                tempForm.action = "/" + config.serverContext + self.dataUrl;
                 tempForm.target = "_blank";
                 document.body.appendChild(tempForm);
                 var input = document.createElement("input");
