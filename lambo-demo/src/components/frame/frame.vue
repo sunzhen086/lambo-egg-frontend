@@ -48,8 +48,6 @@
           if(result.code == 1){
             self.menuList = result.data[0].children;
           }
-        }).catch(function(){
-          self.$Message.error("获取菜单异常,请稍候再试.");
         })
       },
       dropAction(id){

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Vue from 'vue';
 import Config from '@/config/config';
 var qs = require('qs');
@@ -12,10 +11,7 @@ function requestInterceptors(config){
 }
 
 function requestError(error){
-	vm.$Message.error({
-        content: '服务器内部异常,请稍候再试',
-        duration: 5
-    });
+	alert("服务器内部异常,请稍候再试");
     return Promise.reject(error);
 }
 
@@ -24,23 +20,16 @@ function responseInterceptors(response){
     if(data instanceof Object){
     	var code = data["code"];
     	if(code == "10106"){
-    		vm.$Message.error({
-                content: '会话超时,请重新登录',
-                duration: 3
-            });
-            setTimeout(function(){
-            	window.location.href = Config.login_page_url;
-            },3000)
+    		if(confirm("会话已失效，是否重新登录")){
+                window.location.href = Config.loginPage;
+            }
     	}
     }
     return response;
 }
 
 function responseError(error){
-	vm.$Message.error({
-        content: '服务器内部异常,请稍候再试',
-        duration: 5
-    });
+    alert("服务器内部异常,请稍候再试");
     return Promise.reject(error);
 }
 
