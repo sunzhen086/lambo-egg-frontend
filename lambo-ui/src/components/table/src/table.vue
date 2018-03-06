@@ -27,29 +27,29 @@
 						</TabPane>
 						<TabPane label="列筛选">
 							<div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
-								<Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+								<Checkbox :value="checkAll" @on-change="handleCheckAll">全选</Checkbox>
 							</div>
 							<CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
 								<Checkbox v-for="(item, index) in columns" :key="item.key" :label="item.title"></Checkbox>
 								<br/><br/>
-								<Button type="primary" long>确定</Button>
+								<Button type="primary" long @click="columnSelect">确定</Button>
 							</CheckboxGroup>
 
 						</TabPane>
 						<TabPane label="样式">
 							显示边框
-							<i-switch v-model="border" style="margin-right: 5px"></i-switch>
+							<i-switch v-model="tableBorder" style="margin-right: 5px"></i-switch>
 							显示斑马纹
-							<i-switch v-model="stripe" style="margin-right: 5px"></i-switch>
+							<i-switch v-model="tableStripe" style="margin-right: 5px"></i-switch>
 							显示表头
-							<i-switch v-model="showHeader" style="margin-right: 5px"></i-switch><br><br> 表格尺寸
-							<Radio-group v-model="size" type="button">
+							<i-switch v-model="tableShowHeader" style="margin-right: 5px"></i-switch><br><br> 表格尺寸
+							<Radio-group v-model="tableSize" type="button">
 								<Radio label="large">大</Radio>
 								<Radio label="default">中(默认)</Radio>
 								<Radio label="small">小</Radio>
 							</Radio-group>
 							<br><br>
-							<Button type="default" long>应用为全局样式</Button>
+							<Button type="default" long @click="setTableStyleGlobal">应用为全局样式</Button>
 						</TabPane>
 					</Tabs>
 					<Button type="error" icon="close" size="small" title="关闭" style="position:absolute;top:10px;right:10px;" @click="closeTableSettingDropdown"></Button>
@@ -181,13 +181,16 @@
 			return {
 				tableData: this.data,
 				tableColumns: this.columns,
-				tableStripe: this.stripe,
-				tableBorder: this.border,
-				tableShowHeader: this.showHeader,
-				tableWidth: this.width,
-				tableHeight: this.height,
-				tableSize: this.size,
-				tableLoading: this.loading,
+                tableWidth: this.width,
+                tableHeight: this.height,
+                tableLoading: this.loading,
+
+				//样式相关
+                tableStripe: "tableStripe" in localStorage ? localStorage.getItem("tableStripe") !== "false" : this.stripe,
+				tableBorder: "tableBorder" in localStorage ? localStorage.getItem("tableBorder") !== "false" : this.border,
+				tableShowHeader: "tableShowHeader" in localStorage ? localStorage.getItem("tableShowHeader") !== "false" : this.showHeader,
+                tableSize: "tableSize" in localStorage ? localStorage.getItem("tableSize") : this.size,
+
 
 				//分页相关参数
 				totalNumber: 0,
@@ -255,6 +258,7 @@
 				this.tableRefresh();
 			},
 			handleCheckAll() {
+			    this.checkAll = !this.checkAll;
 				if(this.checkAll) {
 					this.checkAllGroup = this.columnNameArr;
 				} else {
@@ -309,6 +313,27 @@
 			},
 			onExpand(params) {
 				this.$emit("on-expand", params);
+			},
+            columnSelect:function(){
+			    let self = this;
+			    var columnSelected = self.checkAllGroup;
+			    var newColumns = [];
+                columnSelected.forEach(colName => {
+                    for(let column of self.columns){
+                        if(column.title === colName){
+                            newColumns.push(column);
+                            break;
+						}
+					}
+				});
+                this.tableColumns = newColumns;
+			},
+            setTableStyleGlobal:function(){
+                window.localStorage.setItem("tableBorder",this.tableBorder);
+                window.localStorage.setItem("tableStripe",this.tableStripe);
+                window.localStorage.setItem("tableShowHeader",this.tableShowHeader);
+                window.localStorage.setItem("tableSize",this.tableSize);
+                this.$Message.success('应用全局样式成功');
 			}
 		},
 		mounted() {
