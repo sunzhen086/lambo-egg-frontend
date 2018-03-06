@@ -49,15 +49,31 @@
         watch: {
             '$route' (to) {
                 //改变当前页的名称
-                this.currentPageName = to.name;
-                //改变currentPath
-                var path = {
-                    title:to.meta.title,
-                    path:to.path,
-                    name:to.name
+                let currentPageName = this.currentPageName = to.name;
+                let menuList = JSON.parse(localStorage.tagsList) || [];
+                let pathstr = "", currentPath = [];
+                for(let menu of menuList){
+                    if(menu.name === currentPageName){
+                        pathstr = menu.path;
+                        break;
+                    }
                 }
-                var currentPath = [];
-                currentPath.push(path);
+                let pathNams = pathstr.split("#");
+                for(let name of pathNams){
+                    if(name){
+                        let path = {
+                            title:name,
+                            name:name
+                        };
+                        currentPath.push(path);
+                    }
+                }
+
+
+                //改变currentPath
+
+
+
                 this.$emit("currentPath",currentPath);
                 localStorage.currentPath = JSON.stringify(currentPath);
                 //改变pageTagsList

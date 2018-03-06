@@ -37,7 +37,7 @@ const router = new Router({
           meta:{
             title: '首页',
           },
-          name: '首页',
+          name: '驾驶舱',
           component: home
         },
         {

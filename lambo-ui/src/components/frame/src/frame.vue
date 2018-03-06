@@ -65,7 +65,6 @@
     import breadcrumbNav from './main_components/breadcrumbNav.vue';
     import themeDropdownMenu from './main_components/themeDropdownMenu.vue';
     import sidebarMenuShrink from './main_components/sidebarMenuShrink.vue';
-    import Cookies from 'js-cookie';
     import avatarImg from '../styles/images/avatar.jpg';
     import defaultLogo from '../styles/images/logo.png';
     import defaultMinLogo from '../styles/images/logo-min.jpg';
@@ -90,6 +89,7 @@
         },
         data () {
             return {
+                menuListWithPath:this.menuList,
                 spanLeft: 4,
                 spanRight: 20,
                 currentPageName: 0,
