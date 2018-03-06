@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import iView from 'iview';
+Vue.use(iView);
 import Router from 'vue-router'
 import login from '@/components/login/login'
 import frame from '@/components/frame/frame'
@@ -109,5 +111,14 @@ const router = new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.start();
+  next();
+});
+
+router.afterEach(route => {
+  iView.LoadingBar.finish();
+});
 
 export default router;
