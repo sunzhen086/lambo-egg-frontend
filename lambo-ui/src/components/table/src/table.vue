@@ -6,8 +6,8 @@
 				&nbsp;
 			</slot>
 			</Col>
-			<Col span="4" style="text-align:right">
-			<Dropdown trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" transfer>
+			<Col span="4">
+			<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
 				<ButtonGroup>
 					<Button type="ghost" icon="refresh" title="刷新表格数据" @click="tableRefresh"></Button>
 					<Button type="ghost" icon="ios-keypad" title="表格选项" @click="tableSettingToggle">
@@ -346,5 +346,9 @@
 	}
 </script>
 <style>
+	.lambo-grid-table{
+		.ivu-select-dropdown{
 
+		}
+	}
 </style>
