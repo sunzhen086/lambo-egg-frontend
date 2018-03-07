@@ -6,6 +6,8 @@ import util from '@/libs/util';
 import login from '@/components/login/login'
 import main from '@/components/main/main'
 import frame from '@/components/frame/frame'
+import dataSubject from '@/components/dataSubject/dataSubject'
+import dataSearch from '@/components/dataSearch/dataSearch'
 
 Vue.use(Router)
 const router = new Router({
@@ -26,6 +28,16 @@ const router = new Router({
       path: '/main',
       name: '首页',
       component: main
+    },
+    {
+      path: '/dataSubject',
+      name: '数据专题',
+      component: dataSubject
+    },
+    {
+      path: '/dataSearch',
+      name: '数据查询',
+      component: dataSearch
     },
     // {
     //   path: "/frame",
