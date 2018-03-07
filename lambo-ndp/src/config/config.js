@@ -1,16 +1,12 @@
 import Env from './env';
 
-let config = {};
+let appContext = Env.isDevEnv ? "" : "/ndp";
 
-if(Env == "development"){
-  config = {
-    env: Env,
-    server_context:'/demo-sample',
-    login_page_url:"/#/login",
-    sso_login_url:"/upms/sso/login",
-    main_page_url:"/#/main",
-    session_timeout:1800
-  };
-}
-
+let config = {
+  env: Env,
+  appContext:appContext,
+  loginPage:appContext + "/#/login",
+  homePage:appContext + "/#/frame/table/paging-table",
+  serverContext:"ndp-server"
+};
 export default config;
