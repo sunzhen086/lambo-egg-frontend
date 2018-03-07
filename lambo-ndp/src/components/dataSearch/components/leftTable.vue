@@ -255,10 +255,12 @@
     watch:{
       tableData:function (newVal,oldVal) {
         this.operData(newVal);
+        this.doSearch();
       }
     },
     mounted(){
       this.operData(this.tableData);
+      this.doSearch();
     }
   }
 </script>
