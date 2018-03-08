@@ -55,7 +55,6 @@
                     let result = validate(newVal,oldVal,this.row,this.index);
                     if(!result.valid){
                         this.$Message.error(result.msg);
-                        this.$ref.input.focus();
                         return ;
                     }
                 }
