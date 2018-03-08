@@ -40,8 +40,10 @@
               subjectId:self.subjectId
             }).then(function (resp) {
               var result = resp.data;
-              self.pageTitle = result[0].subject_name;
-              self.tableData = result;
+              if(result.length>0){
+                self.pageTitle = result[0].subject_name;
+                self.tableData = result;
+              }
             });
           }
         },
