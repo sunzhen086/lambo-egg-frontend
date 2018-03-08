@@ -1,6 +1,7 @@
 import Login from './components/login';
 import Frame from './components/frame';
 import Table from './components/table';
+import EditTable from './components/edit-table';
 
 const version = '1.0.0';
 const install = function(Vue, config) {
@@ -12,6 +13,7 @@ const install = function(Vue, config) {
     Vue.component("LamboLogin", Login);
     Vue.component("LamboFrame", Frame);
     Vue.component("LamboTable", Table);
+    Vue.component("LamboEditTable", EditTable);
 
 };
 
@@ -24,5 +26,6 @@ export default {
     install,
     Login,
     Frame,
-    Table
+    Table,
+    EditTable
 };

@@ -1,146 +1,107 @@
-
 <template>
   <div>
     <Row>
-      <Col span="6">
-      <Card>
-        <p slot="title">
-          <Icon type="load-b"></Icon>
-          简单说明
-        </p>
-        <div class="edittable-test-con" style="height:135px">
-          可编辑单元格可配置可编辑的列，可设置编辑整行的可编辑单元格，也可配置单个编辑可编辑单元格，也可两种形式同时可用。可配置单元格内编辑的图标显示方式。
-        </div>
-      </Card>
-      </Col>
-      <Col span="18" class="padding-left-10">
-      <Card>
-        <div class="edittable-con-1">
-          <can-edit-table refs="table1" @on-delete="handleDel" v-model="tableData" :columns-list="columnsList"></can-edit-table>
-        </div>
-      </Card>
-      </Col>
-    </Row>
-    <Row class="margin-top-10">
       <Col span="12">
       <Card>
         <p slot="title">
-          <Icon type="android-remove"></Icon>
-          可编辑单元行
+          <Icon type="help-buoy"></Icon> 可编辑表格
         </p>
-        <div>
-          <can-edit-table refs="table2" v-model="editInlineData" :columns-list="editInlineColumns"></can-edit-table>
+        <div slot="extra">
+          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
         </div>
-      </Card>
-      </Col>
-      <Col span="12" class="padding-left-10">
-      <Card>
-        <p slot="title">
-          <Icon type="android-more-horizontal"></Icon>
-          可编辑单元格(鼠标移入显示编辑单元格按钮)
-        </p>
-        <div class="edittable-table-height-con">
-          <can-edit-table refs="table3" v-model="editIncellData" :hover-show="true" :edit-incell="true" :columns-list="editIncellColumns"></can-edit-table>
-        </div>
+        <lambo-edit-table ref="table1"  :datas="datas" :columns="columns" ></lambo-edit-table>
       </Card>
       </Col>
     </Row>
-    <Row class="margin-top-10">
-      <Col span="24">
-      <Card>
-        <p slot="title">
-          <Icon type="ios-keypad"></Icon>
-          单元行和单元格两种方式编辑(始终显示编辑单元格按钮)
-        </p>
-        <p slot="extra">
-          <Button style="margin-top:-5px;" @click="addRow" icon="plus">新增一行</Button>
-          <Button style="margin-top:-5px;" @click="getCurrentData" icon="ios-search">当前数据</Button>
-        </p>
-        <Row :gutter="10">
-          <Col span="24">
-          <div class="edittable-table-height-con">
-            <can-edit-table
-              refs="table4"
-              v-model="editInlineAndCellData"
-              @on-cell-change="handleCellChange"
-              @on-change="handleChange"
-              :editIncell="true"
-              :columns-list="editInlineAndCellColumn"
-            ></can-edit-table>
-          </div>
-          </Col>
-          <Modal :width="900" v-model="showCurrentTableData">
-            <can-edit-table refs="table5" v-model="editInlineAndCellData" :columns-list="showCurrentColumns"></can-edit-table>
-          </Modal>
-        </Row>
-      </Card>
-      </Col>
-    </Row>
+
   </div>
 </template>
-
 <script>
-  import canEditTable from './components/canEditTable.vue';
-  import tableData from './components/table_data.js';
   export default {
     name: 'editable-table',
-    components: {
-      canEditTable
-    },
     data () {
       return {
-        columnsList: [],
-        tableData: [],
-        editInlineColumns: [],
-        editInlineData: [],
-        editIncellColumns: [],
-        editIncellData: [],
-        editInlineAndCellColumn: [],
-        editInlineAndCellData: [],
-        showCurrentColumns: [],
-        showCurrentTableData: false
+        columns: [
+          {
+            title: '序号',
+            type: 'index',
+            width: 180,
+            align: 'center'
+          },
+          {
+            title: '姓名',
+            align: 'center',
+            key: 'name',
+            width: 190,
+            editor:{
+              type:"text",
+              //校验函数,参数分别为：新值、旧值、行数据、行号
+              validate:function(newVal,oldVal,row,index){
+                if(newVal.trim() == ""){
+                  return{
+                    valid:false,
+                    msg:"输入不能为空！"
+                  }
+                }
+                return{valid:true}
+              }
+            }
+          },
+          {
+            title: '性别',
+            align: 'center',
+            width: 150,
+            key: 'sex',
+            editor:{
+              type:"select",
+              enums:[{"value":"1","label":"男"},{"value":"0","label":"女"}]
+            }
+          },
+          {
+            title: '岗位',
+            align: 'center',
+            key: 'work'
+          }
+        ],
+        datas: [
+          {
+            name: 'Aresn',
+            sex: '1',
+            work: '前端开发'
+          },
+          {
+            name: 'Lison',
+            sex: '1',
+            work: '前端开发'
+          },
+          {
+            name: 'lisa',
+            sex: '0',
+            work: '程序员鼓励师'
+          }
+        ],
       };
     },
     methods: {
-      getData () {
-        this.columnsList = tableData.table1Columns;
-        this.tableData = tableData.table1Data;
-        this.editInlineColumns = tableData.editInlineColumns;
-        this.editInlineData = tableData.editInlineData;
-        this.editIncellColumns = tableData.editIncellColumns;
-        this.editIncellData = tableData.editIncellData;
-        this.editInlineAndCellColumn = tableData.editInlineAndCellColumn;
-        this.editInlineAndCellData = tableData.editInlineAndCellData;
-        this.showCurrentColumns = tableData.showCurrentColumns;
+      getTableData:function(){
+        alert(JSON.stringify(this.$refs.table1.getTableData()));
       },
-      handleNetConnect (state) {
-        this.breakConnect = state;
-      },
-      handleLowSpeed (state) {
-        this.lowNetSpeed = state;
-      },
-      getCurrentData () {
-        this.showCurrentTableData = true;
-      },
-      handleDel (val, index) {
-        this.$Message.success('删除了第' + (index + 1) + '行数据');
-      },
-      handleCellChange (val, index, key) {
-        this.$Message.success('修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
-      },
-      handleChange (val, index) {
-        this.$Message.success('修改了第' + (index + 1) + '行数据');
-      },
-      addRow:function(){
-        this.editInlineAndCellData.push({
+      addNewRow:function(){
+        let data = {
           name: 'stomz',
-          sex: '男',
+          sex: '1',
           work: '颜值担当'
-        });
+        };
+        this.$refs.table1.addNewRow(data);
       }
     },
     created () {
-      this.getData();
+
     }
   };
 </script>
+
+
+<style>
+
+</style>
