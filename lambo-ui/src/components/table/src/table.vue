@@ -1,12 +1,12 @@
 <template>
 	<div class="lambo-grid-table">
 		<Row>
-			<Col span="20">
+			<Col span="19">
 			<slot name="search">
 				&nbsp;
 			</slot>
 			</Col>
-			<Col span="4">
+			<Col span="5">
 			<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
 				<ButtonGroup>
 					<Button type="ghost" icon="refresh" title="刷新表格数据" @click="tableRefresh"></Button>
@@ -22,7 +22,7 @@
 									:dataUrl="dataUrl"
 									:searchParams="searchParams"
 									:sortParams="sortParams"
-									:paginationParams="paginationParams">
+										:paginationParams="paginationParams">
 							</exportData>
 						</TabPane>
 						<TabPane label="列筛选">
@@ -60,6 +60,7 @@
 		<Row style="margin-top:15px;">
 			<Col span="24">
 			<Table
+				ref="tableRef"
 				:columns="tableColumns"
 				:data="tableData"
 				:stripe="tableStripe"
@@ -287,32 +288,32 @@
 				};
 				this.tableRefresh();
 			},
-			onCurrentChange(params) {
-				this.$emit("on-current-change", params);
+			onCurrentChange(currentRow,oldCurrentRow) {
+				this.$emit("on-current-change", currentRow,oldCurrentRow);
 			},
-			onSelect(params) {
-				this.$emit("on-select", params);
+			onSelect(selection,row) {
+				this.$emit("on-select", selection,row);
 			},
-			onSelectCancel(params) {
-				this.$emit("on-select", params);
+			onSelectCancel(selection,row) {
+				this.$emit("on-select", selection,row);
 			},
-			onSelectAll(params) {
-				this.$emit("on-select-all", params);
+			onSelectAll(selection) {
+				this.$emit("on-select-all", selection);
 			},
-			onSelectionChange(params) {
-				this.$emit("on-selection-change", params);
+			onSelectionChange(selection) {
+				this.$emit("on-selection-change", selection);
 			},
-			onFilterChange(params) {
-				this.$emit("on-filter-change", params);
+			onFilterChange(column,key,order) {
+				this.$emit("on-filter-change", column,key,order);
 			},
-			onRowClick(params) {
-				this.$emit("on-row-click", params);
+			onRowClick(row,index) {
+				this.$emit("on-row-click", row,index);
 			},
-			onRowDblclick(params) {
-				this.$emit("on-row-dblclick", params);
+			onRowDblclick(row,index) {
+				this.$emit("on-row-dblclick", row,index);
 			},
-			onExpand(params) {
-				this.$emit("on-expand", params);
+			onExpand(row,status) {
+				this.$emit("on-expand", row,status);
 			},
             columnSelect:function(){
 			    let self = this;
@@ -334,6 +335,9 @@
                 window.localStorage.setItem("tableShowHeader",this.tableShowHeader);
                 window.localStorage.setItem("tableSize",this.tableSize);
                 this.$Message.success('应用全局样式成功');
+			},
+			getTableInstance:function(){
+			    return this.$refs.tableRef;
 			}
 		},
 		mounted() {

@@ -1,17 +1,17 @@
 <template>
   <div>
-    <Card>
-      <p slot="title">
-        <Icon type="help-buoy"></Icon> {{title}}
-      </p>
-      <LamboTable ref="table" dataUrl="/data/list" :columns="tableColumn" :searchParams="tableSearchParams">
-        <div slot="search">
-          <Input v-model="searchDescription" placeholder="按操作搜索" style="width: 200px" />
-          <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-        </div>
-      </LamboTable>
-    </Card>
-  </div>
+  <Card>
+    <p slot="title">
+      <Icon type="help-buoy"></Icon> {{title}}
+    </p>
+    <LamboTable ref="table" dataUrl="/data/list" :columns="tableColumn" :searchParams="tableSearchParams">
+      <div slot="search">
+        <Input v-model="searchDescription" placeholder="按操作搜索" style="width: 200px" />
+        <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+      </div>
+    </LamboTable>
+  </Card>
+</div>
 </template>
 <script>
   export default {

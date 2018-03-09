@@ -2,6 +2,7 @@ import Login from './components/login';
 import Frame from './components/frame';
 import Table from './components/table';
 import EditTable from './components/edit-table';
+import HelpBox from './components/helpbox';
 
 const version = '1.0.0';
 const install = function(Vue, config) {
@@ -14,6 +15,7 @@ const install = function(Vue, config) {
     Vue.component("LamboFrame", Frame);
     Vue.component("LamboTable", Table);
     Vue.component("LamboEditTable", EditTable);
+    Vue.component("LamboHelpBox", HelpBox);
 
 };
 
@@ -27,5 +29,6 @@ export default {
     Login,
     Frame,
     Table,
-    EditTable
+    EditTable,
+    HelpBox
 };

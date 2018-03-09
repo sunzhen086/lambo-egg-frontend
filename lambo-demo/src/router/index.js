@@ -13,6 +13,7 @@ import draggableList from '@/components/other/draggable-list/draggable-list'
 import fileUpload from '@/components/other/file-upload/file-upload'
 import imageEditor from '@/components/other/image-editor/image-editor'
 import splitPane from '@/components/other/split-pane/split-pane-page'
+import helpBox from '@/components/other/helpbox/helpbox'
 
 Vue.use(Router)
 const router = new Router({
@@ -105,7 +106,16 @@ const router = new Router({
           },
           name:'可拖动布局',
           component: splitPane
+        },
+        {
+          path: 'other/helpbox',
+          meta:{
+            title: '帮助框示例',
+          },
+          name:'帮助框',
+          component: helpBox
         }
+
 
       ]
     }
