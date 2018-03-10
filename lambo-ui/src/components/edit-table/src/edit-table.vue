@@ -25,7 +25,6 @@
         methods: {
             init: function () {
                 let self = this;
-                self.datasClone = JSON.parse(JSON.stringify(self.tableDatas));
                 this.tablecolumns.forEach(column => {
                     if ("editor" in column) {
                         column.render = (h, param) => {
@@ -46,21 +45,21 @@
                 })
             },
             cellOnChange:function(param){
-                let rowIndex = param.rowIndex, columnKey = param.columnKey, value = param.value;
-                for(let i=0,len=this.datasClone.length;i<len;i++){
-                    if(i === rowIndex){
-                        let item = this.datasClone[i];
-                        item[columnKey] = value;
+                let callbackEvent = param.callbackEvent, rowIndex = param.rowIndex, columnKey = param.columnKey, value = param.value;
+                if(callbackEvent){
+                    this.$emit(callbackEvent,value,rowIndex,columnKey);
+                }else{
+                    for(let i=0,len=this.tableDatas.length;i<len;i++){
+                        if(i === rowIndex){
+                            let item = this.tableDatas[i];
+                            item[columnKey] = value;
+                        }
                     }
                 }
+
             },
             getTableData:function(){
-                return this.datasClone;
-            }
-        },
-        watch:{
-            tableDatas:function (data) {
-                this.init();
+                return this.tableDatas;
             }
         }
     };

@@ -1,5 +1,5 @@
 <template>
-    <Modal v-model="boxShow" :title="boxTitle" @on-ok="onOK" @on-cancel="onCancel" :mask-closable="false" transfer >
+    <Modal v-model="boxShow" :title="boxTitle"  @on-cancel="onCancel" :mask-closable="false" transfer >
         <div v-if="boxShow">
             <lambo-table ref="helpBoxTable" :dataUrl="tableUrl" :columns="tableColumns" @on-row-click="onRowClick" @on-selection-change="onSelectionChange" :searchParams="searchParams">
                 <div slot="search">
@@ -7,6 +7,10 @@
                     <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
                 </div>
             </lambo-table>
+        </div>
+        <div slot="footer">
+            <Button type="ghost" @click="onClear">清空</Button>
+            <Button type="primary" @click="onOk">确定</Button>
         </div>
     </Modal>
 </template>
@@ -45,7 +49,7 @@
                 return this.url
             },
             tableColumns:function(){
-                return this.columns
+                return JSON.parse(JSON.stringify(this.columns))
             },
             boxTitle:function(){
                 return this.title
@@ -78,35 +82,38 @@
                         })
                     }
                 }
-                if(self.inited){
-                    this.tableColumns.shift();
-                }
                 this.tableColumns.unshift(selectColumn);
-                self.inited = true;
-
             },
-            onOK:function(){
-                let selectStore = this.selectStore;
+            onOk:function(){
                 let result = null;
-                console.log(selectStore);
-                if(selectStore.length > 0){
+                if(this.selectStore.length > 0){
                     if(this.muliSelect){
-                        result = selectStore
+                        result = this.selectStore
                     }else{
-                        result = selectStore[0]
+                        result = this.selectStore[0]
                     }
+                    this.$emit("onOk",result);
+                    this.$emit("input",false);
+                    this.clearSelectData();
+                    this.boxShow = false;
+                }else{
+                    this.$Message.error("请选择一条记录");
                 }
-                this.selection = [];
-                this.$emit("onOk",result);
+            },
+            onClear:function(){
+                this.clearSelectData();
+                this.$emit("onClear");
                 this.$emit("input",false);
+                this.boxShow = false;
 
             },
             onCancel:function(){
-                this.selection = [];
+                this.clearSelectData();
                 this.$emit("input",false);
+                this.boxShow = false;
             },
             doSearch:function(){
-                this.selection = [];
+                this.clearSelectData();
                 this.searchParams = {
                     "search":this.searchText
                 }
@@ -123,6 +130,10 @@
             //多选
             onSelectionChange:function(rows){
                 this.selectStore = rows;
+            },
+            clearSelectData:function(){
+                this.selection = [];//清空已选项
+                this.selectStore = [];//清空已选数据
             }
         },
         watch:{

@@ -32,7 +32,7 @@
 
 
 
-      <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk">
+      <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
       </lambo-help-box>
     </Card>
 
@@ -82,6 +82,9 @@
           },
           onOk:function(result){
             this.result = JSON.stringify(result);
+          },
+          onClear:function(){
+            this.result="";
           }
         }
     }
