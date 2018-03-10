@@ -1,7 +1,7 @@
 <template>
     <Modal v-model="boxShow" :title="boxTitle"  @on-cancel="onCancel" :mask-closable="false" transfer >
         <div v-if="boxShow">
-            <lambo-table ref="helpBoxTable" :dataUrl="tableUrl" :columns="tableColumns" @on-row-click="onRowClick" @on-selection-change="onSelectionChange" :searchParams="searchParams">
+            <lambo-table ref="helpBoxTable" :dataUrl="tableUrl" :columns="tableColumnsClone" @on-row-click="onRowClick" @on-selection-change="onSelectionChange" :searchParams="searchParams">
                 <div slot="search">
                     <Input v-model="searchText" placeholder="搜索" style="width: 200px" />
                     <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
@@ -41,15 +41,13 @@
                 boxShow:this.value,
                 searchText:"",
                 selection:[],
-                searchParams:{}
+                searchParams:{},
+                tableColumnsClone:[]
             }
         },
         computed:{
             tableUrl:function(){
                 return this.url
-            },
-            tableColumns:function(){
-                return JSON.parse(JSON.stringify(this.columns))
             },
             boxTitle:function(){
                 return this.title
@@ -82,7 +80,8 @@
                         })
                     }
                 }
-                this.tableColumns.unshift(selectColumn);
+                this.tableColumnsClone = JSON.parse(JSON.stringify(this.columns));
+                this.tableColumnsClone.unshift(selectColumn);
             },
             onOk:function(){
                 let result = null;
