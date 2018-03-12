@@ -315,7 +315,7 @@
 				this.$emit("on-select", selection,row);
 			},
 			onSelectCancel(selection,row) {
-				this.$emit("on-select", selection,row);
+				this.$emit("on-select-cancel", selection,row);
 			},
 			onSelectAll(selection) {
 				this.$emit("on-select-all", selection);

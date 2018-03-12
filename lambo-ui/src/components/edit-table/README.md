@@ -1,110 +1,108 @@
-# 分页表格API文档
+# 可编辑表格
 
-## 概述 
-
-用于大量结构化数据的分页查询，支持分页、排序、筛选、自定义渲染、导出等复杂功能
+用于对结构化数据的编辑
 
 ## API
 
 ### 表格属性
+
 <table>
-    <tr>
-        <th width="20%">属性</th>
-        <th>说明</th>
-        <th width="10%">类型</th>
-        <th width="10%">默认值</th>
-    </tr>
-    <tr>
-        <td>dataUrl</td>
-        <td>表格取数的URL,接收参数有：offset、limit、sort、order以及查询条件相关参数,
-            返回数据为List[Map...]形式</td>
-        <td>String</td>
-        <td>""</td>
-    </tr>
-    <tr>
-        <td>columns</td>
-        <td>表格列的配置描述，具体项见后文</td>
-        <td>Array</td>
-        <td>[]</td>
-    </tr>
-    <tr>
-        <td>stripe</td>
-        <td>是否显示间隔斑马纹</td>
-        <td>Boolean</td>
-        <td>true</td>
-    </tr>
-    <tr>
-        <td>border</td>
-        <td>是否显示纵向边框</td>
-        <td>Boolean</td>
-        <td>true</td>
-    </tr>
-    <tr>
-        <td>show-header</td>
-        <td>是否显示表头</td>
-        <td>Boolean</td>
-        <td>true</td>
-    </tr>
-    <tr>
-        <td>width</td>
-        <td>表格宽度，单位 px</td>
-        <td>Number | String</td>
-        <td>自动</td>
-    </tr>
-    <tr>
-        <td>height</td>
-        <td>表格高度，单位 px，设置后，如果表格内容大于此值，会固定表头</td>
-        <td>Number | String</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>loading</td>
-        <td>是否显示加载中</td>
-        <td>Boolean</td>
-        <td>false</td>
-    </tr>
-    <tr>
-        <td>disabled-hover</td>
-        <td>禁用鼠标悬停时的高亮</td>
-        <td>Boolean</td>
-        <td>false</td>
-    </tr>
-    <tr>
-        <td>row-class-name</td>
-        <td>行的 className 的回调方法，传入参数：row：当前行数据；index：当前行的索引</td>
-        <td>Boolean</td>
-        <td>false</td>
-    </tr>
-    <tr>
-        <td>size</td>
-        <td>表格尺寸，可选值为 large、small、default 或者不填</td>
-        <td>String</td>
-        <td>default</td>
-    </tr>
-    <tr>
-        <td>highlightRow</td>
-        <td>是否支持高亮选中的行，即单选</td>
-        <td>Boolean</td>
-        <td>false</td>
-    </tr>
-    <tr>
-        <td>no-data-text</td>
-        <td>数据为空时显示的提示内容</td>
-        <td>String</td>
-        <td>暂无数据</td>
-    </tr>
-    <tr>
-        <td>no-filtered-data-text</td>
-        <td>筛选数据为空时显示的提示内容</td>
-        <td>String</td>
-        <td>暂无筛选结果</td>
-    </tr>
-    <tr>
-        <td>showTableOption</td>
-        <td>是否显示右上表格操作按钮</td>
-        <td>Boolean</td>
-        <td>true</td>
-    </tr>
+<tr>
+    <th>属性</th>
+    <th>说明</th>
+    <th>类型</th>
+    <th>默认值</th>
+</tr>
+<tr>
+    <th>datas</th>
+    <th>表格数据，List[Map]格式</th>
+    <th>Array</th>
+    <th>[]</th>
+</tr>
+<tr>
+    <th>columns</th>
+    <th>表格的列描述，具体见下文</th>
+    <th>Array</th>
+    <th>[]</th>
+</tr>
+<tr>
+    <td>stripe</td>
+    <td>是否显示间隔斑马纹</td>
+    <td>Boolean</td>
+    <td>true</td>
+</tr>
+<tr>
+    <td>border</td>
+    <td>是否显示纵向边框</td>
+    <td>Boolean</td>
+    <td>true</td>
+</tr>
+<tr>
+    <td>show-header</td>
+    <td>是否显示表头</td>
+    <td>Boolean</td>
+    <td>true</td>
+</tr>
+<tr>
+    <td>width</td>
+    <td>表格宽度，单位 px</td>
+    <td>Number | String</td>
+    <td>自动</td>
+</tr>
+<tr>
+    <td>height</td>
+    <td>表格高度，单位 px，设置后，如果表格内容大于此值，会固定表头</td>
+    <td>Number | String</td>
+    <td>-</td>
+</tr>
+<tr>
+    <td>loading</td>
+    <td>是否显示加载中</td>
+    <td>Boolean</td>
+    <td>false</td>
+</tr>
+<tr>
+    <td>disabled-hover</td>
+    <td>禁用鼠标悬停时的高亮</td>
+    <td>Boolean</td>
+    <td>false</td>
+</tr>
+<tr>
+    <td>row-class-name</td>
+    <td>行的 className 的回调方法，传入参数：row：当前行数据；index：当前行的索引</td>
+    <td>Boolean</td>
+    <td>false</td>
+</tr>
+<tr>
+    <td>size</td>
+    <td>表格尺寸，可选值为 large、small、default 或者不填</td>
+    <td>String</td>
+    <td>default</td>
+</tr>
+<tr>
+    <td>highlightRow</td>
+    <td>是否支持高亮选中的行，即单选</td>
+    <td>Boolean</td>
+    <td>false</td>
+</tr>
+<tr>
+    <td>no-data-text</td>
+    <td>数据为空时显示的提示内容</td>
+    <td>String</td>
+    <td>暂无数据</td>
+</tr>
+<tr>
+    <td>no-filtered-data-text</td>
+    <td>筛选数据为空时显示的提示内容</td>
+    <td>String</td>
+    <td>暂无筛选结果</td>
+</tr>
+<tr>
+    <td>showTableOption</td>
+    <td>是否显示右上表格操作按钮</td>
+    <td>Boolean</td>
+    <td>true</td>
+</tr>
 </table>
 
 ### 表格事件
@@ -123,6 +121,11 @@
         <td>on-row-dblclick</td>
         <td>双击某一行时触发</td>
         <td>row:当前行的数据,index:当前行索引</td>
+    </tr>
+    <tr>
+        <td>on-sort-change</td>
+        <td>排序时有效，当点击排序时触发</td>
+        <td>column：当前列数据;key：排序依据的指标;order：排序的顺序，值为 asc 或 desc</td>
     </tr>
     <tr>
         <td>on-select</td>
@@ -144,16 +147,6 @@
         <td>在多选模式下有效，只要选中项发生变化时就会触发</td>
         <td>selection：已选项数据</td>
     </tr>
-    <tr>
-        <td>on-page-change</td>
-        <td>页码改变的回调，返回改变后的页码</td>
-        <td>页码</td>
-    </tr>
-    <tr>
-        <td>on-page-size-change</td>
-        <td>切换每页条数时的回调，返回切换后的每页条数</td>
-        <td>每页条数</td>
-    </tr>
 </table>
 
 ### 表格插槽
@@ -161,14 +154,6 @@
     <tr>
         <th width="50%">名称</th>
         <th width="50%">说明</th>
-    </tr>
-    <tr>
-        <td>search</td>
-        <td>查询条件</td>
-    </tr>
-    <tr>
-        <td>option</td>
-        <td>自定义右上操作按钮</td>
     </tr>
     <tr>
         <td>header</td>
@@ -192,8 +177,8 @@
         <th width="30%">参数</th>
     </tr>
     <tr>
-        <td>tableRefresh</td>
-        <td>刷新表格</td>
+        <td>getTableData</td>
+        <td>获取当前表格数据</td>
         <td>无</td>
     </tr>
 </table>
@@ -222,6 +207,12 @@
 <tr>
     <td>key</td>
     <td>对应列内容的字段名</td>
+    <td>String</td>
+    <td>-</td>
+</tr>
+<tr>
+    <td>editor</td>
+    <td>对应列的编辑器,目前支持三种类型的编辑器：text、select、helpbox，具体使用见下文</td>
     <td>String</td>
     <td>-</td>
 </tr>
@@ -318,3 +309,59 @@
         <td>-</td>
     </tr>
 </table>
+
+### 编辑器
+
+文本编辑器
+```javascript
+{
+  type:"text",
+  //校验函数,参数分别为：新值、旧值、行数据、行号
+  validate:function(newVal,oldVal,row,index){
+    if(newVal.trim() == ""){
+      return{
+        valid:false,
+        msg:"输入不能为空！"
+      }
+    }
+    return{valid:true}
+  }
+}
+```
+
+下拉框编辑器
+```javascript
+{
+  type:"select",
+  enums:[{"value":"1","label":"男"},{"value":"0","label":"女"}]
+}
+```
+
+选择框编辑器
+```javascript
+{
+  type:"helpbox",
+  //选择框的url
+  url:"/helpbox/organ/list",
+  //选择框的列描述，更详细的参数请参考表格列属性说明
+  columns:[
+    {
+      title: '编号',
+      key: 'organizationId',
+      sortable: "custom"
+    },
+    {
+      title: '组织名称',
+      key: 'name'
+    },
+    {
+      title: '组织描述',
+      key: 'description'
+    }
+  ],
+  //帮助框的标题
+  title:"组织选择帮助框",
+  //选择框的回调方法，参数为selectData：用户选择数据,rowIndex：行索引,columnKey 列索引，建议在此回调方法里自己写更新表格数据的逻辑
+  callbackEvent:"on-organ-changed"
+}
+```
