@@ -14,16 +14,16 @@
     <th>默认值</th>
 </tr>
 <tr>
-    <th>datas</th>
-    <th>表格数据，List[Map]格式</th>
-    <th>Array</th>
-    <th>[]</th>
+    <td>datas</td>
+    <td>表格数据，List[Map]格式</td>
+    <td>Array</td>
+    <td>[]</td>
 </tr>
 <tr>
-    <th>columns</th>
-    <th>表格的列描述，具体见下文</th>
-    <th>Array</th>
-    <th>[]</th>
+    <td>columns</td>
+    <td>表格的列描述，具体见下文</td>
+    <td>Array</td>
+    <td>[]</td>
 </tr>
 <tr>
     <td>stripe</td>
