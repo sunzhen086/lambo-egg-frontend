@@ -1,6 +1,41 @@
 <template>
     <div class="lambo-edit-table">
-        <Table :columns="tablecolumns" :data="tableDatas" border disabled-hover></Table>
+        <Table :columns="tablecolumns"
+               :data="tableDatas"
+               :stripe="tableStripe"
+               :border="tableBorder"
+               :showHeader="tableShowHeader"
+               :width="tableWidth"
+               :height="tableHeight"
+               :loading="tableLoading"
+               :disabledHover="disabledHover"
+               :highlightRow="highlightRow"
+               :rowClassName="rowClassName"
+               :size="tableSize"
+               :noDataText="noDataText"
+               :noFilteredDataText="noFilteredDataText"
+               @on-sort-change="onSortChange"
+               @on-current-change="onCurrentChange"
+               @on-select="onSelect"
+               @on-select-cancel="onSelectCancel"
+               @on-select-all="onSelectAll"
+               @on-selection-change="onSelectionChange"
+               @on-filter-change="onFilterChange"
+               @on-row-click="onRowClick"
+               @on-row-dblclick="onRowDblclick"
+               @on-expand="onExpand">
+
+            <div slot="header" v-if="slots.header">
+                <slot name="header"></slot>
+            </div>
+            <div slot="footer" v-if="slots.footer">
+                <slot name="footer"></slot>
+            </div>
+            <div slot="loading" v-if="slots.loading">
+                <slot name="loading"></slot>
+            </div>
+
+        </Table>
     </div>
 </template>
 
@@ -10,14 +45,80 @@
     export default {
         name: 'canEditTable',
         props: {
-            columns: Array,
-            datas: Array
+            columns: {
+                type:Array,
+                default:[]
+            },
+            value: {
+                type:Array,
+                default:[]
+            },
+            size: {
+                validator(value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                }
+            },
+            width: {
+                type: [Number, String]
+            },
+            height: {
+                type: [Number, String]
+            },
+            stripe: {
+                type: Boolean,
+                default: true
+            },
+            border: {
+                type: Boolean,
+                default: true
+            },
+            showHeader: {
+                type: Boolean,
+                default: true
+            },
+            highlightRow: {
+                type: Boolean,
+                default: false
+            },
+            rowClassName: {
+                type: Function,
+                default() {
+                    return '';
+                }
+            },
+            loading: {
+                type: Boolean,
+                default: false
+            },
+            noDataText: {
+                type: String
+            },
+            noFilteredDataText: {
+                type: String
+            },
+            disabledHover: {
+                type: Boolean
+            }
         },
         data() {
             return {
                 tablecolumns: this.columns,
-                tableDatas: this.datas
+                tableDatas: this.value,
+                tableWidth: this.width,
+                tableHeight: this.height,
+                tableLoading: this.loading,
+
+                //样式相关
+                tableStripe: this.stripe,
+                tableBorder: this.border,
+                tableShowHeader: this.showHeader,
+                tableSize: this.size,
             };
+        },
+        computed:{
+            slots (){
+                return this.$slots;
+            }
         },
         created() {
             this.init();
@@ -25,7 +126,6 @@
         methods: {
             init: function () {
                 let self = this;
-                self.datasClone = JSON.parse(JSON.stringify(self.tableDatas));
                 this.tablecolumns.forEach(column => {
                     if ("editor" in column) {
                         column.render = (h, param) => {
@@ -46,21 +146,52 @@
                 })
             },
             cellOnChange:function(param){
-                let rowIndex = param.rowIndex, columnKey = param.columnKey, value = param.value;
-                for(let i=0,len=this.datasClone.length;i<len;i++){
-                    if(i === rowIndex){
-                        let item = this.datasClone[i];
-                        item[columnKey] = value;
+                let callbackEvent = param.callbackEvent, rowIndex = param.rowIndex, columnKey = param.columnKey, value = param.value;
+                if(callbackEvent){
+                    this.$emit(callbackEvent,value,rowIndex,columnKey);
+                }else{
+                    for(let i=0,len=this.tableDatas.length;i<len;i++){
+                        if(i === rowIndex){
+                            let item = this.tableDatas[i];
+                            item[columnKey] = value;
+                            this.$emit("input",this.tableDatas);
+                        }
                     }
                 }
+
             },
             getTableData:function(){
-                return this.datasClone;
-            }
-        },
-        watch:{
-            tableDatas:function (data) {
-                this.init();
+                return this.tableDatas;
+            },
+            onSortChange(sortParams) {
+                this.$emit("on-current-change", sortParams);
+            },
+            onCurrentChange(currentRow,oldCurrentRow) {
+                this.$emit("on-current-change", currentRow,oldCurrentRow);
+            },
+            onSelect(selection,row) {
+                this.$emit("on-select", selection,row);
+            },
+            onSelectCancel(selection,row) {
+                this.$emit("on-select-cancel", selection,row);
+            },
+            onSelectAll(selection) {
+                this.$emit("on-select-all", selection);
+            },
+            onSelectionChange(selection) {
+                this.$emit("on-selection-change", selection);
+            },
+            onFilterChange(column,key,order) {
+                this.$emit("on-filter-change", column,key,order);
+            },
+            onRowClick(row,index) {
+                this.$emit("on-row-click", row,index);
+            },
+            onRowDblclick(row,index) {
+                this.$emit("on-row-dblclick", row,index);
+            },
+            onExpand(row,status) {
+                this.$emit("on-expand", row,status);
             }
         }
     };

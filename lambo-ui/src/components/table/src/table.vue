@@ -1,65 +1,68 @@
 <template>
 	<div class="lambo-grid-table">
 		<Row>
-			<Col span="20">
+			<Col span="19">
 			<slot name="search">
-				&nbsp;
+
 			</slot>
 			</Col>
-			<Col span="4">
-			<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
-				<ButtonGroup>
-					<Button type="ghost" icon="refresh" title="刷新表格数据" @click="tableRefresh"></Button>
-					<Button type="ghost" icon="ios-keypad" title="表格选项" @click="tableSettingToggle">
-				        <Icon type="ios-arrow-down"></Icon>
-				    </Button>
-				</ButtonGroup>
-				<DropdownMenu slot="list" style="width:400px;padding:5px 10px;">
-					<Tabs type="card">
-						<TabPane label="导出">
-							<exportData
-									:tableColumns="tableColumns"
-									:dataUrl="dataUrl"
-									:searchParams="searchParams"
-									:sortParams="sortParams"
-									:paginationParams="paginationParams">
-							</exportData>
-						</TabPane>
-						<TabPane label="列筛选">
-							<div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
-								<Checkbox :value="checkAll" @on-change="handleCheckAll">全选</Checkbox>
-							</div>
-							<CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-								<Checkbox v-for="(item, index) in columns" :key="item.key" :label="item.title"></Checkbox>
-								<br/><br/>
-								<Button type="primary" long @click="columnSelect">确定</Button>
-							</CheckboxGroup>
+			<Col span="5">
+				<div v-if="showTableOption">
+					<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
+						<ButtonGroup>
+							<Button type="ghost" icon="refresh" title="刷新表格数据" @click="tableRefresh"></Button>
+							<Button type="ghost" icon="ios-keypad" title="表格选项" @click="tableSettingToggle">
+								<Icon type="ios-arrow-down"></Icon>
+							</Button>
+						</ButtonGroup>
+						<DropdownMenu slot="list" style="width:400px;padding:5px 10px;">
+							<Tabs type="card">
+								<TabPane label="导出">
+									<exportData
+											:tableColumns="tableColumns"
+											:dataUrl="dataUrl"
+											:searchParams="searchParams"
+											:sortParams="sortParams"
+											:paginationParams="paginationParams">
+									</exportData>
+								</TabPane>
+								<TabPane label="列筛选">
+									<div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
+										<Checkbox :value="checkAll" @on-change="handleCheckAll">全选</Checkbox>
+									</div>
+									<CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
+										<Checkbox v-for="(item, index) in columns" :key="item.key" :label="item.title"></Checkbox>
+										<br/><br/>
+										<Button type="primary" long @click="columnSelect">确定</Button>
+									</CheckboxGroup>
 
-						</TabPane>
-						<TabPane label="样式">
-							显示边框
-							<i-switch v-model="tableBorder" style="margin-right: 5px"></i-switch>
-							显示斑马纹
-							<i-switch v-model="tableStripe" style="margin-right: 5px"></i-switch>
-							显示表头
-							<i-switch v-model="tableShowHeader" style="margin-right: 5px"></i-switch><br><br> 表格尺寸
-							<Radio-group v-model="tableSize" type="button">
-								<Radio label="large">大</Radio>
-								<Radio label="default">中(默认)</Radio>
-								<Radio label="small">小</Radio>
-							</Radio-group>
-							<br><br>
-							<Button type="default" long @click="setTableStyleGlobal">应用为全局样式</Button>
-						</TabPane>
-					</Tabs>
-					<Button type="error" icon="close" size="small" title="关闭" style="position:absolute;top:10px;right:10px;" @click="closeTableSettingDropdown"></Button>
-				</DropdownMenu>
-			</Dropdown>
+								</TabPane>
+								<TabPane label="样式">
+									显示边框
+									<i-switch v-model="tableBorder" style="margin-right: 5px"></i-switch>
+									显示斑马纹
+									<i-switch v-model="tableStripe" style="margin-right: 5px"></i-switch>
+									显示表头
+									<i-switch v-model="tableShowHeader" style="margin-right: 5px"></i-switch><br><br> 表格尺寸
+									<Radio-group v-model="tableSize" type="button">
+										<Radio label="large">大</Radio>
+										<Radio label="default">中(默认)</Radio>
+										<Radio label="small">小</Radio>
+									</Radio-group>
+									<br><br>
+									<Button type="default" long @click="setTableStyleGlobal">应用为全局样式</Button>
+								</TabPane>
+							</Tabs>
+							<Button type="error" icon="close" size="small" title="关闭" style="position:absolute;top:10px;right:10px;" @click="closeTableSettingDropdown"></Button>
+						</DropdownMenu>
+					</Dropdown>
+				</div>
 			</Col>
 		</Row>
 		<Row style="margin-top:15px;">
 			<Col span="24">
 			<Table
+				ref="tableRef"
 				:columns="tableColumns"
 				:data="tableData"
 				:stripe="tableStripe"
@@ -84,6 +87,15 @@
 				@on-row-click="onRowClick"
 				@on-row-dblclick="onRowDblclick"
 				@on-expand="onExpand">
+				<div slot="header" v-if="slots.header">
+					<slot name="header"></slot>
+				</div>
+				<div slot="footer" v-if="slots.footer">
+					<slot name="footer"></slot>
+				</div>
+				<div slot="loading" v-if="slots.loading">
+					<slot name="loading"></slot>
+				</div>
 			</Table>
 			</Col>
 		</Row>
@@ -175,6 +187,10 @@
 			loading: {
 				type: Boolean,
 				default: false
+			},
+			showTableOption:{
+                type: Boolean,
+                default: true
 			}
 		},
 		data() {
@@ -222,6 +238,9 @@
 					offset: (self.currentPage - 1) * self.limitNumber,
 					limit: self.limitNumber
 				}
+			},
+			slots (){
+			    return this.$slots;
 			}
 		},
 		watch: {
@@ -252,10 +271,12 @@
 			onPageChange: function(currentPageIndex) {
 				this.currentPage = currentPageIndex;
 				this.tableRefresh();
+				this.$emit("on-page-change",currentPageIndex)
 			},
 			onPageSizeChange: function(currentLimitNumber) {
 				this.limitNumber = currentLimitNumber;
 				this.tableRefresh();
+                this.$emit("on-page-size-change",currentLimitNumber)
 			},
 			handleCheckAll() {
 			    this.checkAll = !this.checkAll;
@@ -287,32 +308,32 @@
 				};
 				this.tableRefresh();
 			},
-			onCurrentChange(params) {
-				this.$emit("on-current-change", params);
+			onCurrentChange(currentRow,oldCurrentRow) {
+				this.$emit("on-current-change", currentRow,oldCurrentRow);
 			},
-			onSelect(params) {
-				this.$emit("on-select", params);
+			onSelect(selection,row) {
+				this.$emit("on-select", selection,row);
 			},
-			onSelectCancel(params) {
-				this.$emit("on-select", params);
+			onSelectCancel(selection,row) {
+				this.$emit("on-select-cancel", selection,row);
 			},
-			onSelectAll(params) {
-				this.$emit("on-select-all", params);
+			onSelectAll(selection) {
+				this.$emit("on-select-all", selection);
 			},
-			onSelectionChange(params) {
-				this.$emit("on-selection-change", params);
+			onSelectionChange(selection) {
+				this.$emit("on-selection-change", selection);
 			},
-			onFilterChange(params) {
-				this.$emit("on-filter-change", params);
+			onFilterChange(column,key,order) {
+				this.$emit("on-filter-change", column,key,order);
 			},
-			onRowClick(params) {
-				this.$emit("on-row-click", params);
+			onRowClick(row,index) {
+				this.$emit("on-row-click", row,index);
 			},
-			onRowDblclick(params) {
-				this.$emit("on-row-dblclick", params);
+			onRowDblclick(row,index) {
+				this.$emit("on-row-dblclick", row,index);
 			},
-			onExpand(params) {
-				this.$emit("on-expand", params);
+			onExpand(row,status) {
+				this.$emit("on-expand", row,status);
 			},
             columnSelect:function(){
 			    let self = this;
@@ -334,6 +355,9 @@
                 window.localStorage.setItem("tableShowHeader",this.tableShowHeader);
                 window.localStorage.setItem("tableSize",this.tableSize);
                 this.$Message.success('应用全局样式成功');
+			},
+			getTableInstance:function(){
+			    return this.$refs.tableRef;
 			}
 		},
 		mounted() {

@@ -21,7 +21,7 @@
 
 <script>
     export default {
-        name: "text-editor",
+        name: "select-editor",
         props:{
             row:Object,
             column:Object,

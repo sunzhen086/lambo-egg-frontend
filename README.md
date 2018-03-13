@@ -12,3 +12,6 @@
 ### 启动demo应用
 执行上述4-6步，将lambo-upms目录改为lambo-demo目录
 
+### 使用说明
+请查看[本项目Wiki](https://github.com/btmagm/lambo-egg-frontend/wiki)
+

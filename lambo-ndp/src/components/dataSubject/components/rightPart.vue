@@ -1,9 +1,14 @@
 <template>
   <div class="right-subject">
-    <div class="one-part" v-for="(item,index) in subjectList" v-bind:class="{first:index==0}"
-     @click="selectSubject(item.subject_id)">
-      <div class="name">{{index+1}}、{{item.subject_name}}</div>
-      <div class="desc">&nbsp;&nbsp;&nbsp;&nbsp;{{item.subject_desc}}</div>
+    <div class="one-part" @click="selectSubject(item.subject_id)" v-for="(item,index) in subjectList" >
+      <Card :key="item.subject_id">
+        <p slot="title" class="title" :title="item.subject_name">
+          {{index+1}}、{{item.subject_name}}
+        </p>
+        <div class="desc" :title="item.title">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.subject_desc}}
+        </div>
+      </Card>
     </div>
   </div>
 </template>
@@ -23,10 +28,18 @@
         methods:{
           initPage(category_id){
             var self = this;
-            util.ajax.post('/dataSubject/getSubjectList', {
+            util.ajax.post('/manage/dataSubject/getSubjectList', {
               categoryId:self.category_id
             }).then(function (resp) {
               var result = resp.data;
+              for(var i=0;i<result.length;i++){
+                var tmp = result[i].subject_desc;
+                if(tmp && tmp.length>=53){
+                  tmp = tmp.substring(0,53) + "...";
+                }
+                result[i].title = result[i].subject_desc;
+                result[i].subject_desc = tmp;
+              }
               self.subjectList = result;
             });
           },
@@ -50,24 +63,19 @@
 <style scoped lang="less">
   .right-subject{
     .one-part{
-      padding: 10px;
+      margin: 10px;
       cursor: pointer;
       width: 200px;
       float: left;
-      .name{
-        background: #2b85e4;
-        padding: 5px 10px;
-        color: #ffffff;
+      .title{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
       }
       .desc{
-        background:#5cadff;
-        padding: 5px 10px;
-        color: #ffffff;
-        height: 115px;
+        height: 108px;
+        overflow:hidden;
       }
-    }
-    .one-part.first{
-
     }
   }
 </style>

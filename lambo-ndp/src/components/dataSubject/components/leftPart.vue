@@ -1,7 +1,7 @@
 <template>
   <div class="left-category">
     <div class="one-line" v-for="(item,index) in categoryList" v-bind:class="{ first: index==0,select:index == selectIndex }"
-         @click="selectOper(item.category_id,index)">
+         @click="selectOper(item.category_id,index)" :title="item.title">
       {{item.category_name}}
       <Icon type="chevron-right" class="fr" size="16"></Icon>
     </div>
@@ -21,13 +21,21 @@
         methods:{
           initPage:function () {
             var self = this;
-            util.ajax.post('/dataCategory/getCategoryList', {
+            util.ajax.post('/manage/dataCategory/getCategoryList', {
 
             }).then(function (resp) {
               var result = resp.data;
-              self.categoryList = result;
               if(result.length>0){
                 self.$emit("changeCategory",result[0].category_id);
+                for(var i=0;i<result.length;i++){
+                  var tmp = result[i].category_name;
+                  if(tmp && tmp.length>=10){
+                    tmp = tmp.substring(0,10) + "...";
+                  }
+                  result[i].title = result[i].category_name;
+                  result[i].category_name = tmp;
+                }
+                self.categoryList = result;
               }
             });
           },
