@@ -1,5 +1,5 @@
 <template>
-  <LamboTable dataUrl="/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
+  <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
     <div slot="search">
       <div class="searchArea" v-for="(item,index) in searchData" >
         {{item.dimension_name}}：
@@ -49,7 +49,7 @@
     },
     computed: {
       helpBoxUrl:function () {
-        return "/dataSubject/getDimensionData?dimensionId="+this.dimensionId;
+        return "/manage/dataSubject/getDimensionData?dimensionId="+this.dimensionId;
       }
     },
     methods:{

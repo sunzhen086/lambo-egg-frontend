@@ -21,7 +21,7 @@
         methods:{
           initPage:function () {
             var self = this;
-            util.ajax.post('/dataCategory/getCategoryList', {
+            util.ajax.post('/manage/dataCategory/getCategoryList', {
 
             }).then(function (resp) {
               var result = resp.data;
