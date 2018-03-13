@@ -2,7 +2,7 @@
   <div class="right-subject">
     <div class="one-part" @click="selectSubject(item.subject_id)" v-for="(item,index) in subjectList" >
       <Card :key="item.subject_id">
-        <p slot="title">
+        <p slot="title" class="title" :title="item.subject_name">
           {{index+1}}、{{item.subject_name}}
         </p>
         <div class="desc" :title="item.title">
@@ -67,6 +67,11 @@
       cursor: pointer;
       width: 200px;
       float: left;
+      .title{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
+      }
       .desc{
         height: 108px;
         overflow:hidden;
