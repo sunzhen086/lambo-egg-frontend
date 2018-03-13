@@ -1,89 +1,98 @@
 <template>
-  <div class="main-body">
-    <div class="main-title">
-      <div class="title-content">
-        <Row>
-          <Col span="7"><img alt="all" src="../../assets/tobaccologo.png"/></Col>
-          <Col span="8" align="left">数据开放平台</Col>
-          <Col span="9">
-            <Input v-model="value11">
-              <span slot="append"><Button type="primary" icon="ios-search">搜索</Button></span>
+  <div>
+    <div class="page-header">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-img"></div>
+            <div class="logo-text">数据开放平台</div>
+          </div>
+          <div class="search">
+            <Input v-model="searchValue">
+                <Button slot="append" type="primary" icon="ios-search">搜索</Button>
             </Input>
-          </Col>
-        </Row>
-      </div>
+          </div>
+        </div>
     </div>
-    <div class="main-tab">
-      <div class="tab-content">
-        <Tabs>
-          <TabPane label="首页">
-            <mainpage :tableData="tableData"></mainpage>
-          </TabPane>
-          <TabPane label="行业概览">
-            <overview :tableData="tableData"></overview>
-          </TabPane>
-          <TabPane label="数据目录">
-            <datatable :tableData="tableData"></datatable>
-          </TabPane>
-        </Tabs>
-
-      </div>
+    <div class="page-nav">
+        <div class="container">
+          <Menu mode="horizontal" theme="primary" active-name="1">
+            <MenuItem name="1">
+              <Icon type="ios-paper"></Icon>
+              内容管理
+            </MenuItem>
+            <MenuItem name="2">
+              <Icon type="ios-people"></Icon>
+              用户管理
+            </MenuItem>
+            <MenuItem name="4">
+              <Icon type="settings"></Icon>
+              综合设置
+            </MenuItem>
+          </Menu>
+        </div>
+    </div>
+    <div class="page-body">
+      <router-view></router-view>
     </div>
   </div>
+
+
 </template>
 <script>
-  import util from '@/libs/util';
-  import mainpage from './components/mainpage';
-  import overview from './components/overview';
-  import datatable from './components/datatable';
-  import Icon from "iview/src/components/icon/icon";
 
   export default {
     name: "main",
-    components:{
-      mainpage,
-      overview,
-      datatable
-    },
     data() {
       return {
-        testData:{},
+        searchValue:""
       }
     },
     methods:{
-      getData:function(params){
-        var self = this;
-        util.ajax.post('/manage/queryList').then(function (resp) {
-          self.testData = resp.data;
-        })
-      }
     },
     mounted(){
-      this.getData();
     }
   }
 </script>
 
 <style scoped lang="less">
-  .main-body{
-    .main-title{
-      font-weight: bolder;
-      font-size: 20px;
-      text-align: center;
-      .title-content{
-        width: 950px;
-        display:inline-block;
-      }
-    }
-    .main-tab{
-      text-align: center;
-      .tab-content{
-        width: 950px;
-        display:inline-block;
-        .ivu-tabs > .ivu-tabs-bar {
-          margin-bottom: 0px;
+  .page-header{
+    height:100px;
+    .container{
+      width:950px;
+      margin:0 auto;
+      overflow:hidden;
+      .logo{
+        width:530px;
+        float:left;
+        display:flex;
+        .logo-img{
+          width:219px;
+          height:67px;
+          background:url("../../assets/tobaccologo.png") no-repeat;
+          flex:1;
+          margin-top:15px;
+        }
+        .logo-text{
+          font-weight: bolder;
+          font-size: 28px;
+          flex:1;
+          margin-top:15px;
+          line-height:67px;
         }
       }
+      .search{
+        width:400px;
+        float:right;
+        margin-top:33px;
+      }
+    }
+  }
+  .page-nav{
+    height:60px;
+    background:#2d8cf0;
+    .container{
+      width:950px;
+      margin:0 auto;
     }
   }
 </style>
