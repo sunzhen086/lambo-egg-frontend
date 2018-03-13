@@ -5,20 +5,14 @@
         {{item.dimension_name}}：
         <Input v-model="item.value" placeholder="点击选择"
                style="width: 200px" readonly v-if="item.ref_table && item.ref_table!=''"
-               @on-focus="openDialog(item.dimension_id,item.cell_code,index)"></Input>
+               @on-focus="showHelpBox(item.dimension_id,item.cell_code,index,item.dimension_name)"></Input>
         <Select v-model="item.value" style="width:200px" v-else @on-change="setParam(item.cell_code,index)">
           <Option v-for="tmp in item.options" :value="tmp.key" :key="tmp.key">{{ tmp.value }}</Option>
         </Select>
       </div>
-      <Modal
-        v-model="modal1"
-        title="选择">
-        <Table highlight-row ref="currentRowTable" :columns="columns1" :data="data1" @on-current-change="selectRow"></Table>
-        <div slot="footer">
-          <Button @click="cancel">清空</Button>
-          <Button type="primary" @click="ok">确定</Button>
-        </div>
-      </Modal>
+      <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect"
+                      @onOk="onOk" @onClear="onClear">
+      </lambo-help-box>
       <Button type="primary" icon="ios-search" @click="doSearch" class="ml10">查询</Button>
     </div>
   </LamboTable>
@@ -36,15 +30,14 @@
 
         },
         subjectId: this.$route.query.subjectId,
-        modal1:false,
-        columns1:[
-          {
-            title:"名称",
-            key:"name_field"
-          }
-        ],
-        data1:[],
-        currentRow:{},
+        helpBoxShow:false,
+        helpBoxColumns: [{
+          title:"名称",
+          key:"name_field"
+        }],
+        muliSelect:false,
+        helpBoxTitle:"选择",
+        dimensionId:0,
         cellCode :'',
         index:0,
         params:'',
@@ -55,7 +48,9 @@
       tableCode:String
     },
     computed: {
-
+      helpBoxUrl:function () {
+        return "/dataSubject/getDimensionData?dimensionId="+this.dimensionId;
+      }
     },
     methods:{
       operData:function (data) {
@@ -160,56 +155,6 @@
           select:select
         };
       },
-      openDialog:function (dimensionId,cell_code,index) {
-        var self = this;
-        util.ajax.post('/dataSubject/getDimensionData', {
-          dimensionId:dimensionId
-        }).then(function (resp) {
-          self.data1 = resp.data;
-          self.modal1 = true;
-          self.cellCode = cell_code;
-          self.index = index;
-        });
-      },
-      selectRow:function (currentRow,oldCurrentRow) {
-        this.currentRow = currentRow;
-      },
-      ok:function () {
-        this.modal1 = false;
-        this.searchData[this.index].value = this.currentRow.name_field;
-        var params = this.params;
-        if(params != ""){
-          var param = params.split(",");
-          var tmp = this.cellCode+"='";
-          var finalParam = "";
-          for(var i=0;i<param.length;i++){
-            if(param[i]!="" && param[i].indexOf(tmp)<0){
-              finalParam +=param[i]+",";
-            }
-          }
-          finalParam += tmp + this.currentRow.key_field+"',";
-          this.params = finalParam;
-        }else{
-          this.params = this.cellCode+"='"+this.currentRow.key_field+"',";
-        }
-      },
-      cancel:function () {
-        var params = this.params;
-        if(params != ""){
-          var tmp = this.cellCode+"=";
-          var param = params.split(",");
-          var finalParam = "";
-          for(var i=0;i<param.length;i++){
-            if(param[i]!="" && param[i].indexOf(tmp)<0){
-              finalParam +=param[i]+",";
-            }
-          }
-          this.params = finalParam;
-        }
-        this.searchData[this.index].value = '';
-        this.$refs.currentRowTable.clearCurrentRow();
-        this.modal1 = false;
-      },
       setParam:function (cell_code,index,key) {
         if(!key || key == ''){
           key = this.searchData[index].value;
@@ -244,6 +189,47 @@
             this.params = cell_code+">='"+ keyArray[0]+"',"+cell_code+ "<='" + keyArray[1] +"',";
           }
         }
+      },
+      showHelpBox:function(dimensionId,cell_code,index,dimension_name){
+        var self = this;
+        self.cellCode = cell_code;
+        self.index = index;
+        self.helpBoxTitle=dimension_name+"选择";
+        self.dimensionId = dimensionId;
+        self.helpBoxShow = true;
+      },
+      onOk:function(result){
+        this.searchData[this.index].value = result.name_field;
+        var params = this.params;
+        if(params != ""){
+          var param = params.split(",");
+          var tmp = this.cellCode+"='";
+          var finalParam = "";
+          for(var i=0;i<param.length;i++){
+            if(param[i]!="" && param[i].indexOf(tmp)<0){
+              finalParam +=param[i]+",";
+            }
+          }
+          finalParam += tmp + result.key_field+"',";
+          this.params = finalParam;
+        }else{
+          this.params = this.cellCode+"='"+result.key_field+"',";
+        }
+      },
+      onClear:function(result){
+        var params = this.params;
+        if(params != ""){
+          var tmp = this.cellCode+"=";
+          var param = params.split(",");
+          var finalParam = "";
+          for(var i=0;i<param.length;i++){
+            if(param[i]!="" && param[i].indexOf(tmp)<0){
+              finalParam +=param[i]+",";
+            }
+          }
+          this.params = finalParam;
+        }
+        this.searchData[this.index].value = '';
       },
       doSearch:function () {
         this.tableSearchParams = {
