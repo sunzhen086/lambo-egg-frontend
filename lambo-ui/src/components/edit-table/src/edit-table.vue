@@ -49,7 +49,7 @@
                 type:Array,
                 default:[]
             },
-            datas: {
+            value: {
                 type:Array,
                 default:[]
             },
@@ -103,7 +103,7 @@
         data() {
             return {
                 tablecolumns: this.columns,
-                tableDatas: this.datas,
+                tableDatas: this.value,
                 tableWidth: this.width,
                 tableHeight: this.height,
                 tableLoading: this.loading,
@@ -154,6 +154,7 @@
                         if(i === rowIndex){
                             let item = this.tableDatas[i];
                             item[columnKey] = value;
+                            this.$emit("input",this.tableDatas);
                         }
                     }
                 }

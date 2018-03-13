@@ -7,9 +7,10 @@
           <Icon type="help-buoy"></Icon> 可编辑表格
         </p>
         <div slot="extra">
-          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+          <Button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</Button>
+          <Button type="default" style="margin-top: -5px;" @click="addNewRow">新增一行</Button>
         </div>
-        <lambo-edit-table ref="table1"  :datas="datas" :columns="columns" @on-organ-changed="onOrganChanged"></lambo-edit-table>
+        <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" @on-organ-changed="onOrganChanged"></lambo-edit-table>
       </Card>
       </Col>
     </Row>
@@ -113,15 +114,15 @@
       getTableData:function(){
         alert(JSON.stringify(this.$refs.table1.getTableData()));
       },
-      addNewRow:function(){
-        let data = {
-          name: 'stomz',
-          sex: '1',
-          organId: '7',
-          organName: '湖南分部'
-        };
-        this.$refs.table1.addNewRow(data);
-      },
+      // addNewRow:function(){
+      //   let data = {
+      //     name: 'stomz',
+      //     sex: '1',
+      //     organId: '7',
+      //     organName: '湖南分部'
+      //   };
+      //   this.$refs.table1.addNewRow(data);
+      // },
       onOrganChanged:function(selectData,rowIndex,columnKey){
         if(selectData){
           let organId = selectData.organizationId;
@@ -132,6 +133,15 @@
           this.$set(this.datas[rowIndex],'organId',"");
           this.$set(this.datas[rowIndex],'organName',"");
         }
+      },
+      addNewRow:function(){
+        let row = {
+          name: 'stomz',
+          sex: '1',
+          organId: '',
+          organName: ''
+        }
+        this.datas.push(row);
       }
     },
     created () {
