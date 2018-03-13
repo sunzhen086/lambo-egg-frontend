@@ -9,6 +9,10 @@ import frame from '@/components/frame/frame'
 import dataSubject from '@/components/dataSubject/dataSubject'
 import dataSearch from '@/components/dataSearch/dataSearch'
 
+import datatable from '@/components/main/components/datatable'
+import mainpage from '@/components/main/components/mainpage'
+import overview from '@/components/main/components/overview'
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -39,21 +43,28 @@ const router = new Router({
       name: '数据查询',
       component: dataSearch
     },
-    // {
-    //   path: "/frame",
-    //   name: "菜单框架",
-    //   component: frame,
-    //   children: [
-    //     {
-    //       path: 'manage/system/index',
-    //       meta:{
-    //         title: '系统管理',
-    //       },
-    //       name:'系统管理',
-    //       component: systemIndex
-    //     }
-    //   ]
-    // }
+    {
+      path: "/main",
+      name: "菜单框架",
+      component: main,
+      children: [
+        {
+          path: 'datatable',
+          name:'数据目录',
+          component: datatable
+        },
+        {
+          path: 'mainpage',
+          name:'首页',
+          component: mainpage
+        },
+        {
+          path: 'overview',
+          name:'行业概览',
+          component: overview
+        }
+      ]
+    }
   ]
 })
 
