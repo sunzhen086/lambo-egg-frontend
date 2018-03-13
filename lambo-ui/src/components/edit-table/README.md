@@ -14,7 +14,7 @@
     <th>默认值</th>
 </tr>
 <tr>
-    <td>datas</td>
+    <td>v-model</td>
     <td>表格数据，List[Map]格式</td>
     <td>Array</td>
     <td>[]</td>
@@ -325,7 +325,10 @@
       }
     }
     return{valid:true}
-  }
+  },
+  //文本编辑器的回调事件一般不需要用，除非你有更改此单元格值以外的其他需求
+  //选择框的回调方法，参数为selectData：用户选择数据,rowIndex：行索引,columnKey 列索引
+  callbackEvent:"on-name-change"
 }
 ```
 
@@ -333,7 +336,10 @@
 ```javascript
 {
   type:"select",
-  enums:[{"value":"1","label":"男"},{"value":"0","label":"女"}]
+  enums:[{"value":"1","label":"男"},{"value":"0","label":"女"}],
+  //下拉框编辑器的回调事件一般不需要用，除非你有更改此单元格值以外的其他需求
+  //选择框的回调方法，参数为selectData：用户选择数据,rowIndex：行索引,columnKey 列索引
+  callbackEvent:"on-sex-change"
 }
 ```
 
