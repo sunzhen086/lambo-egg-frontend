@@ -13,7 +13,8 @@
       <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect"
                       @onOk="onOk" @onClear="onClear">
       </lambo-help-box>
-      <Button type="primary" icon="ios-search" @click="doSearch" class="ml10">查询</Button>
+      <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
+      <div v-else>&nbsp;</div>
     </div>
   </LamboTable>
 </template>
