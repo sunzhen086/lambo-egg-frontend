@@ -74,16 +74,18 @@
         var finalParam = this.params;
         if(data.searchType && data.searchType == "="){
           finalParam += data.cellCode+ "='" + data.value +"',";
-        }else{
+        }else if(data.searchType){
           if(data.dimensionType && data.dimensionType == "year"){
             finalParam += data.cellCode+ ">='" + data.value +"-01-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-12-31 23:59:59',";
           }else if(data.dimensionType && data.dimensionType == "month"){
             finalParam += data.cellCode+ ">='" + data.value +"-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-31 23:59:59',";
-          }else{
+          }else if(data.dimensionType && data.dimensionType == "date"){
             finalParam += data.cellCode+ ">='" + data.value +" 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +" 23:59:59',";
+          }else{
+            finalParam += data.cellCode+ data.searchType +"'" + data.value +"',";
           }
         }
         this.params = finalParam;
