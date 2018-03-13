@@ -23,7 +23,7 @@
         methods:{
           initPage(category_id){
             var self = this;
-            util.ajax.post('/dataSubject/getSubjectList', {
+            util.ajax.post('/manage/dataSubject/getSubjectList', {
               categoryId:self.category_id
             }).then(function (resp) {
               var result = resp.data;

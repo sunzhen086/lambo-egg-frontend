@@ -36,7 +36,7 @@
         methods:{
           initPage:function () {
             var self = this;
-            util.ajax.post('/dataSubject/getSubjectInfo', {
+            util.ajax.post('/manage/dataSubject/getSubjectInfo', {
               subjectId:self.subjectId
             }).then(function (resp) {
               var result = resp.data;
