@@ -1,5 +1,5 @@
 <template>
-  <DatePicker :type="item.dimension_type" placeholder="点击选择" style="width: 200px" clearable @on-change="setParam" @on-clear="clearParam">
+  <DatePicker :type="dimensionType" placeholder="点击选择" style="width: 200px" clearable @on-change="setParam" @on-clear="clearParam">
   </DatePicker>
 </template>
 
