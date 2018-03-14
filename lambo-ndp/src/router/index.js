@@ -8,7 +8,8 @@ import main from '@/components/main/main'
 import frame from '@/components/frame/frame'
 import dataSubject from '@/components/dataSubject/dataSubject'
 import dataSearch from '@/components/dataSearch/dataSearch'
-
+import table from '@/components/table/index'
+import tableEdit from '@/components/table/editTable'
 import datatable from '@/components/main/components/datatable'
 import mainpage from '@/components/main/components/mainpage'
 import overview from '@/components/main/components/overview'
@@ -42,6 +43,22 @@ const router = new Router({
       path: '/dataSearch',
       name: '数据查询',
       component: dataSearch
+    },
+    {
+      path: 'table',
+      meta:{
+        title: '库表查询',
+      },
+      name:'库表查询',
+      component: table
+    },
+    {
+      path: 'table/create',
+      meta:{
+        title: '新增库表',
+      },
+      name:'新增库表',
+      component: tableEdit
     },
     {
       path: "/main",
