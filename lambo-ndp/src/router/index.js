@@ -45,7 +45,7 @@ const router = new Router({
       component: dataSearch
     },
     {
-      path: 'table',
+      path: '/table',
       meta:{
         title: '库表查询',
       },
@@ -53,7 +53,7 @@ const router = new Router({
       component: table
     },
     {
-      path: 'table/create',
+      path: '/table/create',
       meta:{
         title: '新增库表',
       },
