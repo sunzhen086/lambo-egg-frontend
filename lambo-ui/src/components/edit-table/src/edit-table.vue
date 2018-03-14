@@ -193,6 +193,11 @@
             onExpand(row,status) {
                 this.$emit("on-expand", row,status);
             }
+        },
+        watch:{
+            columns:function(){
+                this.init();
+            }
         }
     };
 </script>
