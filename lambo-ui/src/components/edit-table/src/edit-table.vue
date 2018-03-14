@@ -1,6 +1,6 @@
 <template>
     <div class="lambo-edit-table">
-        <Table :columns="tablecolumns"
+        <Table :columns="tableColumns"
                :data="tableDatas"
                :stripe="tableStripe"
                :border="tableBorder"
@@ -102,7 +102,7 @@
         },
         data() {
             return {
-                tablecolumns: this.columns,
+                tableColumns: this.columns,
                 tableDatas: this.value,
                 tableWidth: this.width,
                 tableHeight: this.height,
@@ -126,7 +126,8 @@
         methods: {
             init: function () {
                 let self = this;
-                this.tablecolumns.forEach(column => {
+                let tableColumnsClone = JSON.parse(JSON.stringify(this.columns));
+                tableColumnsClone.forEach(column => {
                     if ("editor" in column) {
                         column.render = (h, param) => {
                             return h(EditorPlugin, {
@@ -144,6 +145,7 @@
                         }
                     }
                 })
+                this.tableColumns = tableColumnsClone;
             },
             cellOnChange:function(param){
                 let callbackEvent = param.callbackEvent, rowIndex = param.rowIndex, columnKey = param.columnKey, value = param.value;
@@ -195,8 +197,11 @@
             }
         },
         watch:{
-            columns:function(){
-                this.init();
+            columns: {
+                handler () {
+                    this.init();
+                },
+                deep: true
             }
         }
     };
