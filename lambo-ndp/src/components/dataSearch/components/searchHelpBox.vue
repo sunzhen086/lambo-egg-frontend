@@ -1,0 +1,71 @@
+<template>
+  <span>
+    <Input v-model="value" placeholder="点击选择" icon="ios-search" style="width: 200px" readonly @on-focus="showHelpBox"></Input>
+    <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle"
+                    :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
+    </lambo-help-box>
+  </span>
+</template>
+
+<script>
+    export default {
+      name: "search-help-box",
+      data(){
+        return{
+          value:'',
+          helpBoxShow:false,
+          helpBoxColumns: [{
+            title:"名称",
+            key:"name_field"
+          }],
+          muliSelect:false
+        }
+      },
+      props:{
+        item:Object
+      },
+      computed: {
+        cellCode:function () {
+          return this.item.cell_code;
+        },
+        dimensionId:function () {
+          return this.item.dimension_id;
+        },
+        helpBoxTitle:function () {
+          return this.item.dimension_name + "选择";
+        },
+        helpBoxUrl:function () {
+          return "/manage/dataSubject/getDimensionData?dimensionId="+this.item.dimension_id;
+        }
+      },
+      methods:{
+        showHelpBox:function(){
+          this.helpBoxShow = true;
+        },
+        onOk:function(result){
+          var self = this;
+          self.value=result.name_field;
+          var data = {
+            operType:"add",
+            searchType:'=',
+            value:result.key_field,
+            cellCode:self.cellCode
+          }
+          this.$emit("changeParams",data);
+        },
+        onClear:function(result){
+          var self = this;
+          self.value="";
+          var data = {
+            operType:"del",
+            cellCode:self.cellCode
+          }
+          this.$emit("changeParams",data);
+        }
+      }
+    }
+</script>
+
+<style scoped>
+
+</style>
