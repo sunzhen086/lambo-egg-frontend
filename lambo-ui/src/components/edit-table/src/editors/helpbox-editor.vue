@@ -33,6 +33,7 @@
                 return this.row[this.column.key];
             },
             helpBoxUrl:function(){
+                console.log("this.column.editor.url="+this.column.editor.url)
                 return this.column.editor.url;
             },
             helpBoxColumns:function(){
