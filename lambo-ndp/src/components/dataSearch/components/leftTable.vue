@@ -40,6 +40,8 @@
         for(var i=0;i<data.length;i++){
           var obj = data[i];
           var column = {};
+          column.ellipsis = true;
+          column.sortable = true;
           column.title = obj.column_name;
           column.key = obj.cell_code;
           if(obj.search_condition && obj.search_condition !=''){
