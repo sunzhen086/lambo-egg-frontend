@@ -40,7 +40,8 @@
 </template>
 
 <script>
-    import EditorPlugin from "./editorPlugin.js"
+    import EditorPlugin from "./editorPlugin.js";
+    import {deepCopy} from '../../../libs/assist';
 
     export default {
         name: 'canEditTable',
@@ -126,7 +127,7 @@
         methods: {
             init: function () {
                 let self = this;
-                let tableColumnsClone = JSON.parse(JSON.stringify(this.columns));
+                let tableColumnsClone = deepCopy(this.columns);
                 tableColumnsClone.forEach(column => {
                     if ("editor" in column) {
                         column.render = (h, param) => {
