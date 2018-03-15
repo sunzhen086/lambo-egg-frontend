@@ -143,8 +143,10 @@
             },
             muliSelect:function(){
                 this.init();
+            },
+            columns:function () {
+                this.init()
             }
-
         },
         created(){
             this.init();
