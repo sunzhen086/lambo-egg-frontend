@@ -15,7 +15,8 @@ import dictEdit from '@/components/dict/edit'
 import datatable from '@/components/main/components/datatable'
 import mainpage from '@/components/main/components/mainpage'
 import overview from '@/components/main/components/overview'
-
+import subject from '@/components/subject/index'
+import subjectEdit from '@/components/subject/edit'
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -60,6 +61,21 @@ const router = new Router({
       path: '/table/update',
       name:'修改库表',
       component: tableEdit
+    },
+    {
+      path: '/subject',
+      name:'专题查询',
+      component: subject
+    },
+    {
+      path: '/subject/create',
+      name:'新增专题',
+      component: subjectEdit
+    },
+    {
+      path: '/subject/update',
+      name:'修改专题',
+      component: subjectEdit
     },
     {
       path: '/dict',

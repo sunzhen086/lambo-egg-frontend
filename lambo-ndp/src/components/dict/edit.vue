@@ -77,7 +77,7 @@
     data () {
       return {
 
-         datas: [],
+        datas: [],
         form: {
           dictId:"",
           dictName:"",

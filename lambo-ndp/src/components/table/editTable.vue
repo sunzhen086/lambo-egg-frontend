@@ -15,10 +15,10 @@
         <Col span="12" offset="6">
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
           <FormItem label="表名称" prop="tablecode">
-            <Input v-model="form.tablecode" placeholder="请输入表名称"></Input>
+            <Input v-model="form.tablecode" placeholder="请输入表名称" readonly @on-focus="showHelpBox"></Input>
             <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
             </lambo-help-box>
-            <Button @click="showHelpBox">打开帮助框</Button>
+
           </FormItem>
           <FormItem label="中文名" prop="tablename">
             <Input  v-model="form.tablename" placeholder="请输入中文名"></Input>

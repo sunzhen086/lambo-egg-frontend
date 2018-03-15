@@ -129,7 +129,7 @@
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
             util.ajax.get("/manage/tabledata/deleteTable/"+ tableId).then(function(resp) {
-              console.log(typeof (tableId));
+              //console.log(typeof (tableId));
               self.$Message.success('删除成功');
               self.doSearch();
             }).catch(function(err) {
