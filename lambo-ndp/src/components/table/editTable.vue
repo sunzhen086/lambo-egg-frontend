@@ -43,7 +43,7 @@
           <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
           <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
         </div>
-        <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged"></lambo-edit-table>
+        <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
       </Card>
       </Col>
     </Row>
@@ -52,7 +52,27 @@
 </template>
 
 <script>
-
+  let helpBoxEditor = {
+    type:"helpbox",
+    url:"/manage/dictdata/list",
+    columns:[
+      {
+        title: '字典Id',
+        key: 'dictId',
+        sortable: "custom"
+      },
+      {
+        title: '字典名称',
+        key: 'dictName'
+      },
+      {
+        title: '字典描述',
+        key: 'dictDesc'
+      }
+    ],
+    title:"数据字典选择帮助框",
+    callbackEvent:"on-organ-changed"
+  }
   import util from '@/libs/util.js';
 
   //删除按钮
@@ -67,7 +87,7 @@
       },
       on: {
         'click': () => {
-          vm.doDelete(currentRow.cellId,index);
+          vm.doDelete(currentRow,index);
         }
       }
     }, '删除');
@@ -93,6 +113,7 @@
         helpBoxTitle:"表帮助框",
         result:"",
         datas: [],
+        datacolumn:[],
         form: {
           tablecode:"",
           tablename:"",
@@ -113,16 +134,12 @@
       title: function() {
         return this.$route.meta.title;
       },
-      datacolumns:function(){
-        return this.getC();
-      },
       helpBoxColumns:function(){
         return JSON.parse(this.helpBoxColumnsStr);
       },
       columns() {
         let columns = [];
         let self = this;
-        console.log('11='+this.form.tablecode);
         columns.push({
           title: '序号',
           type: 'index',
@@ -131,109 +148,114 @@
         });
         columns.push(
           {
-            title: '组织',
+            title: '标识',
             align: 'center',
-            key: 'organName',
+            key: 'cellCode',
             editor:{
               type:"helpbox",
-              url:"/manage/tabledata/listDbTableColumns?"+"tableName="+ this.form.tablecode,
+              url:"/manage/tabledata/listDbTableColumns?"+"tableName="+ this.form.tablecode+"&selectColumns="+JSON.stringify(this.datacolumn),
               columns:[
                 {
                   title: '表名',
-                  key: 'table_name',
+                  key: 'COLUMN_NAME',
                   sortable: "custom"
                 }
 
               ],
               title:"组织库表",
-              callbackEvent:"on-organ-changed"
+              callbackEvent:"on-table-changed"
             }
           }
-          );
+          // {
+          //   title: '标识',
+          //   align: 'center',
+          //   key: 'cellCode',
+          //   width: 300,
+          //   editor: {
+          //     type: "text",
+          //     //校验函数,参数分别为：新值、旧值、行数据、行号
+          //     validate: function (newVal, oldVal, row, index) {
+          //       if (newVal.trim() == "") {
+          //         return {
+          //           valid: false,
+          //           msg: "输入不能为空！"
+          //         }
+          //       }
+          //       return {valid: true}
+          //     }
+          //   }
+          // }
+        );
 
         columns.push(   {
-              title: '名称',
-              align: 'center',
-              key: 'cellName',
-              width: 300,
-              editor: {
-                type: "text",
-                //校验函数,参数分别为：新值、旧值、行数据、行号
-                validate: function (newVal, oldVal, row, index) {
-                  if (newVal.trim() == "") {
-                    return {
-                      valid: false,
-                      msg: "输入不能为空！"
-                    }
-                  }
-                  return {valid: true}
+          title: '名称',
+          align: 'center',
+          key: 'cellName',
+          width: 300,
+          editor: {
+            type: "text",
+            //校验函数,参数分别为：新值、旧值、行数据、行号
+            validate: function (newVal, oldVal, row, index) {
+              if (newVal.trim() == "") {
+                return {
+                  valid: false,
+                  msg: "输入不能为空！"
                 }
               }
-             });
-        columns.push(
-       {
-              title: '字典',
-              align: 'center',
-              key: 'dictId',
-              width: 300,
-              editor: {
-                type: "text",
-                //校验函数,参数分别为：新值、旧值、行数据、行号
-                validate: function (newVal, oldVal, row, index) {
-                  if (newVal.trim() == "") {
-                    return {
-                      valid: false,
-                      msg: "输入不能为空！"
-                    }
-                  }
-                  return {valid: true}
-                }
-              }
-            });
+              return {valid: true}
+            }
+          }
+        });
+        columns.push({
+          title: '字典',
+          align: 'center',
+          key: 'dictName',
+          editor:helpBoxEditor
+        });
         columns.push( {
-              title: '计量单位',
-              align: 'center',
-              key: 'dataUnit',
-              width: 300,
-              editor: {
-                type: "text",
-                //校验函数,参数分别为：新值、旧值、行数据、行号
-                validate: function (newVal, oldVal, row, index) {
-                  if (newVal.trim() == "") {
-                    return {
-                      valid: false,
-                      msg: "输入不能为空！"
-                    }
-                  }
-                  return {valid: true}
+          title: '计量单位',
+          align: 'center',
+          key: 'dataUnit',
+          width: 300,
+          editor: {
+            type: "text",
+            //校验函数,参数分别为：新值、旧值、行数据、行号
+            validate: function (newVal, oldVal, row, index) {
+              if (newVal.trim() == "") {
+                return {
+                  valid: false,
+                  msg: "输入不能为空！"
                 }
               }
-             });
+              return {valid: true}
+            }
+          }
+        });
         columns.push(  {
-              title: '描述',
-              align: 'center',
-              key: 'dataDesc',
-              width: 300,
-              editor: {
-                type: "text",
-                //校验函数,参数分别为：新值、旧值、行数据、行号
-                validate: function (newVal, oldVal, row, index) {
-                  if (newVal.trim() == "") {
-                    return {
-                      valid: false,
-                      msg: "输入不能为空！"
-                    }
-                  }
-                  return {valid: true}
+          title: '描述',
+          align: 'center',
+          key: 'dataDesc',
+          width: 300,
+          editor: {
+            type: "text",
+            //校验函数,参数分别为：新值、旧值、行数据、行号
+            validate: function (newVal, oldVal, row, index) {
+              if (newVal.trim() == "") {
+                return {
+                  valid: false,
+                  msg: "输入不能为空！"
                 }
               }
-             });
+              return {valid: true}
+            }
+          }
+        });
         columns.push({
           title: '操作',
           align: "center",
           render: function(h, param) {
             return h('div', [
-            //  editButton(self, h, param.row, param.index),
+              //  editButton(self, h, param.row, param.index),
               deleteButton(self, h, param.row, param.index)
             ]);
           }
@@ -244,9 +266,6 @@
     methods: {
       pageGoBack(){
         this.$router.go(-1);
-      },
-      getC(){
-        return [{"value":"dictId","label":"dictId"},{"value":"dictName","label":"dictName"}];
       },
       formSubmit(){
 
@@ -291,15 +310,27 @@
         });
       },
       onOrganChanged:function(selectData,rowIndex,columnKey){
-        console.log('selectData:'+JSON.stringify(selectData));
         if(selectData){
-          let table_name = selectData.table_name;
-          //let organName = selectData.name;
-          this.$set(this.datas[rowIndex],'table_name',table_name);
-          //this.$set(this.datas[rowIndex],'organName',organName);
+          let dictId = selectData.dictId;
+          let dictName = selectData.dictName;
+          this.$set(this.datas[rowIndex],'dictId',dictId);
+          this.$set(this.datas[rowIndex],'dictName',dictName);
         }else{
-          this.$set(this.datas[rowIndex],'table_name',"");
-          //this.$set(this.datas[rowIndex],'organName',"");
+          this.$set(this.datas[rowIndex],'dictId',"");
+          this.$set(this.datas[rowIndex],'dictName',"");
+        }
+      },
+      onTableChanged:function(selectData,rowIndex,columnKey){
+        if(selectData){
+          let COLUMN_NAME = selectData.COLUMN_NAME;
+          //let dictName = selectData.dictName;
+          //console.log("COLUMN_NAME:"+COLUMN_NAME);
+          this.datacolumn.push(COLUMN_NAME);
+          this.$set(this.datas[rowIndex],'cellCode',COLUMN_NAME);
+          //this.$set(this.datas[rowIndex],'dictName',dictName);
+        }else{
+          this.$set(this.datas[rowIndex],'cellCode',"");
+          //this.$set(this.datas[rowIndex],'dictName',"");
         }
       },
       showHelpBox:function(){
@@ -309,7 +340,6 @@
         //this.form.tablecode = JSON.stringify(result);
         //console.log(result.table_name);
         this.result=result.table_name;
-        console.log(this.result);
         this.form.tablecode=result.table_name;
         //console.log(this.datacolumns);
       },
@@ -319,14 +349,12 @@
       initData:function(){
         var self = this;
         if(self.tableId) {
-           util.ajax.get("/manage/tabledata/get/" + self.tableId).then(function(resp) {
+          util.ajax.get("/manage/tabledata/get/" + self.tableId).then(function(resp) {
             var result = resp.data.data;
             self.form.tablecode = result.tableCode;
             self.form.tablename = result.tableName;
             self.form.tabledesc = result.tableDesc;
 
-          }).catch(function(err) {
-            self.$Message.error('获取库表信息错误,请联系系统管理员');
           });
           var params = {
             tableId: self.tableId
@@ -342,8 +370,16 @@
           });
         }
       },
-      doDelete: function(cellId,index) {
+      doDelete: function(currentRow,index) {
+        //console.log('1'+currentRow.cellCode);
         var self = this;
+        //console.log('2'+self.datacolumn);
+        for(var i=0;i<self.datacolumn.length;i++){
+          if(currentRow.cellCode==self.datacolumn[i]){
+            self.datacolumn.splice(index, 1);
+            break;
+          }
+        }
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',

@@ -1,19 +1,14 @@
 <template>
   <div>
     <Card>
-      <p slot="title">
-        <Icon type="help-buoy"></Icon> {{title}}
-      </p>
-      <div slot="extra">
 
-        <Button type="primary" @click="goCreatePage">新增</Button>
-
-      </div>
+      <div slot="extra"></div>
       <LamboTable ref="table" dataUrl="/manage/tabledata/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
           <Input v-model="searchTableCode" placeholder="按表名搜索" style="width: 200px" />
           <Input v-model="searchTableName" placeholder="按中文名搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="primary" @click="goCreatePage">新增</Button>
         </div>
       </LamboTable>
     </Card>
