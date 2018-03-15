@@ -1,19 +1,15 @@
 <template>
-  <span>
-    <Input v-model="value" placeholder="点击选择" icon="ios-search" style="width: 200px" readonly @on-focus="showHelpBox"></Input>
-    <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle"
-                    :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
-    </lambo-help-box>
-  </span>
+  <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
+          :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear"></search>
 </template>
 
 <script>
+    import search from "../../tools/search/search";
     export default {
       name: "search-help-box",
       data(){
         return{
-          value:'',
-          helpBoxShow:false,
+          searchType:"helpbox",
           helpBoxColumns: [],
           muliSelect:false
         }
@@ -34,6 +30,9 @@
         helpBoxUrl:function () {
           return "/manage/dataSubject/getDimensionData?dimensionId="+this.item.dimension_id;
         }
+      },
+      components:{
+        search
       },
       methods:{
         initColumn:function () {
@@ -60,7 +59,6 @@
         },
         onOk:function(result){
           var self = this;
-          self.value=result.name_field;
           var data = {
             operType:"add",
             searchType:'=',
@@ -71,7 +69,6 @@
         },
         onClear:function(result){
           var self = this;
-          self.value="";
           var data = {
             operType:"del",
             cellCode:self.cellCode

@@ -1,14 +1,14 @@
 <template>
-  <DatePicker :type="dimensionType" placeholder="点击选择" style="width: 200px" clearable @on-change="setParam" @on-clear="clearParam">
-  </DatePicker>
+  <search :searchType="searchType" :dateType="dimensionType" @onOk="setParam" @onClear="clearParam"></search>
 </template>
 
 <script>
+    import search from "../../tools/search/search";
     export default {
       name: "search-date-picket",
       data(){
         return{
-
+          searchType:"date"
         }
       },
       props:{
@@ -21,6 +21,9 @@
         dimensionType:function () {
           return this.item.dimension_type;
         }
+      },
+      components:{
+        search
       },
       methods:{
         setParam:function (date) {

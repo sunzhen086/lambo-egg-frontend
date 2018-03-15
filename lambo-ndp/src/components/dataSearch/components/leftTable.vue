@@ -58,6 +58,7 @@
         if(data.operType && data.operType=="add"){
           this.addParam(data);
         }
+        console.log("this.params="+this.params);
       },
       delParam:function(cellCode){
         var params = this.params;
