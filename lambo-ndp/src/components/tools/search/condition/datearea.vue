@@ -5,7 +5,7 @@
 
 <script>
   export default {
-    name: "search-date-picket",
+    name: "datearea",
     data(){
       return{
 

@@ -1,10 +1,10 @@
 <template>
-  <input v-model="value" :placeholder="placeholder" style="width: 300px" on-blur="changeInput"/>
+  <Input v-model="value" :placeholder="placeholder" style="width: 300px" @on-blur="changeInput" ></Input>
 </template>
 
 <script>
     export default {
-      name: "input",
+      name: "inputarea",
       data(){
         return{
           value:''

@@ -7,7 +7,7 @@
 <script>
     import util from '@/libs/util';
     export default {
-      name: "select",
+      name: "selectarea",
       data(){
         return{
           model1:'',
@@ -42,14 +42,9 @@
         }
       },
       watch:{
-        dataUrl:function () {
-          this.initData();
-        },
-        dataOption:function () {
-          this.initData();
-        }
+
       },
-      created(){
+      mounted(){
         this.initData();
       }
     }

@@ -1,5 +1,8 @@
 <template>
-  <search :searchType="searchType" :dateType="dimensionType" @onOk="setParam" @onClear="clearParam"></search>
+  <span>
+    <search :searchType="searchType" :dateType="dimensionType" @onOk="setParam" @onClear="clearParam"></search>
+  </span>
+
 </template>
 
 <script>

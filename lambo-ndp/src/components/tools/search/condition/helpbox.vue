@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: "search-condition",
+    name: "help-box",
     data(){
       return{
         value:'',
