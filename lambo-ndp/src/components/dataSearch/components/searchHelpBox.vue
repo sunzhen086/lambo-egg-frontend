@@ -1,6 +1,6 @@
 <template>
   <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
-          :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear"></search>
+          :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></search>
 </template>
 
 <script>
@@ -11,7 +11,8 @@
         return{
           searchType:"helpbox",
           helpBoxColumns: [],
-          muliSelect:false
+          muliSelect:false,
+          inputKey:'',
         }
       },
       props:{
@@ -42,6 +43,7 @@
             key:"name_field",
             sortable:true
           });
+          this.inputKey = "name_field";
           if(item.show_field && item.show_field != ""){
             var fieldId = item.show_field.split(",");
             var fieldName = item.show_field_zh_cn.split(",");

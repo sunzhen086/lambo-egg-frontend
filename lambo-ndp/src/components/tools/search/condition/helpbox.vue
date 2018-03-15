@@ -21,13 +21,14 @@
       helpBoxColumns:Array,
       helpBoxTitle:String,
       muliSelect:Boolean,
+      inputKey:String,
     },
     methods:{
       showHelpBox:function(){
         this.helpBoxShow = true;
       },
       onOk:function (result) {
-        this.value = result.name_field;
+        this.value = result[this.inputKey];
         this.$emit("onOk",result);
       },
       onClear:function () {

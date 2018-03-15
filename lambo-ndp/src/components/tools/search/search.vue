@@ -1,6 +1,7 @@
 <template>
   <datearea v-if="searchType == 'date' " :dateType="dateType" :placeholder="placeholder" @onOk="onOk" @onClear="onClear"></datearea>
-  <helpbox v-else-if=" searchType == 'helpbox' " :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :helpBoxTitle="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear"></helpbox>
+  <helpbox v-else-if=" searchType == 'helpbox' " :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :helpBoxTitle="helpBoxTitle"
+           :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></helpbox>
   <inputarea v-else-if=" searchType == 'input' " :placeholder="placeholder" @onOk="onOk" @onClear="onClear"></inputarea>
   <selectarea v-else=" searchType == 'select' " :dataUrl="dataUrl" :dataOption="dataOption" @onOk="onOk" @onClear="onClear"></selectarea>
 </template>
@@ -27,6 +28,7 @@
         helpBoxColumns:Array,
         helpBoxTitle:String,
         muliSelect:Boolean,
+        inputKey:String,
         placeholder:String,
         dataUrl:String,
         dataOption:Array
