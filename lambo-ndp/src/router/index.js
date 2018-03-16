@@ -12,7 +12,7 @@ import table from '@/components/table/index'
 import tableEdit from '@/components/table/editTable'
 import datatable from '@/components/main/components/datatable'
 import mainpage from '@/components/main/components/mainpage'
-import overview from '@/components/main/components/overview'
+import overview from '@/components/overview/overview'
 
 Vue.use(Router)
 const router = new Router({
@@ -28,11 +28,6 @@ const router = new Router({
       meta:{
         anonymous:true
       }
-    },
-    {
-      path: '/main',
-      name: '首页',
-      component: main
     },
     {
       path: '/dataSubject',
