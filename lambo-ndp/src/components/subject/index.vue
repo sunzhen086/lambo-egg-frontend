@@ -1,12 +1,10 @@
 <template>
   <div>
     <Card>
-
       <div slot="extra"></div>
-      <LamboTable ref="table" dataUrl="/manage/tabledata/list" :columns="tableColumn" :searchParams="tableSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/subjectData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
-          <Input v-model="searchTableCode" placeholder="按表名搜索" style="width: 200px" />
-          <Input v-model="searchTableName" placeholder="按中文名搜索" style="width: 200px" />
+          <Input v-model="searchSubjectName" placeholder="按专题搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
           <Button type="primary" @click="goCreatePage">新增</Button>
         </div>
@@ -28,7 +26,7 @@
       },
       on: {
         'click': function() {
-          vm.goUpdatePage(currentRow.tableId);
+          vm.goUpdatePage(currentRow.subjectId);
         }
       }
     }, '编辑');
@@ -46,7 +44,7 @@
       },
       on: {
         'click': () => {
-          vm.doDelete(currentRow.tableId);
+          vm.doDelete(currentRow.subjectId);
         }
       }
     }, '删除');
@@ -54,8 +52,7 @@
   export default {
     data:function(){
       return {
-        searchTableCode:"",
-        searchTableName:"",
+        searchSubjectName:"",
         tableSearchParams:{}
       }
     },
@@ -67,27 +64,23 @@
         let columns = [];
         let self = this;
         columns.push({
-          key: 'tableId',
+          key: 'subjectId',
           type:"selection",
           align:"center"
         });
         columns.push({
-          title: '表名',
-          key: 'tableCode',
+          title: '名称',
+          key: 'subjectName',
           sortable: "custom"
         });
         columns.push({
-          title: '中文名',
-          key: 'tableName',
+          title: '分类',
+          key: 'categoryName',
           sortable: "custom"
         });
         columns.push({
-          title: '创建用户',
-          key: 'createUser'
-        });
-        columns.push({
-          title: '创建时间',
-          key: 'createTime'
+          title: '库表',
+          key: 'tableCode'
         });
         columns.push({
           title: '操作',
@@ -105,31 +98,29 @@
     methods:{
       doSearch:function(){
         this.tableSearchParams = {
-          tableCode:this.searchTableCode,
-          tableName:this.searchTableName
+          subjectName:this.searchSubjectName
         }
       },
       goCreatePage: function() {
         this.$router.push({
-          name: '新增库表'
+          name: '新增专题'
         });
       },
-      goUpdatePage: function(tableId) {
+      goUpdatePage: function(subjectId) {
         this.$router.push({
-          name: '修改库表',
+          name: '修改专题',
           query: {
-            tableId
+            subjectId
           }
         });
       },
-      doDelete: function(tableId) {
+      doDelete: function(subjectId) {
         var self = this;
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/tabledata/deleteTable/"+ tableId).then(function(resp) {
-              //console.log(typeof (tableId));
+            util.ajax.get("/manage/tabledata/deleteTable/"+ subjectId).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
             }).catch(function(err) {
