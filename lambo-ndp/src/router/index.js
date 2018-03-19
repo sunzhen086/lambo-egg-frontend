@@ -10,13 +10,10 @@ import dataSubject from '@/components/dataSubject/dataSubject'
 import dataSearch from '@/components/dataSearch/dataSearch'
 import table from '@/components/table/index'
 import tableEdit from '@/components/table/editTable'
-import dict from '@/components/dict/index'
-import dictEdit from '@/components/dict/edit'
 import datatable from '@/components/main/components/datatable'
 import mainpage from '@/components/main/components/mainpage'
-import overview from '@/components/main/components/overview'
-import subject from '@/components/subject/index'
-import subjectEdit from '@/components/subject/edit'
+import overview from '@/components/overview/overview'
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -49,48 +46,19 @@ const router = new Router({
     },
     {
       path: '/table',
+      meta:{
+        title: '库表查询',
+      },
       name:'库表查询',
       component: table
     },
     {
       path: '/table/create',
+      meta:{
+        title: '新增库表',
+      },
       name:'新增库表',
       component: tableEdit
-    },
-    {
-      path: '/table/update',
-      name:'修改库表',
-      component: tableEdit
-    },
-    {
-      path: '/subject',
-      name:'专题查询',
-      component: subject
-    },
-    {
-      path: '/subject/create',
-      name:'新增专题',
-      component: subjectEdit
-    },
-    {
-      path: '/subject/update',
-      name:'修改专题',
-      component: subjectEdit
-    },
-    {
-      path: '/dict',
-      name:'数据字典查询',
-      component: dict
-    },
-    {
-      path: '/dict/create',
-      name:'新增数据字典',
-      component: dictEdit
-    },
-    {
-      path: '/dict/update',
-      name:'修改数据字典',
-      component: dictEdit
     },
     {
       path: "/main",

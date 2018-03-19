@@ -87,7 +87,8 @@
         });
         columns.push({
           title: '创建时间',
-          key: 'createTime'
+          key: 'createTime',
+          sortable: "custom"
         });
         columns.push({
           title: '操作',
