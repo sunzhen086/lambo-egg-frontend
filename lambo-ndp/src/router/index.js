@@ -13,7 +13,12 @@ import tableEdit from '@/components/table/editTable'
 import datatable from '@/components/main/components/datatable'
 import mainpage from '@/components/main/components/mainpage'
 import overview from '@/components/overview/overview'
-
+import category from '@/components/category/index'
+import categoryEdit from '@/components/category/edit'
+import dict from '@/components/dict/index'
+import dictEdit from '@/components/dict/edit'
+import subject from '@/components/subject/index'
+import subjectEdit from '@/components/subject/edit'
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -59,6 +64,59 @@ const router = new Router({
       },
       name:'新增库表',
       component: tableEdit
+    },
+    {
+      path: '/table/update',
+      meta:{
+        title: '修改库表',
+      },
+      name:'修改库表',
+      component: tableEdit
+    },
+    {
+      path: '/category',
+      name:'分类查询',
+      component: category
+    },
+    {
+      path: '/category/update',
+      name:'修改分类',
+      component: categoryEdit
+    },
+    {
+      path: '/category/create',
+      name:'新增分类',
+      component: categoryEdit
+    },
+    {
+      path: '/dict',
+      name:'查询数据字典',
+      component: dict
+    },
+    {
+      path: '/dict/update',
+      name:'修改数据字典',
+      component: dictEdit
+    },
+    {
+      path: '/dict/create',
+      name:'新增数据字典',
+      component: dictEdit
+    },
+    {
+      path: '/subject',
+      name:'查询专题',
+      component: subject
+    },
+    {
+      path: '/subject/update',
+      name:'修改专题',
+      component: subjectEdit
+    },
+    {
+      path: '/subject/create',
+      name:'新增专题',
+      component: subjectEdit
     },
     {
       path: "/main",

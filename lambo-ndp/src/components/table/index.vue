@@ -3,7 +3,7 @@
     <Card>
 
       <div slot="extra"></div>
-      <LamboTable ref="table" dataUrl="/manage/tabledata/list" :columns="tableColumn" :searchParams="tableSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/tableData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
           <Input v-model="searchTableCode" placeholder="按表名搜索" style="width: 200px" />
           <Input v-model="searchTableName" placeholder="按中文名搜索" style="width: 200px" />
@@ -83,7 +83,8 @@
         });
         columns.push({
           title: '创建用户',
-          key: 'createUser'
+          key: 'createUser',
+          sortable: "custom"
         });
         columns.push({
           title: '创建时间',
@@ -129,7 +130,7 @@
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/tabledata/deleteTable/"+ tableId).then(function(resp) {
+            util.ajax.get("/manage/tableData/deleteTable/"+ tableId).then(function(resp) {
               //console.log(typeof (tableId));
               self.$Message.success('删除成功');
               self.doSearch();

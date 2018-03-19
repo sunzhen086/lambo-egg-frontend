@@ -80,7 +80,8 @@
         });
         columns.push({
           title: '库表',
-          key: 'tableCode'
+          key: 'tableCode',
+          sortable: "custom"
         });
         columns.push({
           title: '操作',
@@ -120,17 +121,12 @@
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/tabledata/deleteTable/"+ subjectId).then(function(resp) {
+            util.ajax.get("/manage/subjectData/delete/"+ subjectId).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
-            }).catch(function(err) {
-              self.$Message.error('删除失败,请联系系统管理员');
-            });
+            })
           }
         });
-      },
-      fromDelete:function(){
-
       }
     }
   };

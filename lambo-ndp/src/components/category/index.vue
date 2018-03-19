@@ -1,19 +1,13 @@
 <template>
   <div>
     <Card>
-      <p slot="title">
-        <Icon type="help-buoy"></Icon> {{title}}
-      </p>
-      <div slot="extra">
-        <a href="#" @click.prevent="goCreatePage">
-          <Icon type="plus-round"></Icon>
-          新增
-        </a>
-      </div>
-      <LamboTable ref="table" dataUrl="/manage/categorydata/list" :columns="tableColumn" :searchParams="tableSearchParams">
+
+      <div slot="extra"></div>
+      <LamboTable ref="table" dataUrl="/manage/cateGoryData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
           <Input v-model="searchDescription" placeholder="按分类搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="primary" @click="goCreatePage">新增</Button>
         </div>
       </LamboTable>
     </Card>
@@ -64,9 +58,6 @@
       }
     },
     computed: {
-      title: function() {
-        return this.$route.meta.title;
-      },
       tableColumn() {
         let columns = [];
         let self = this;
@@ -87,11 +78,13 @@
         });
         columns.push({
           title: '创建用户',
-          key: 'createUser'
+          key: 'createUser',
+          sortable: "custom"
         });
         columns.push({
           title: '创建时间',
-          key: 'createTime'
+          key: 'createTime',
+          sortable: "custom"
         });
         columns.push({
           title: '操作',
@@ -131,7 +124,7 @@
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/categorydata/delete/" + categoryId).then(function(resp) {
+            util.ajax.get("/manage/cateGoryData/delete/" + categoryId).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
             }).catch(function(err) {

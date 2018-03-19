@@ -107,7 +107,7 @@
     data () {
       return {
         helpBoxShow:false,
-        helpBoxUrl:"/manage/tabledata/listDbTable",
+        helpBoxUrl:"/manage/tableData/listDbTable",
         helpBoxColumnsStr: JSON.stringify(helpBoxColumns),
         muliSelect:false,
         helpBoxTitle:"表帮助框",
@@ -120,10 +120,10 @@
           tabledesc:""
         },
         ruleValidate: {
-          tablecode: [
-            {required: true,message: '名称不能为空',trigger: 'blur'},
-            {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          ]
+          // tablecode: [
+          //   {required: true,message: '名称不能为空',trigger: 'blur'},
+          //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
+          // ]
         }
       };
     },
@@ -153,7 +153,7 @@
             key: 'cellCode',
             editor:{
               type:"helpbox",
-              url:"/manage/tabledata/listDbTableColumns?"+"tableName="+ this.form.tablecode+"&selectColumns="+JSON.stringify(this.datacolumn),
+              url:"/manage/tableData/listDbTableColumns?"+"tableName="+ this.form.tablecode+"&selectColumns="+JSON.stringify(this.datacolumn),
               columns:[
                 {
                   title: '表名',
@@ -270,8 +270,8 @@
       formSubmit(){
 
         var self = this;
-        self.$refs.form.validate((valid) => {
-          if(valid) {
+
+          if(self.form.tablecode) {
             var params = {
               tableCode: self.form.tablecode,
               tableName: self.form.tablename,
@@ -279,22 +279,20 @@
               TableCellss:JSON.stringify(this.$refs.table1.getTableData())
             }
             if(self.tableId) {  //修改
-              util.ajax.post("/manage/tabledata/update/" + self.tableId, params).then(function(resp) {
+              util.ajax.post("/manage/tableData/update/" + self.tableId, params).then(function(resp) {
                 self.$Message.success('保存成功');
-              }).catch(function(err) {
-                self.$Message.error('保存失败,请联系系统管理员');
-              });
+              })
             } else { //新增
-              util.ajax.post("/manage/tabledata/create", params).then(function(resp) {
+              util.ajax.post("/manage/tableData/create", params).then(function(resp) {
                 self.$Message.success('新增成功');
                 //self.created = true;
-              }).catch(function(err) {
-                self.$Message.error('新增失败,请联系系统管理员');
-              });
+              })
             }
 
+          }else{
+            self.$Message.error("表名称不能为空");
           }
-        })
+
       },
       getTableData:function(){
         alert(JSON.stringify(this.$refs.table1.getTableData()));
@@ -349,31 +347,39 @@
       initData:function(){
         var self = this;
         if(self.tableId) {
-          util.ajax.get("/manage/tabledata/get/" + self.tableId).then(function(resp) {
+          util.ajax.get("/manage/tableData/get/" + self.tableId).then(function(resp) {
             var result = resp.data.data;
-            self.form.tablecode = result.tableCode;
-            self.form.tablename = result.tableName;
-            self.form.tabledesc = result.tableDesc;
-
-          });
-          var params = {
-            tableId: self.tableId
-          }
-          util.ajax.post("/manage/tabledata/listtablecell/",params).then(function(resp) {
-
-            var data = resp.data.data;
-            for(var i=0;i<data.length;i++){
-              self.datas.push(data[i]);
+            for(var i=0;i<result.length;i++){
+              if(i==0){   //第一个是封装的库表
+                self.form.tablecode = result[i].tableCode;
+                self.form.tablename = result[i].tableName;
+                self.form.tabledesc = result[i].tableDesc;
+              }else{ //数据元列
+                self.datas.push(result[i]);
+              }
             }
-          }).catch(function(err) {
-            self.$Message.error('获取数据元信息错误,请联系系统管理员');
           });
+          // util.ajax.get("/manage/tableData/get/" + self.tableId).then(function(resp) {
+          //   var result = resp.data.data;
+          //   self.form.tablecode = result.tableCode;
+          //   self.form.tablename = result.tableName;
+          //   self.form.tabledesc = result.tableDesc;
+          //
+          // });
+          // var params = {
+          //   tableId: self.tableId
+          // }
+          // util.ajax.post("/manage/tableData/listTableCell/",params).then(function(resp) {
+          //
+          //   var data = resp.data.data;
+          //   for(var i=0;i<data.length;i++){
+          //     self.datas.push(data[i]);
+          //   }
+          // })
         }
       },
       doDelete: function(currentRow,index) {
-        //console.log('1'+currentRow.cellCode);
         var self = this;
-        //console.log('2'+self.datacolumn);
         for(var i=0;i<self.datacolumn.length;i++){
           if(currentRow.cellCode==self.datacolumn[i]){
             self.datacolumn.splice(index, 1);
