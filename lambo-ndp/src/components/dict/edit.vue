@@ -3,7 +3,7 @@
   <div>
     <Card>
       <p slot="title">
-        {{title}}
+
       </p>
       <div slot="extra">
         <Button type="primary" @click="formSubmit">保存</Button>
@@ -95,9 +95,6 @@
       dictId: function() {
         return this.$route.query.dictId;
       },
-      title: function() {
-        return this.$route.meta.title;
-      },
       columns() {
         let columns = [];
         let self = this;
@@ -164,18 +161,14 @@
               dictKeyList:JSON.stringify(this.$refs.table1.getTableData())
             }
             if(self.dictId) {  //修改
-              util.ajax.post("/manage/dictdata/update" , params).then(function(resp) {
+              util.ajax.post("/manage/dictData/update" , params).then(function(resp) {
                 self.$Message.success('保存成功');
-              }).catch(function(err) {
-                self.$Message.error('保存失败,请联系系统管理员');
-              });
+              })
             } else { //新增
-              util.ajax.post("/manage/dictdata/create", params).then(function(resp) {
+              util.ajax.post("/manage/dictData/create", params).then(function(resp) {
                 self.$Message.success('新增成功');
                 //self.created = true;
-              }).catch(function(err) {
-                self.$Message.error('新增失败,请联系系统管理员');
-              });
+              })
             }
 
           }
@@ -183,14 +176,6 @@
       },
       getTableData:function(){
         alert(JSON.stringify(this.$refs.table1.getTableData()));
-      },
-      addNewRownewTableData:function(){
-        this.datas=this.$refs.table1.getTableData();
-        console.log(this.datas);
-        this.datas.push({
-          dictKey: '',
-          dictValue:''
-        })
       },
       newTableData:function(){
         let row = {
@@ -202,7 +187,7 @@
       initData:function(){
         var self = this;
         if(self.dictId) {
-           util.ajax.get("/manage/dictdata/get/" + self.dictId).then(function(resp) {
+           util.ajax.get("/manage/dictData/get/" + self.dictId).then(function(resp) {
              var data = resp.data.data;
              for(var i=0;i<data.length;i++){
 
@@ -211,11 +196,7 @@
              self.form.dictId =  data[0].dictId;
              self.form.dictName =data[0].dictName;
              self.form.dictDesc = data[0].dictDesc;
-
-          }).catch(function(err) {
-            self.$Message.error('获取库表信息错误,请联系系统管理员');
-          });
-
+          })
         }
       },
       doDelete: function(cellId,index) {

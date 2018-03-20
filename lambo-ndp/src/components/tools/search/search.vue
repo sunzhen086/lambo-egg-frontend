@@ -2,8 +2,8 @@
   <datearea v-if="searchType == 'date' " :dateType="dateType" :placeholder="placeholder" @onOk="onOk" @onClear="onClear"></datearea>
   <helpbox v-else-if=" searchType == 'helpbox' " :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :helpBoxTitle="helpBoxTitle"
            :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></helpbox>
-  <inputarea v-else-if=" searchType == 'input' " :placeholder="placeholder" @onOk="onOk" @onClear="onClear"></inputarea>
-  <selectarea v-else=" searchType == 'select' " :dataUrl="dataUrl" :dataOption="dataOption" @onOk="onOk" @onClear="onClear"></selectarea>
+  <selectarea v-else-if=" searchType == 'select' " :dataUrl="dataUrl" :dataOption="dataOption" @onOk="onOk" @onClear="onClear"></selectarea>
+  <inputarea v-else :placeholder="placeholder" @onOk="onOk" @onClear="onClear"></inputarea>
 </template>
 
 <script>

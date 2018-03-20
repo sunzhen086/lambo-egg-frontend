@@ -1,6 +1,7 @@
 <template>
   <div class="left-category">
-    <div class="one-line" v-for="(item,index) in categoryList" v-bind:class="{ first: index==0,select:index == selectIndex }"
+    <div class="one-line" v-for="(item,index) in categoryList"
+         v-bind:class="{ first: index==0,select:item.category_id == selectIndex || selectIndex == '0' }"
          @click="selectOper(item.category_id,index)" :title="item.title">
       {{item.category_name}}
       <Icon type="chevron-right" class="fr" size="16"></Icon>
@@ -14,8 +15,16 @@
         name: "left-part",
         data(){
           return{
-            selectIndex:0,
             categoryList:[]
+          }
+        },
+        computed: {
+          selectIndex:function () {
+            var index = "0";
+            if(this.$route.query.index){
+              index = this.$route.query.index;
+            }
+            return index;
           }
         },
         methods:{
@@ -26,8 +35,13 @@
             }).then(function (resp) {
               var result = resp.data;
               if(result.length>0){
-                self.$emit("changeCategory",result[0].category_id);
+                if(self.selectIndex == "0"){
+                  self.$emit("changeCategory",result[0].category_id);
+                }
                 for(var i=0;i<result.length;i++){
+                  if(self.selectIndex == result[i].category_id){
+                    self.$emit("changeCategory",result[i].category_id);
+                  }
                   var tmp = result[i].category_name;
                   if(tmp && tmp.length>=10){
                     tmp = tmp.substring(0,10) + "...";
