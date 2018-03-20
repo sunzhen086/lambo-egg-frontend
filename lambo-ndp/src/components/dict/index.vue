@@ -1,19 +1,14 @@
 <template>
   <div>
     <Card>
-      <p slot="title">
-        <Icon type="help-buoy"></Icon> {{title}}
-      </p>
       <div slot="extra">
-
-        <Button type="primary" @click="goCreatePage">新增</Button>
-
       </div>
-      <LamboTable ref="table" dataUrl="/manage/dictdata/list" :columns="tableColumn" :searchParams="dictSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/dictData/list" :columns="tableColumn" :searchParams="dictSearchParams">
         <div slot="search">
           <Input v-model="searchDictId" placeholder="按标识搜索" style="width: 200px" />
           <Input v-model="searchDictName" placeholder="按名称搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="primary" @click="goCreatePage">新增</Button>
         </div>
       </LamboTable>
     </Card>
@@ -72,7 +67,7 @@
         let columns = [];
         let self = this;
         columns.push({
-          key: 'dictId',
+          key: '',
           type:"selection",
           align:"center"
         });
@@ -88,7 +83,8 @@
         });
         columns.push({
           title: '描述',
-          key: 'dictDesc'
+          key: 'dictDesc',
+          sortable: "custom"
         });
         columns.push({
           title: '操作',
@@ -132,12 +128,10 @@
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.post("/manage/dictdata/delete",parm).then(function(resp) {
+            util.ajax.post("/manage/dictData/delete",parm).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
-            }).catch(function(err) {
-              self.$Message.error('删除失败,请联系系统管理员');
-            });
+            })
           }
         });
       },

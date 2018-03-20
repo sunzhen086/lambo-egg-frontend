@@ -88,12 +88,12 @@
     data () {
       return {
         helpBoxCateGory:false,
-        helpCateGoryBoxUrl:"/manage/categorydata/list",
+        helpCateGoryBoxUrl:"/manage/cateGoryData/list",
         helpCateGoryBoxColumnsStr: JSON.stringify(helpCateGoryBoxColumns),
         muliSelect:false,
         helpCateGoryBoxTitle:"分类帮助框",
         helpBoxTable:false,
-        helpTableBoxUrl:"/manage/tabledata/list",
+        helpTableBoxUrl:"/manage/tableData/list",
         helpCateTableColumnsStr: JSON.stringify(helpTableBoxColumns),
         helpTableBoxTitle:"库表帮助框",
         result:"",
@@ -108,14 +108,14 @@
           tableId:""
         },
         ruleValidate: {
-          tableCode: [
-            {required: true,message: '库表不能为空',trigger: 'blur'},
-            {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          ],
-          categoryName: [
-            {required: true,message: '分类不能为空',trigger: 'blur'},
-            {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          ]
+          // tableCode: [
+          //   {required: true,message: '库表不能为空',trigger: 'blur'},
+          //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
+          // ],
+          // categoryName: [
+          //   {required: true,message: '分类不能为空',trigger: 'blur'},
+          //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
+          // ]
         }
       };
     },
@@ -204,13 +204,7 @@
         this.$router.go(-1);
       },
       formSubmit(){
-        var self = this;
-        // categoryName:"",
-        //   categoryId:"",
-        //   subjectName:"",
-        //   subjectDesc:"",
-        //   tableCode:"",
-        //   tableId:""
+            var self = this;
             var params = {
               tableCode: self.form.tableCode,
               tableId: self.form.tableId,
@@ -222,15 +216,11 @@
             if(self.subjectId) {  //修改
               util.ajax.post("/manage/subjectData/update/" + self.subjectId, params).then(function(resp) {
                 self.$Message.success('保存成功');
-              }).catch(function(err) {
-                self.$Message.error('保存失败,请联系系统管理员');
-              });
+              })
             } else { //新增
               util.ajax.post("/manage/subjectData/create", params).then(function(resp) {
                 self.$Message.success('新增成功');
-              }).catch(function(err) {
-                self.$Message.error('新增失败,请联系系统管理员');
-              });
+              })
             }
 
 
@@ -261,8 +251,7 @@
           var params = {
             tableId: self.form.tableId
           }
-          util.ajax.post("/manage/tabledata/listtablecell/",params).then(function(resp) {
-
+          util.ajax.post("/manage/tableData/listTableCellForSubject/",params).then(function(resp) {
             var data = resp.data.data;
             self.datas.splice(0,self.datas.length);//清除之前的数据
             for(var i=0;i<data.length;i++){
@@ -281,21 +270,35 @@
         if(self.subjectId) {   //修改
           util.ajax.get("/manage/subjectData/get/" + self.subjectId).then(function(resp) {
             var result = resp.data.data;
-            self.form.tableCode = result.tableCode;
-            self.form.tableId = result.tableId;
-            self.form.categoryName = result.categoryName;
-            self.form.categoryId= result.categoryId;
-            self.form.subjectName= result.subjectName;
-            self.form.subjectDesc= result.subjectDesc;
-          });
-          util.ajax.get("/manage/subjectData/listColumn/"+self.subjectId).then(function(resp) {
-            var data = resp.data.data;
-            for(var i=0;i<data.rows.length;i++){
-              self.datas.push(data.rows[i]);
+            //console.log(result);
+            for(var i=0;i<result.length;i++){
+              if(i==0){   //第一个是封装的专题
+                self.form.tableCode = result[i].tableCode;
+                self.form.tableId = result[i].tableId;
+                self.form.categoryName = result[i].categoryName;
+                self.form.categoryId= result[i].categoryId;
+                self.form.subjectName= result[i].subjectName;
+                self.form.subjectDesc= result[i].subjectDesc;
+              }else{ //专题列
+                self.datas.push(result[i]);
+              }
             }
-          }).catch(function(err) {
-            self.$Message.error('获取数据项信息错误,请联系系统管理员');
           });
+          // util.ajax.get("/manage/subjectData/get/" + self.subjectId).then(function(resp) {
+          //   var result = resp.data.data;
+          //   self.form.tableCode = result.tableCode;
+          //   self.form.tableId = result.tableId;
+          //   self.form.categoryName = result.categoryName;
+          //   self.form.categoryId= result.categoryId;
+          //   self.form.subjectName= result.subjectName;
+          //   self.form.subjectDesc= result.subjectDesc;
+          // });
+          // util.ajax.get("/manage/subjectData/listColumn/"+self.subjectId).then(function(resp) {
+          //   var data = resp.data.data;
+          //   for(var i=0;i<data.rows.length;i++){
+          //     self.datas.push(data.rows[i]);
+          //   }
+          // })
         }
       }
     },

@@ -64,11 +64,11 @@
 							categoryDesc: self.form.categorydesc
 						}
 						if(self.categoryId) {  //修改
-							util.ajax.post("/manage/categorydata/update/" + self.categoryId, params).then(function(resp) {
+							util.ajax.post("/manage/cateGoryData/update/" + self.categoryId, params).then(function(resp) {
 								self.$Message.success('保存成功');
 							});
 						} else { //新增
-							util.ajax.post("/manage/categorydata/create", params).then(function(resp) {
+							util.ajax.post("/manage/cateGoryData/create", params).then(function(resp) {
 								self.$Message.success('新增成功');
 								self.created = true;
 							});
@@ -86,14 +86,12 @@
 			initData: function() {
 				var self = this;
 				if(self.categoryId) {
-					util.ajax.get("/manage/categorydata/get/" + self.categoryId).then(function(resp) {
+					util.ajax.get("/manage/cateGoryData/get/" + self.categoryId).then(function(resp) {
 						var result = resp.data.data;
 						self.form.categoryname = result.categoryName;
 						self.form.categorydesc = result.categoryDesc;
 
-					}).catch(function(err) {
-						self.$Message.error('获取数据失败,请联系系统管理员');
-					});
+					})
 				}
 			}
 		},
