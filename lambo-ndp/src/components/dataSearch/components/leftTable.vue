@@ -2,10 +2,9 @@
   <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
     <div slot="search">
       <div class="searchArea" v-for="item in searchData" >
-        {{item.dimension_name}}：
-        <searchHelpBox v-if="item.ref_table && item.ref_table!=''" :item="item" @changeParams="operParam"></searchHelpBox>
-        <searchDatePicket v-else :item="item" @changeParams="operParam"></searchDatePicket>
-      </div>
+      {{item.dimension_name}}：
+       <queryCondition :item="item" @changeParams="operParam"></queryCondition>
+    </div>
       <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
       <div v-else>&nbsp;</div>
     </div>
@@ -13,8 +12,7 @@
 </template>
 
 <script>
-  import searchHelpBox from './searchHelpBox';
-  import searchDatePicket from './searchDatePicket';
+  import queryCondition from './../../tools/query/query';
   export default {
     name: "left-table",
     data(){
@@ -32,25 +30,23 @@
       tableData:Array
     },
     components:{
-      searchHelpBox,
-      searchDatePicket
+      queryCondition
     },
     methods:{
       operData:function (data) {
         for(var i=0;i<data.length;i++){
           var obj = data[i];
-          var column = {};
-          column.ellipsis = true;
-          column.sortable = true;
-          column.title = obj.column_name;
-          column.key = obj.cell_code;
+          if(obj.is_show == '1'){
+            var column = {};
+            column.ellipsis = true;
+            column.sortable = true;
+            column.title = obj.column_name;
+            column.key = obj.cell_code;
+            this.tableColumns.push(column);
+          }
           if(obj.search_condition && obj.search_condition !=''){
             this.searchData.push(obj);
-            if(obj.ref_table && obj.ref_table !=''){
-              column.key = obj.name_field;
-            }
           }
-          this.tableColumns.push(column);
         }
       },
       operParam:function(data){

@@ -1,7 +1,7 @@
 <template>
   <div class="left-category">
     <div class="one-line" v-for="(item,index) in categoryList"
-         v-bind:class="{ first: index==0,select:item.category_id == selectIndex || selectIndex == '0' }"
+         v-bind:class="{ first: index==0,select:(item.category_id == selectIndex || (selectIndex === '0' &&  index==0 )) }"
          @click="selectOper(item.category_id,index)" :title="item.title">
       {{item.category_name}}
       <Icon type="chevron-right" class="fr" size="16"></Icon>
