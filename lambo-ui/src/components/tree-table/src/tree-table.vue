@@ -1,5 +1,7 @@
 <template>
-    <Table :data="formatData" :row-class-name="showRow" v-bind="$attrs"></Table>
+    <div class="lambo-tree-table">
+        <Table :data="tableData" :columns="tableColumns" :row-class-name="showRow" v-bind="$attrs"></Table>
+    </div>
 </template>
 
 <script>
@@ -28,82 +30,120 @@
         },
         data(){
             return {
-                tableColumns:[]
+                tableColumns:[],
+                tableData:[]
             }
         },
         computed: {
-            // 格式化数据源
-            formatData: function () {
-                let tmp
-                if (!Array.isArray(this.data)) {
-                    tmp = [this.data]
-                } else {
-                    tmp = this.data
-                }
-                const func = this.evalFunc || treeToArray
-                const args = this.evalArgs ? Array.concat([tmp, this.expandAll], this.evalArgs) : [tmp, this.expandAll]
-                return func.apply(null, args)
-            }
+
         },
         methods: {
-            init:function(){
+            formatColumns:function(){
                 let self = this;
-                self.tableColumns = deepCopy(self.columns);
-                if(self.tableColumns.length !== 0){
-                    self.tableColumns[0].render = (h,params) => {
-                        h(TreeCtrl,{
+                let columns = this.columns;
+                if(columns.length !== 0){
+                    columns[0].render = (h,params) => {
+                        return h(TreeCtrl,{
                             props:{
                                 params
                             },
                             on:{
-                                "on-expand-toggle":function(trIndex){
+                                "on-toggle-expand":function(trIndex){
                                     self.toggleExpanded(trIndex);
                                 }
                             }
                         })
                     }
                 }
+                this.tableColumns = this.columns;
+            },
+            formatData:function(){
+                let tmp
+                if (!Array.isArray(this.data)) {
+                    tmp = [this.data]
+                } else {
+                    tmp = this.data;
+                }
+                const func = this.evalFunc || treeToArray;
+                const args = this.evalArgs ? Array.concat([tmp, this.expandAll], this.evalArgs) : [tmp, this.expandAll];
+                let formatData = func.apply(null, args);
+                this.tableData = formatData;
             },
             showRow: function (row) {
-                const show = (row.row.parent ? (row.row.parent._expanded && row.row.parent._show) : true)
-                row.row._show = show
-                return show ? 'animation:treeTableShow 1s;-webkit-animation:treeTableShow 1s;' : 'display:none;'
+                return (row._level === 1 || row._show === true) ? 'shown' : 'hidden'
             },
             // 切换下级是否展开
             toggleExpanded: function (trIndex) {
-                const record = this.formatData[trIndex]
-                record._expanded = !record._expanded
+                let self = this, tableData = self.tableData;
+                let record = tableData[trIndex];
+                let level = record._level;
+                let i = trIndex + 1;
+                if(record._expand === true){
+                    record._expand = false;
+                    while(i < tableData.length){
+                        if(tableData[i]._level >= level + 1){
+                            tableData[i]._show = false;
+                            tableData[i]._expand = false;
+                            i++;
+                        }else{
+                            break;
+                        }
+                    }
+                }else{
+                    record._expand = true;
+                    while(i < tableData.length){
+                        if(tableData[i]._level === level + 1){
+                            tableData[i]._show = true;
+                            i++;
+                        }else{
+                            break;
+                        }
+                    }
+                }
+
+                self.tableData = JSON.parse(JSON.stringify(self.tableData));
             }
 
         },
         created(){
-            this.init();
+            this.formatColumns();
+            this.formatData();
         },
         watch:{
             columns(){
-                this.init();
+                //this.formatColumns();
             }
         }
     }
 </script>
-<style rel="stylesheet/css">
-    @keyframes treeTableShow {
-        from {
-            opacity: 0;
+<style lang="less">
+    .lambo-tree-table{
+        .hidden{
+             display:none;
+         }
+        .shown{
+            animation:treeTableShow;
+            -webkit-animation:treeTableShow;
         }
-        to {
-            opacity: 1;
+        @keyframes treeTableShow {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes treeTableShow {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     }
 
-    @-webkit-keyframes treeTableShow {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
 </style>
 
 <style lang="less" scoped>

@@ -1,8 +1,8 @@
 <template>
-    <span>
+    <span @click="toggleExpanded(index)">
         <span v-for="space in row._level" class="ms-tree-space" :key="space"></span>
-        <span class="tree-ctrl" v-if="iconShow(index,row)" @click="toggleExpanded(index)">
-            <Icon v-if="!row._expanded" type="plus-round" ></Icon>
+        <span class="tree-ctrl" v-if="iconShow(index,row)">
+            <Icon v-if="!row._expand" type="plus-round" ></Icon>
             <Icon v-else type="minus-round" ></Icon>
         </span>
         {{row[column.key]}}
@@ -30,7 +30,10 @@
         methods:{
             // 图标显示
             iconShow(index, record) {
-                return (index === 0 && record.children && record.children.length > 0)
+                return (record.children)
+            },
+            toggleExpanded(index){
+                this.$emit("on-toggle-expand",index)
             }
         }
     }
@@ -56,5 +59,6 @@
         cursor: pointer;
         color: #2196F3;
         margin-left: -18px;
+        padding:2.5px;
     }
 </style>

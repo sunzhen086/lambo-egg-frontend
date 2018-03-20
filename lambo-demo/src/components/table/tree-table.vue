@@ -1,5 +1,10 @@
 <template>
-    <lambo-tree-table :data="data" :columns="columns"></lambo-tree-table>
+  <div>
+    <Card>
+      <lambo-tree-table :data="data" :columns="columns"></lambo-tree-table>
+    </Card>
+  </div>
+
 </template>
 
 <script>
@@ -29,7 +34,7 @@
             data: [
               {
                 id: 0,
-                event: '事件1',
+                event: '事件0',
                 timeLine: 50,
                 comment: '无'
               },
@@ -106,6 +111,12 @@
                     ]
                   }
                 ]
+              },
+              {
+                id: 10,
+                event: '事件10',
+                timeLine: 50,
+                comment: '无'
               }
             ]
           }
