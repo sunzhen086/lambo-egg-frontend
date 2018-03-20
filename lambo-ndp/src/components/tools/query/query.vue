@@ -1,9 +1,9 @@
 <template>
-  <province v-if="dimensionType == 'province'" :item="item" @changeParams="changeParams"></province>
-  <city v-else-if="dimensionType == 'city'" :item="item" @changeParams="changeParams"></city>
-  <item v-else-if="dimensionType == 'item'" :item="item" @changeParams="changeParams"></item>
-  <brand v-else-if="dimensionType == 'brand'" :item="item" @changeParams="changeParams"></brand>
-  <date v-else-if="dimensionType == 'date' || dimensionType == 'month' || dimensionType == 'year'" :item="item" @changeParams="changeParams"></date>
+  <province v-if="searchCondition == 'province'" :item="item" @changeParams="changeParams"></province>
+  <city v-else-if="searchCondition == 'city'" :item="item" @changeParams="changeParams"></city>
+  <item v-else-if="searchCondition == 'item'" :item="item" @changeParams="changeParams"></item>
+  <brand v-else-if="searchCondition == 'brand'" :item="item" @changeParams="changeParams"></brand>
+  <date v-else-if="searchCondition == 'date' || searchCondition == 'month' || searchCondition == 'year'" :item="item" @changeParams="changeParams"></date>
 </template>
 
 <script>
@@ -23,8 +23,8 @@
         item:Object
       },
       computed: {
-        dimensionType:function () {
-          return this.item.dimension_type;
+        searchCondition:function () {
+          return this.item.search_condition;
         }
       },
       components:{

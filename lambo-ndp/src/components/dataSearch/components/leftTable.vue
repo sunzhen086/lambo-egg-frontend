@@ -2,7 +2,6 @@
   <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
     <div slot="search">
       <div class="searchArea" v-for="item in searchData" >
-      {{item.dimension_name}}：
        <queryCondition :item="item" @changeParams="operParam"></queryCondition>
     </div>
       <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
@@ -74,13 +73,13 @@
         if(data.searchType && data.searchType == "="){
           finalParam += data.cellCode+ "='" + data.value +"',";
         }else if(data.searchType){
-          if(data.dimensionType && data.dimensionType == "year"){
+          if(data.searchCondition && data.searchCondition == "year"){
             finalParam += data.cellCode+ ">='" + data.value +"-01-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-12-31 23:59:59',";
-          }else if(data.dimensionType && data.dimensionType == "month"){
+          }else if(data.searchCondition && data.searchCondition == "month"){
             finalParam += data.cellCode+ ">='" + data.value +"-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-31 23:59:59',";
-          }else if(data.dimensionType && data.dimensionType == "date"){
+          }else if(data.searchCondition && data.searchCondition == "date"){
             finalParam += data.cellCode+ ">='" + data.value +" 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +" 23:59:59',";
           }else{

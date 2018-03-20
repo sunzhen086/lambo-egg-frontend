@@ -1,6 +1,9 @@
-<template>
-  <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
+<template xmlns="http://www.w3.org/1999/html">
+  <span>
+    {{searchName}}：
+    <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
           :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></search>
+  </span>
 </template>
 
 <script>
@@ -9,6 +12,7 @@
     name: "item",
     data(){
       return{
+        searchName:'商品',
         searchType:"helpbox",
         helpBoxUrl:'/manage/dataSubject/getConditionData?dimensionType=item',
         helpBoxColumns: [{

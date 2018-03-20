@@ -1,5 +1,8 @@
 <template>
-  <search :searchType="searchType" :dateType="dimensionType" @onOk="setParam" @onClear="clearParam"></search>
+  <span>
+    {{searchName}}：
+    <search :searchType="searchType" :dateType="searchCondition" @onOk="setParam" @onClear="clearParam"></search>
+  </span>
 </template>
 
 <script>
@@ -8,6 +11,7 @@
     name: "search-date-picket",
     data(){
       return{
+        searchName:"日期",
         searchType:"date"
       }
     },
@@ -18,8 +22,8 @@
       cellCode:function () {
         return this.item.cell_code;
       },
-      dimensionType:function () {
-        return this.item.dimension_type;
+      searchCondition:function () {
+        return this.item.search_condition;
       }
     },
     components:{
@@ -34,7 +38,7 @@
             searchType:'>',
             value:date,
             cellCode:self.cellCode,
-            dimensionType:self.dimensionType
+            searchCondition:self.searchCondition
           }
           this.$emit("changeParams",data);
         }

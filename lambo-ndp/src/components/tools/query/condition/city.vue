@@ -1,6 +1,9 @@
 <template>
-  <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
+  <span>
+    {{searchName}}：
+    <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
           :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></search>
+  </span>
 </template>
 
 <script>
@@ -9,6 +12,7 @@
     name: "province",
     data(){
       return{
+        searchName:'市公司',
         searchType:"helpbox",
         helpBoxUrl:'/manage/dataSubject/getConditionData?dimensionType=city',
         helpBoxColumns: [{
