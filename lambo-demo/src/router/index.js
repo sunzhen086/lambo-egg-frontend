@@ -14,6 +14,7 @@ import fileUpload from '@/components/other/file-upload/file-upload'
 import imageEditor from '@/components/other/image-editor/image-editor'
 import splitPane from '@/components/other/split-pane/split-pane-page'
 import helpBox from '@/components/other/helpbox/helpbox'
+import treeTable from '@/components/table/tree-table'
 
 Vue.use(Router)
 const router = new Router({
@@ -66,6 +67,14 @@ const router = new Router({
           },
           name:'拖拽排序表格',
           component: dragableTable
+        },
+        {
+          path: 'table/tree-table',
+          meta:{
+            title: '树形表格示例',
+          },
+          name:'树形表格',
+          component: treeTable
         },
         {
           path: 'other/count-to',

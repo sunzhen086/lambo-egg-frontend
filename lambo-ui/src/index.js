@@ -3,6 +3,7 @@ import Frame from './components/frame';
 import Table from './components/table';
 import EditTable from './components/edit-table';
 import HelpBox from './components/helpbox';
+import TreeTable from './components/tree-table';
 
 const version = '1.0.0';
 const install = function(Vue, config) {
@@ -16,6 +17,7 @@ const install = function(Vue, config) {
     Vue.component("LamboTable", Table);
     Vue.component("LamboEditTable", EditTable);
     Vue.component("LamboHelpBox", HelpBox);
+    Vue.component("LamboTreeTable", TreeTable);
 
 };
 
@@ -30,5 +32,6 @@ export default {
     Frame,
     Table,
     EditTable,
-    HelpBox
+    HelpBox,
+    TreeTable
 };
