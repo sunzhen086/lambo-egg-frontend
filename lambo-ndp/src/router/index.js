@@ -14,6 +14,7 @@ import dict from '@/components/dict/index'
 import dictEdit from '@/components/dict/edit'
 import subject from '@/components/subject/index'
 import subjectEdit from '@/components/subject/edit'
+import frame from '@/components/frame/frame'
 Vue.use(Router);
 const router = new Router({
   routes: [
@@ -30,73 +31,80 @@ const router = new Router({
       }
     },
     {
-      path: '/table',
-      meta:{
-        title: '库表查询',
-      },
-      name:'库表查询',
-      component: table
-    },
-    {
-      path: '/table/create',
-      meta:{
-        title: '新增库表',
-      },
-      name:'新增库表',
-      component: tableEdit
-    },
-    {
-      path: '/table/update',
-      meta:{
-        title: '修改库表',
-      },
-      name:'修改库表',
-      component: tableEdit
-    },
-    {
-      path: '/category',
-      name:'分类查询',
-      component: category
-    },
-    {
-      path: '/category/update',
-      name:'修改分类',
-      component: categoryEdit
-    },
-    {
-      path: '/category/create',
-      name:'新增分类',
-      component: categoryEdit
-    },
-    {
-      path: '/dict',
-      name:'查询数据字典',
-      component: dict
-    },
-    {
-      path: '/dict/update',
-      name:'修改数据字典',
-      component: dictEdit
-    },
-    {
-      path: '/dict/create',
-      name:'新增数据字典',
-      component: dictEdit
-    },
-    {
-      path: '/subject',
-      name:'查询专题',
-      component: subject
-    },
-    {
-      path: '/subject/update',
-      name:'修改专题',
-      component: subjectEdit
-    },
-    {
-      path: '/subject/create',
-      name:'新增专题',
-      component: subjectEdit
+      path: "/frame",
+      name: "菜单框架",
+      component: frame,
+      children: [
+        {
+          path: 'table',
+
+          name:'库表管理',
+          component: table
+        },
+        {
+          path: '/table/create',
+          meta:{
+            title: '新增库表',
+          },
+          name:'新增库表',
+          component: tableEdit
+        },
+        {
+          path: '/table/update',
+          meta:{
+            title: '修改库表',
+          },
+          name:'修改库表',
+          component: tableEdit
+        },
+        {
+          path: '/category',
+          name:'数据分类',
+          component: category
+        },
+        {
+          path: '/category/update',
+          name:'修改分类',
+          component: categoryEdit
+        },
+        {
+          path: '/category/create',
+          name:'新增分类',
+          component: categoryEdit
+        },
+        {
+          path: '/dict',
+          name:'数据字典查询',
+          component: dict
+        },
+        {
+          path: '/dict/update',
+          name:'修改数据字典',
+          component: dictEdit
+        },
+        {
+          path: '/dict/create',
+          name:'新增数据字典',
+          component: dictEdit
+        },
+        {
+          path: '/subject',
+          name:'数据专题管理',
+          component: subject
+        },
+        {
+          path: '/subject/update',
+          name:'修改专题',
+          component: subjectEdit
+        },
+        {
+          path: '/subject/create',
+          name:'新增专题',
+          component: subjectEdit
+        },
+
+
+      ]
     },
     {
       path: "/main",
