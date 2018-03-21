@@ -101,14 +101,14 @@
         columns.push({
           title: '序号',
           type: 'index',
-          width: 180,
+          width: '25%',
           align: 'center'
         },);
         columns.push(   {
               title: '编码',
               align: 'center',
               key: 'dictKey',
-              width: 300,
+              width: '25%',
               editor:{
                 type:"text",
                 //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -127,7 +127,7 @@
               title: '名称',
               align: 'center',
               key: 'dictValue',
-              width: 300,
+              width: '25%',
               editor: {
                 type: "text",
 

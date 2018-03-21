@@ -14,7 +14,7 @@
         <Col span="12" offset="6">
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
           <FormItem label="所属分类" prop="categoryName">
-            <Input v-model="form.categoryName" placeholder="请选择分类" readonly @on-focus="showCateGoryHelpBox"></Input>
+            <Input v-model="form.categoryName" placeholder="请选择分类" readonly @on-focus="showCateGoryHelpBox" icon="ios-search"></Input>
             <lambo-help-box v-model="helpBoxCateGory" :url="helpCateGoryBoxUrl" :columns="helpCateGoryBoxColumns" :title="helpCateGoryBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
             </lambo-help-box>
           </FormItem>
@@ -25,7 +25,7 @@
             <Input  v-model="form.subjectDesc" placeholder="请输入专题描述"></Input>
           </FormItem>
           <FormItem label="库表" prop="tableCode">
-            <Input v-model="form.tableCode" placeholder="请选择库表" readonly @on-focus="showTableHelpBox"></Input>
+            <Input v-model="form.tableCode" placeholder="请选择库表" readonly @on-focus="showTableHelpBox" icon="ios-search"></Input>
             <lambo-help-box v-model="helpBoxTable" :url="helpTableBoxUrl" :columns="helpTableBoxColumns" :title="helpTableBoxTitle" :muliSelect="muliSelect" @onOk="onOkTable" @onClear="onClearTable">
             </lambo-help-box>
 
@@ -135,14 +135,14 @@
         columns.push({
           title: '序号',
           type: 'index',
-          width: 180,
+          width: '15%',
           align: 'center'
         });
         columns.push({
           title: '中文名称',
           key: 'cellName',
           align: 'center',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
           }
@@ -151,7 +151,7 @@
           title: '字段名称',
           align: 'center',
           key: 'cellCode',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
           }
@@ -160,18 +160,18 @@
           {
             title: '维度',
             align: 'center',
-            width: 150,
+            width: '15%',
             key: 'searchCondition',
             editor:{
               type:"select",
-              enums:[{"value":1,"label":"公司"},{"value":2,"label":"商品"},{"value":3,"label":"品牌"},{"value":4,"label":"日期(年)"},{"value":5,"label":"日期(月)"},{"value":6,"label":"日期(日)"}]
+              enums:[{"value":"province","label":"省公司纬度"},{"value":"city","label":"市公司纬度"},{"value":"brand","label":"品牌纬度"},{"value":"item","label":"商品纬度"},{"value":"year","label":"日期纬度(年)"},{"value":"month","label":"日期纬度(月)"},{"value":"date","label":"日期纬度(日)"}]
             }
           });
         columns.push( {
           title: '设置',
           align: 'center',
           key: 'searchSetting',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
           }
@@ -180,7 +180,7 @@
           title: '排序',
           align: 'center',
           key: 'columnOrder',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
           }
@@ -189,7 +189,7 @@
         {
           title: '操作',
           align: 'center',
-          width: 150,
+
           key: 'isShow',
           editor:{
           type:"select",

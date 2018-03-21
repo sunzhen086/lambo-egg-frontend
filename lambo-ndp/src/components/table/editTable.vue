@@ -15,7 +15,7 @@
         <Col span="12" offset="6">
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
           <FormItem label="表名称" prop="tablecode">
-            <Input v-model="form.tablecode" placeholder="请输入表名称" readonly @on-focus="showHelpBox"></Input>
+            <Input v-model="form.tablecode" placeholder="请输入表名称" readonly @on-focus="showHelpBox" icon="ios-search" ></Input>
             <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
             </lambo-help-box>
 
@@ -54,7 +54,7 @@
 <script>
   let helpBoxEditor = {
     type:"helpbox",
-    url:"/manage/dictdata/list",
+    url:"/manage/dictData/list",
     columns:[
       {
         title: '字典Id',
@@ -143,13 +143,15 @@
         columns.push({
           title: '序号',
           type: 'index',
-          width: 180,
+
+          width: '15%',
           align: 'center'
         });
         columns.push(
           {
             title: '标识',
             align: 'center',
+            width: '15%',
             key: 'cellCode',
             editor:{
               type:"helpbox",
@@ -191,7 +193,7 @@
           title: '名称',
           align: 'center',
           key: 'cellName',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -210,13 +212,15 @@
           title: '字典',
           align: 'center',
           key: 'dictName',
+          width: '15%',
           editor:helpBoxEditor
         });
         columns.push( {
           title: '计量单位',
           align: 'center',
           key: 'dataUnit',
-          width: 300,
+          width: '15%',
+          width: '15%',
           editor: {
             type: "text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -235,7 +239,7 @@
           title: '描述',
           align: 'center',
           key: 'dataDesc',
-          width: 300,
+          width: '15%',
           editor: {
             type: "text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -253,6 +257,7 @@
         columns.push({
           title: '操作',
           align: "center",
+
           render: function(h, param) {
             return h('div', [
               //  editButton(self, h, param.row, param.index),
