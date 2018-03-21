@@ -119,7 +119,7 @@ const router = new Router({
           component: overview
         },
         {
-          path: 'searchTable',
+          path: '/searchTable',
           name: '数据查询',
           component: searchTable
         },
