@@ -29,23 +29,14 @@
         methods:{
           initPage:function () {
             var self = this;
-            if(this.$route.query.subjectId && this.$route.query.categoryId){
-              self.acticeName = this.$route.query.categoryId + '-' +this.$route.query.subjectId;
-              self.openNames.push(parseInt(this.$route.query.categoryId));
-            }
             util.ajax.post('/manage/dataCategory/getCategoryList',{})
               .then(function (resp) {
               self.categoryList = resp.data;
-              self.$nextTick(() => {
-                self.$refs.sideMenu.updateOpened();
-                self.$refs.sideMenu.updateActiveName();
-              });
-              self.$emit("changeSubject",parseInt(self.$route.query.subjectId));
+              self.changeData(self.$route);
             });
           },
           changeSubject:function (data) {
             var tmp = data.split("-");
-            this.$emit("changeSubject",parseInt(tmp[1]));
             this.$router.push({
               name:'数据查询',
               query:{
@@ -54,6 +45,24 @@
               }
             });
           },
+          changeData:function (to) {
+            var self = this;
+            if(to.query.subjectId && to.query.categoryId){
+              self.acticeName = to.query.categoryId + '-' + to.query.subjectId;
+              self.openNames = [];
+              self.openNames.push(parseInt(to.query.categoryId));
+              self.$nextTick(() => {
+                self.$refs.sideMenu.updateOpened();
+                self.$refs.sideMenu.updateActiveName();
+              });
+              self.$emit("changeSubject",parseInt(to.query.subjectId));
+            }
+          }
+        },
+        watch:{
+          '$route' (to) {
+            this.changeData(to);
+          }
         },
         mounted() {
           this.initPage();
