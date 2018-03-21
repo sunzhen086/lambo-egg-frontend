@@ -6,7 +6,7 @@ let config = {
   env: Env,
   appContext:appContext,
   loginPage:appContext + "/#/login",
-  homePage:appContext + "/#/frame/table/paging-table",
+  homePage:appContext + "/#/mainpage",
   serverContext:"ndp-server"
 };
 export default config;
