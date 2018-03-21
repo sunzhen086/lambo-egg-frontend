@@ -12,6 +12,7 @@
         </div>
       </div>
     </Card>
+    <DataList></DataList>
   </div>
 </template>
 <script>
@@ -19,12 +20,14 @@
   import Btns from "./components/btns";
   import Mtable from "./components/mtable";
   import ChinaMap from "./components/china-map";
+  import DataList from "./components/datalist";
   export default {
     components:{
       Measures,
       Btns,
       Mtable,
-      ChinaMap
+      ChinaMap,
+      DataList
     },
     data() {
       return {

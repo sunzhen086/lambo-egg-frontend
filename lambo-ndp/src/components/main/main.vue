@@ -17,16 +17,22 @@
         <div class="container">
           <Menu mode="horizontal" theme="primary" active-name="1">
             <MenuItem name="1">
-              <Icon type="ios-paper"></Icon>
-              内容管理
+              <div @click="goMainpage()">
+                <Icon type="home"></Icon>
+                首页
+              </div>
             </MenuItem>
             <MenuItem name="2">
-              <Icon type="ios-people"></Icon>
-              用户管理
+              <div @click="goOverview()">
+                <Icon type="stats-bars"></Icon>
+                行业概览
+              </div>
             </MenuItem>
-            <MenuItem name="4">
-              <Icon type="settings"></Icon>
-              综合设置
+            <MenuItem name="3">
+              <div @click="goDataSubject()">
+                <Icon type="ios-list-outline"></Icon>
+                数据目录
+              </div>
             </MenuItem>
           </Menu>
         </div>
@@ -47,6 +53,27 @@
       }
     },
     methods:{
+      goMainpage:function () {
+        this.$router.push({
+          path: '/main/mainpage',
+          query:{
+          }
+        })
+      },
+      goOverview:function () {
+        this.$router.push({
+          path: '/main/overview',
+          query:{
+          }
+        })
+      },
+      goDataSubject:function () {
+        this.$router.push({
+          path: '/dataSubject',
+          query:{
+          }
+        })
+      }
     },
     mounted(){
     }
@@ -57,7 +84,7 @@
   .page-header{
     height:100px;
     .container{
-      width:950px;
+      width:1080px;
       margin:0 auto;
       overflow:hidden;
       .logo{
@@ -90,7 +117,7 @@
     height:60px;
     background:#2d8cf0;
     .container{
-      width:950px;
+      width:1080px;
       margin:0 auto;
     }
   }
