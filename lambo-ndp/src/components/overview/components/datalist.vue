@@ -80,6 +80,7 @@
 .list-container{
   margin-top: 15px;
   width: 1080px;
+  overflow: hidden;
   .list-card{
     height:150px;
     width: 200px;

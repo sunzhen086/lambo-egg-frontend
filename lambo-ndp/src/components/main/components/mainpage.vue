@@ -123,6 +123,7 @@
 
 <style scoped lang="less">
   .page{
+    padding-bottom:60px;
     .banner{
       height:230px;
       background:url("../../../assets/main1.png") center;
@@ -187,6 +188,7 @@
         }
       }
       .topcontainer{
+        overflow: hidden;
         .hotlist, .newlist{
           width: 49%;
           float: left;

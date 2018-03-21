@@ -79,9 +79,10 @@
     margin-top:20px;
     .box{
       margin:0 5px;
-      height:130px;
+      height:110px;
       display:flex;
-      box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
+      /*box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);*/
+      border:1px solid #eeeeee;
       &.first{
         margin-left:0;
       }
@@ -122,7 +123,7 @@
       }
       .right{
         flex:2;
-        padding:15px 10px;
+        padding:5px 10px;
         .label{
           color:#999;
           font-size:18px;
@@ -154,7 +155,7 @@
           color:#999;
           font-size:18px;
           font-weight:600;
-          margin-top:10px;
+          margin-top:8px;
           &.color1{
             color:rgb(48,182,253);
           }

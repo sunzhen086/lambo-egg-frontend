@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page1">
     <Measures></Measures>
     <Card class="card">
       <Btns @on-btn-click="btnClick"></Btns>
@@ -45,12 +45,13 @@
   }
 </script>
 <style lang="less" scoped>
-  .page{
+  .page1{
     width:1080px;
     margin:0 auto;
+    padding-bottom:30px;
     .card{
       margin-top:15px;
-      box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
+      /*box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);*/
     }
     .container{
       display:flex;

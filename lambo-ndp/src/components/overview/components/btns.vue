@@ -87,6 +87,7 @@
       color:#999;
       flex:1;
       margin-right:5px;
+      border-radius: 5px;
 
       &:hover,&.active{
         background-color:rgb(48,182,253);

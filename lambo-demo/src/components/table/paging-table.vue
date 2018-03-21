@@ -52,7 +52,24 @@
         });
         columns.push({
           title: '耗时',
-          key: 'spendTime'
+          key: 'spendTime',
+          render:function(h, param){
+            let value = param.row[param.column.key];
+            let color = "green";
+            if(value > 200 && value < 400){
+              color = "yellow";
+            }else if(value >= 400){
+              color = "red";
+            }
+            return h(
+              "Tag",{
+                props:{
+                  type:'dot',
+                  color:color
+                }
+              },value
+            )
+          }
         });
         columns.push({
           title: '访问者IP',
