@@ -15,6 +15,7 @@ import imageEditor from '@/components/other/image-editor/image-editor'
 import splitPane from '@/components/other/split-pane/split-pane-page'
 import helpBox from '@/components/other/helpbox/helpbox'
 import treeTable from '@/components/table/tree-table'
+import permission from '@/components/other/permission/permission'
 
 Vue.use(Router)
 const router = new Router({
@@ -123,6 +124,14 @@ const router = new Router({
           },
           name:'帮助框',
           component: helpBox
+        },
+        {
+          path: 'other/permission',
+          meta:{
+            title: '权限测试页',
+          },
+          name:'权限测试',
+          component: permission
         }
 
 

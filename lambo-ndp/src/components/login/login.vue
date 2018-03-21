@@ -26,9 +26,6 @@
           } else {
             self.$Message.error(result.data);
           }
-        }).catch(function (err) {
-          console.log(err);
-          self.$Message.error("服务器内部异常,请稍候再试.");
         })
       }
     },
