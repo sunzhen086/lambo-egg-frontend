@@ -2,10 +2,8 @@
   <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
     <div slot="search">
       <div class="searchArea" v-for="item in searchData" >
-        {{item.dimension_name}}：
-        <searchHelpBox v-if="item.ref_table && item.ref_table!=''" :item="item" @changeParams="operParam"></searchHelpBox>
-        <searchDatePicket v-else :item="item" @changeParams="operParam"></searchDatePicket>
-      </div>
+       <queryCondition :item="item" @changeParams="operParam"></queryCondition>
+    </div>
       <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
       <div v-else>&nbsp;</div>
     </div>
@@ -13,8 +11,7 @@
 </template>
 
 <script>
-  import searchHelpBox from './searchHelpBox';
-  import searchDatePicket from './searchDatePicket';
+  import queryCondition from './../../tools/query/query';
   export default {
     name: "left-table",
     data(){
@@ -32,25 +29,23 @@
       tableData:Array
     },
     components:{
-      searchHelpBox,
-      searchDatePicket
+      queryCondition
     },
     methods:{
       operData:function (data) {
         for(var i=0;i<data.length;i++){
           var obj = data[i];
-          var column = {};
-          column.ellipsis = true;
-          column.sortable = true;
-          column.title = obj.column_name;
-          column.key = obj.cell_code;
+          if(obj.is_show == '1'){
+            var column = {};
+            column.ellipsis = true;
+            column.sortable = true;
+            column.title = obj.column_name;
+            column.key = obj.cell_code;
+            this.tableColumns.push(column);
+          }
           if(obj.search_condition && obj.search_condition !=''){
             this.searchData.push(obj);
-            if(obj.ref_table && obj.ref_table !=''){
-              column.key = obj.name_field;
-            }
           }
-          this.tableColumns.push(column);
         }
       },
       operParam:function(data){
@@ -78,13 +73,13 @@
         if(data.searchType && data.searchType == "="){
           finalParam += data.cellCode+ "='" + data.value +"',";
         }else if(data.searchType){
-          if(data.dimensionType && data.dimensionType == "year"){
+          if(data.searchCondition && data.searchCondition == "year"){
             finalParam += data.cellCode+ ">='" + data.value +"-01-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-12-31 23:59:59',";
-          }else if(data.dimensionType && data.dimensionType == "month"){
+          }else if(data.searchCondition && data.searchCondition == "month"){
             finalParam += data.cellCode+ ">='" + data.value +"-01 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +"-31 23:59:59',";
-          }else if(data.dimensionType && data.dimensionType == "date"){
+          }else if(data.searchCondition && data.searchCondition == "date"){
             finalParam += data.cellCode+ ">='" + data.value +" 00:00:00',";
             finalParam += data.cellCode+ "<='" + data.value +" 23:59:59',";
           }else{
