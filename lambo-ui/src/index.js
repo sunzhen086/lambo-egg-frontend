@@ -4,6 +4,7 @@ import Table from './components/table';
 import EditTable from './components/edit-table';
 import HelpBox from './components/helpbox';
 import TreeTable from './components/tree-table';
+import Permission from './directives/permission'
 
 const version = '1.0.0';
 const install = function(Vue, config) {
@@ -19,6 +20,8 @@ const install = function(Vue, config) {
     Vue.component("LamboHelpBox", HelpBox);
     Vue.component("LamboTreeTable", TreeTable);
 
+    Vue.directive('permission',Permission);
+
 };
 
 // auto install
@@ -33,5 +36,6 @@ export default {
     Table,
     EditTable,
     HelpBox,
-    TreeTable
+    TreeTable,
+    Permission
 };
