@@ -1,6 +1,6 @@
 <template>
   <span>
-    {{searchName}}：
+    &nbsp;&nbsp;&nbsp;{{searchName}}：
     <search :searchType="searchType" :dateType="searchCondition" @onOk="setParam" @onClear="clearParam"></search>
   </span>
 </template>

@@ -69,8 +69,10 @@
       },
       goDataSubject:function () {
         this.$router.push({
-          path: '/dataSubject',
+          name: '数据查询',
           query:{
+            subjectId:1,
+            categoryId:1
           }
         })
       }

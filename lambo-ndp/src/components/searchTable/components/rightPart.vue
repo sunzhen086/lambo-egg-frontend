@@ -6,10 +6,10 @@
     <div class="main-tab">
       <Tabs type="card">
         <TabPane label="数据查询">
-          <leftTable :tableData="tableData"></leftTable>
+          <leftTable :tableData="tableData" :subjectId="subjectId"></leftTable>
         </TabPane>
         <TabPane label="数据描述">
-          <rightTable :tableData="tableData"></rightTable>
+          <rightTable :tableData="tableData" :subjectId="subjectId"></rightTable>
         </TabPane>
       </Tabs>
     </div>
@@ -18,16 +18,18 @@
 
 <script>
     import util from '@/libs/util';
-    import leftTable from './components/leftTable';
-    import rightTable from './components/rightTable';
+    import leftTable from './leftTable';
+    import rightTable from './rightTable';
     export default {
         name: "data-search",
         data() {
           return {
             pageTitle:'',
             tableData:[],
-            subjectId: this.$route.query.subjectId,
           }
+        },
+        props:{
+          subjectId:Number
         },
         components:{
           leftTable,
@@ -42,9 +44,16 @@
               var result = resp.data;
               if(result.length>0){
                 self.pageTitle = result[0].subject_name;
-                self.tableData = result;
+              }else{
+                self.pageTitle = "";
               }
+              self.tableData = result;
             });
+          }
+        },
+        watch:{
+          subjectId:function () {
+            this.initPage();
           }
         },
         mounted(){
@@ -55,9 +64,9 @@
 
 <style scoped lang="less">
   .main-body{
-    padding: 10px;
+    padding: 0px 10px;
     .main-title{
-      padding: 5px;
+      padding: 5px 5px 5px 10px;
       font-weight: bolder;
       font-size: 20px;
     }

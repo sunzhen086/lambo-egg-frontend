@@ -1,6 +1,6 @@
 <template>
   <span>
-    {{searchName}}：
+    &nbsp;&nbsp;&nbsp;{{searchName}}：
     <search :searchType="searchType" :helpBoxUrl="helpBoxUrl" :helpBoxColumns="helpBoxColumns" :title="helpBoxTitle"
           :muliSelect="muliSelect" :inputKey="inputKey" @onOk="onOk" @onClear="onClear"></search>
   </span>

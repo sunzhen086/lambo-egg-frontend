@@ -10,7 +10,7 @@
       return {
         defaultUserName:"admin",
         defaultPassword:"123456",
-        successForwardUrl: process.env.NODE_ENV == "production" ? "/demo/#/main" : "/#/main"
+        successForwardUrl: process.env.NODE_ENV == "production" ? "/ndp/#/main/mainpage" : "/#/main/mainpage"
       }
     },
     methods:{

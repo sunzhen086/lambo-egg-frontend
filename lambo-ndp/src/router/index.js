@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cookies from 'js-cookie'
-import Config from '@/config/config'
-import util from '@/libs/util';
 import login from '@/components/login/login'
 import main from '@/components/main/main'
-import frame from '@/components/frame/frame'
-import dataSubject from '@/components/dataSubject/dataSubject'
-import dataSearch from '@/components/dataSearch/dataSearch'
+import searchTable from '@/components/searchTable/searchTable'
 import table from '@/components/table/index'
 import tableEdit from '@/components/table/editTable'
 import datatable from '@/components/main/components/datatable'
@@ -19,7 +14,7 @@ import dict from '@/components/dict/index'
 import dictEdit from '@/components/dict/edit'
 import subject from '@/components/subject/index'
 import subjectEdit from '@/components/subject/edit'
-Vue.use(Router)
+Vue.use(Router);
 const router = new Router({
   routes: [
     {
@@ -33,21 +28,6 @@ const router = new Router({
       meta:{
         anonymous:true
       }
-    },
-    {
-      path: '/main',
-      name: '首页',
-      component: main
-    },
-    {
-      path: '/dataSubject',
-      name: '数据专题',
-      component: dataSubject
-    },
-    {
-      path: '/dataSearch',
-      name: '数据查询',
-      component: dataSearch
     },
     {
       path: '/table',
@@ -137,7 +117,12 @@ const router = new Router({
           path: 'overview',
           name:'行业概览',
           component: overview
-        }
+        },
+        {
+          path: 'searchTable',
+          name: '数据查询',
+          component: searchTable
+        },
       ]
     }
   ]
