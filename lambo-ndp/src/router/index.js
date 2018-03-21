@@ -100,21 +100,21 @@ const router = new Router({
     },
     {
       path: "/main",
-      name: "菜单框架",
+      name: "导航",
       component: main,
       children: [
         {
-          path: 'datatable',
+          path: '/datatable',
           name:'数据目录',
           component: datatable
         },
         {
-          path: 'mainpage',
+          path: '/mainpage',
           name:'首页',
           component: mainpage
         },
         {
-          path: 'overview',
+          path: '/overview',
           name:'行业概览',
           component: overview
         },

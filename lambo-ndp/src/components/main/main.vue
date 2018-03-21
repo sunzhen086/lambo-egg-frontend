@@ -55,14 +55,14 @@
     methods:{
       goMainpage:function () {
         this.$router.push({
-          path: '/main/mainpage',
+          path: '/mainpage',
           query:{
           }
         })
       },
       goOverview:function () {
         this.$router.push({
-          path: '/main/overview',
+          path: '/overview',
           query:{
           }
         })
