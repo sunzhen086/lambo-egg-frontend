@@ -59,7 +59,7 @@ const router = new Router({
         },
         {
           path: '/category',
-          name:'数据分类',
+          name:'分类管理',
           component: category
         },
         {
@@ -74,7 +74,7 @@ const router = new Router({
         },
         {
           path: '/dict',
-          name:'数据字典查询',
+          name:'字典管理',
           component: dict
         },
         {
@@ -89,7 +89,7 @@ const router = new Router({
         },
         {
           path: '/subject',
-          name:'数据专题管理',
+          name:'专题管理',
           component: subject
         },
         {
