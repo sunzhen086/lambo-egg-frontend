@@ -1,13 +1,11 @@
 <template>
 	<div class="lambo-grid-table">
-		<Row>
-			<Col span="19">
-			<slot name="search">
-
-			</slot>
-			</Col>
-			<Col span="5">
-				<div v-if="showTableOption">
+		<div v-if="showTableOption">
+			<Row>
+				<Col span="19">
+					<slot name="search"></slot>
+				</Col>
+				<Col span="5">
 					<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
 						<ButtonGroup>
 							<Button type="ghost" icon="refresh" title="刷新表格数据" @click="tableRefresh"></Button>
@@ -56,9 +54,9 @@
 							<Button type="error" icon="close" size="small" title="关闭" style="position:absolute;top:10px;right:10px;" @click="closeTableSettingDropdown"></Button>
 						</DropdownMenu>
 					</Dropdown>
-				</div>
-			</Col>
-		</Row>
+				</Col>
+			</Row>
+		</div>
 		<Row style="margin-top:15px;">
 			<Col span="24">
 			<Table
