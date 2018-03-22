@@ -38,7 +38,7 @@
         </p>
         <div slot="extra">
           <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增字典项</i-button>
-          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" ></lambo-edit-table>
       </Card>

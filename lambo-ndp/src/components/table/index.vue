@@ -8,7 +8,7 @@
           <Input v-model="searchTableCode" placeholder="按表名搜索" style="width: 200px" />
           <Input v-model="searchTableName" placeholder="按中文名搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="primary" @click="goCreatePage">新增</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增库表</Button>
         </div>
       </LamboTable>
     </Card>
