@@ -24,7 +24,7 @@
                 <Icon type="stats-bars"></Icon>
                 行业概览
             </MenuItem>
-            <MenuItem name="数据查询">
+            <MenuItem name="数据目录">
                 <Icon type="ios-list-outline"></Icon>
                 数据查询
             </MenuItem>
