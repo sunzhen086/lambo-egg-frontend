@@ -65,7 +65,7 @@
               categoryId:categoryId,
               subjectId:subjectId
             }).then(function (resp) {
-              
+
             });
           }
         },
