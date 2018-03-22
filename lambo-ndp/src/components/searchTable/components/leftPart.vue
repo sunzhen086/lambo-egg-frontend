@@ -56,7 +56,17 @@
                 self.$refs.sideMenu.updateActiveName();
               });
               self.$emit("changeSubject",parseInt(to.query.subjectId));
+              self.recordAction(to.query.categoryId,to.query.subjectId);
             }
+          },
+          recordAction:function (categoryId,subjectId) {
+            var self = this;
+            util.ajax.post('/manage/subjectRecord/create',{
+              categoryId:categoryId,
+              subjectId:subjectId
+            }).then(function (resp) {
+              
+            });
           }
         },
         watch:{
