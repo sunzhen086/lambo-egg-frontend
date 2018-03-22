@@ -28,7 +28,9 @@
                 <Icon type="ios-list-outline"></Icon>
                 数据目录
             </MenuItem>
+            <Button  type="success" v-permission="frameBtnPermission"   style="float: right;margin-top:15px;;" @click="goFramePage">后台管理</Button>
           </Menu>
+
         </div>
     </div>
     <div class="page-body">
@@ -39,17 +41,22 @@
 
 </template>
 <script>
-
+  import Config from '@/config/config';
   export default {
     data() {
       return {
         searchValue:"",
-        activeName:"首页"
+        activeName:"首页",
+        frameBtnPermission:'1',
+        framePage:Config.framePage
       }
     },
     methods:{
       initPage:function () {
         this.activeName = this.$route.name;
+      },
+      goFramePage:function () {
+        window.location.href = this.framePage;
       },
       changeMenu:function (name) {
         var query = {};
