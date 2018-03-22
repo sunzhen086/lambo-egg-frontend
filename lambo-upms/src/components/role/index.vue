@@ -5,8 +5,8 @@
 				<div slot="search">
 					<Input v-model="searchRoleName" placeholder="按角色标题搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="default" icon="key" @click="doSearch">角色权限</Button>
-          <Button type="default" icon="plus-round" @click="doSearch">新增角色</Button>
+          <Button type="default" icon="key" @click="doRolePermissionUpdate">角色权限</Button>
+          <Button type="default" icon="plus-round" @click="goCreatePage">新增角色</Button>
 				</div>
 			</LamboTable>
 		</Card>
