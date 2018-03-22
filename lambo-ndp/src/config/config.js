@@ -7,6 +7,7 @@ let config = {
   appContext:appContext,
   loginPage:appContext + "/#/login",
   homePage:appContext + "/#/mainpage",
+  framePage:appContext + "/#/frame",
   serverContext:"ndp-server"
 };
 export default config;

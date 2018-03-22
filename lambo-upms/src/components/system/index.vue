@@ -5,7 +5,7 @@
         <div slot="search">
           <Input v-model="searchSystemName" placeholder="按系统名称搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="default" icon="plus-round" @click="goCreatePage">新增系统</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增系统</Button>
         </div>
       </LamboTable>
     </Card>

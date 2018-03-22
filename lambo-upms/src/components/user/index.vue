@@ -5,9 +5,9 @@
 				<div slot="search">
 					<Input v-model="searchUserName" placeholder="按账号或名称搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="default" icon="ios-infinite" @click="doUserRoleUpdate">用户角色</Button>
-          <Button type="default" icon="ios-people" @click="doUserOrganUpdate">用户组织</Button>
-          <Button type="default" icon="plus-round" @click="goCreatePage">新增用户</Button>
+          <Button type="ghost" icon="ios-infinite" @click="doUserRoleUpdate">用户角色</Button>
+          <Button type="ghost" icon="ios-people" @click="doUserOrganUpdate">用户组织</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增用户</Button>
 				</div>
 			</LamboTable>
 		</Card>
