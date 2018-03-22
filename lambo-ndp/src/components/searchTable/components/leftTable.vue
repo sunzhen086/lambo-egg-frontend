@@ -3,7 +3,7 @@
     <div slot="search">
       <div class="searchArea" v-for="item in searchData" >
        <queryCondition :item="item" @changeParams="operParam"></queryCondition>
-    </div>
+      </div>
       <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
       <div v-else>&nbsp;</div>
     </div>
@@ -21,18 +21,21 @@
         tableSearchParams:{
 
         },
-        subjectId: this.$route.query.subjectId,
         params:'',
       }
     },
     props:{
-      tableData:Array
+      tableData:Array,
+      subjectId:Number,
     },
     components:{
       queryCondition
     },
     methods:{
-      operData:function (data) {
+      operData:function () {
+        this.tableColumns.splice(0,this.tableColumns.length);
+        this.searchData.splice(0,this.searchData.length);
+        var data = this.tableData;
         for(var i=0;i<data.length;i++){
           var obj = data[i];
           if(obj.is_show == '1'){
@@ -96,13 +99,13 @@
       }
     },
     watch:{
-      tableData:function (newVal,oldVal) {
-        this.operData(newVal);
+      tableData:function () {
+        this.operData();
         this.doSearch();
       }
     },
     mounted(){
-      this.operData(this.tableData);
+      this.operData();
       this.doSearch();
     }
   }
@@ -112,8 +115,10 @@
   .searchArea{
     float: left;
     margin-left: 10px;
+    margin-top: 10px;
   }
   .ml10{
+    margin-top: 10px;
     margin-left: 10px;
   }
 </style>

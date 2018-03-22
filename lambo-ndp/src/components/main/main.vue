@@ -15,24 +15,18 @@
     </div>
     <div class="page-nav">
         <div class="container">
-          <Menu mode="horizontal" theme="primary" active-name="1">
-            <MenuItem name="1">
-              <div @click="goMainpage()">
+          <Menu mode="horizontal" theme="primary" :active-name="activeName" @on-select="changeMenu">
+            <MenuItem name="首页">
                 <Icon type="home"></Icon>
                 首页
-              </div>
             </MenuItem>
-            <MenuItem name="2">
-              <div @click="goOverview()">
+            <MenuItem name="行业概览">
                 <Icon type="stats-bars"></Icon>
                 行业概览
-              </div>
             </MenuItem>
-            <MenuItem name="3">
-              <div @click="goDataSubject()">
+            <MenuItem name="数据查询">
                 <Icon type="ios-list-outline"></Icon>
-                数据目录
-              </div>
+                数据查询
             </MenuItem>
           </Menu>
         </div>
@@ -49,33 +43,30 @@
   export default {
     data() {
       return {
-        searchValue:""
+        searchValue:"",
+        activeName:"首页"
       }
     },
     methods:{
-      goMainpage:function () {
-        this.$router.push({
-          path: '/mainpage',
-          query:{
-          }
-        })
+      initPage:function () {
+        this.activeName = this.$route.name;
       },
-      goOverview:function () {
-        this.$router.push({
-          path: '/overview',
-          query:{
+      changeMenu:function (name) {
+        var query = {};
+        if(name == "数据查询"){
+          query = {
+            subjectId:1,
+            categoryId:1
           }
-        })
-      },
-      goDataSubject:function () {
+        }
         this.$router.push({
-          path: '/dataSubject',
-          query:{
-          }
+          name: name,
+          query:query
         })
       }
     },
     mounted(){
+      this.initPage();
     }
   }
 </script>

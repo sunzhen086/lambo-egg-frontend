@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cookies from 'js-cookie'
-import Config from '@/config/config'
-import util from '@/libs/util';
 import login from '@/components/login/login'
 import main from '@/components/main/main'
-import frame from '@/components/frame/frame'
-import dataSubject from '@/components/dataSubject/dataSubject'
-import dataSearch from '@/components/dataSearch/dataSearch'
+import searchTable from '@/components/searchTable/searchTable'
 import table from '@/components/table/index'
 import tableEdit from '@/components/table/editTable'
 import datatable from '@/components/main/components/datatable'
@@ -19,7 +14,8 @@ import dict from '@/components/dict/index'
 import dictEdit from '@/components/dict/edit'
 import subject from '@/components/subject/index'
 import subjectEdit from '@/components/subject/edit'
-Vue.use(Router)
+import frame from '@/components/frame/frame'
+Vue.use(Router);
 const router = new Router({
   routes: [
     {
@@ -35,83 +31,80 @@ const router = new Router({
       }
     },
     {
-      path: '/dataSubject',
-      name: '数据专题',
-      component: dataSubject
-    },
-    {
-      path: '/dataSearch',
-      name: '数据查询',
-      component: dataSearch
-    },
-    {
-      path: '/table',
-      meta:{
-        title: '库表查询',
-      },
-      name:'库表查询',
-      component: table
-    },
-    {
-      path: '/table/create',
-      meta:{
-        title: '新增库表',
-      },
-      name:'新增库表',
-      component: tableEdit
-    },
-    {
-      path: '/table/update',
-      meta:{
-        title: '修改库表',
-      },
-      name:'修改库表',
-      component: tableEdit
-    },
-    {
-      path: '/category',
-      name:'分类查询',
-      component: category
-    },
-    {
-      path: '/category/update',
-      name:'修改分类',
-      component: categoryEdit
-    },
-    {
-      path: '/category/create',
-      name:'新增分类',
-      component: categoryEdit
-    },
-    {
-      path: '/dict',
-      name:'查询数据字典',
-      component: dict
-    },
-    {
-      path: '/dict/update',
-      name:'修改数据字典',
-      component: dictEdit
-    },
-    {
-      path: '/dict/create',
-      name:'新增数据字典',
-      component: dictEdit
-    },
-    {
-      path: '/subject',
-      name:'查询专题',
-      component: subject
-    },
-    {
-      path: '/subject/update',
-      name:'修改专题',
-      component: subjectEdit
-    },
-    {
-      path: '/subject/create',
-      name:'新增专题',
-      component: subjectEdit
+      path: "/frame",
+      name: "菜单框架",
+      component: frame,
+      children: [
+        {
+          path: 'table',
+
+          name:'库表管理',
+          component: table
+        },
+        {
+          path: '/table/create',
+          meta:{
+            title: '新增库表',
+          },
+          name:'新增库表',
+          component: tableEdit
+        },
+        {
+          path: '/table/update',
+          meta:{
+            title: '修改库表',
+          },
+          name:'修改库表',
+          component: tableEdit
+        },
+        {
+          path: '/category',
+          name:'分类管理',
+          component: category
+        },
+        {
+          path: '/category/update',
+          name:'修改分类',
+          component: categoryEdit
+        },
+        {
+          path: '/category/create',
+          name:'新增分类',
+          component: categoryEdit
+        },
+        {
+          path: '/dict',
+          name:'字典管理',
+          component: dict
+        },
+        {
+          path: '/dict/update',
+          name:'修改数据字典',
+          component: dictEdit
+        },
+        {
+          path: '/dict/create',
+          name:'新增数据字典',
+          component: dictEdit
+        },
+        {
+          path: '/subject',
+          name:'专题管理',
+          component: subject
+        },
+        {
+          path: '/subject/update',
+          name:'修改专题',
+          component: subjectEdit
+        },
+        {
+          path: '/subject/create',
+          name:'新增专题',
+          component: subjectEdit
+        },
+
+
+      ]
     },
     {
       path: "/main",
@@ -132,7 +125,12 @@ const router = new Router({
           path: '/overview',
           name:'行业概览',
           component: overview
-        }
+        },
+        {
+          path: '/searchTable',
+          name: '数据查询',
+          component: searchTable
+        },
       ]
     }
   ]
