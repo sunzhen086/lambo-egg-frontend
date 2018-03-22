@@ -26,7 +26,7 @@
             </MenuItem>
             <MenuItem name="数据查询">
                 <Icon type="ios-list-outline"></Icon>
-                数据查询
+                数据目录
             </MenuItem>
           </Menu>
         </div>

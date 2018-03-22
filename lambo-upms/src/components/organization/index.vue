@@ -1,20 +1,11 @@
 <template>
 	<div>
 		<Card>
-			<p slot="title">
-				<Icon type="help-buoy"></Icon> {{title}}
-			</p>
-			<div slot="extra">
-				<a href="#" @click.prevent="goCreatePage">
-					<Icon type="plus-round"></Icon>
-					新增组织
-				</a>
-			</div>
-
 			<LamboTable dataUrl="/manage/organization/list" :columns="tableColumn" :searchParams="tableSearchParams">
 				<div slot="search">
 					<Input v-model="searchOrganName" placeholder="按组织名称搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="default" icon="plus-round" @click="goCreatePage">新增组织</Button>
 				</div>
 			</LamboTable>
 		</Card>
