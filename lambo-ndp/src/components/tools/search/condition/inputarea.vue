@@ -1,5 +1,5 @@
 <template>
-  <Input v-model="value" :placeholder="placeholder" style="width: 300px" @on-blur="changeInput" ></Input>
+  <Input v-model="value" :placeholder="placeholder" style="width: 140px" @on-blur="changeInput" ></Input>
 </template>
 
 <script>

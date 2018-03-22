@@ -1,10 +1,21 @@
 <template>
-  <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams">
+  <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams"
+              :showTableOption="showTableOption" ref="searchTable" :exportName="pageTitle">
     <div slot="search">
-      <div class="searchArea" v-for="item in searchData" >
-       <queryCondition :item="item" @changeParams="operParam"></queryCondition>
+      <div class="searchArea" v-for="item in searchData">
+        <queryCondition :item="item" @changeParams="operParam"></queryCondition>
       </div>
-      <Button type="primary" icon="ios-search" @click="doSearch" class="ml10" v-if="searchData.length>0">查询</Button>
+      <Dropdown class="exportBtn" @on-click="doExport" placement="bottom-end">
+        <Button type="primary">
+          导出
+          <Icon type="arrow-down-b"></Icon>
+        </Button>
+        <DropdownMenu slot="list">
+          <DropdownItem name="current">导出当前页</DropdownItem>
+          <DropdownItem name="all">导出全部</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Button type="primary" icon="ios-search" @click="doSearch" class="searchBtn" v-if="searchData.length>0">查询</Button>
       <div v-else>&nbsp;</div>
     </div>
   </LamboTable>
@@ -21,12 +32,14 @@
         tableSearchParams:{
 
         },
+        showTableOption:false,
         params:'',
       }
     },
     props:{
       tableData:Array,
       subjectId:Number,
+      pageTitle:String,
     },
     components:{
       queryCondition
@@ -96,6 +109,9 @@
           params: this.params,
           subjectId:this.subjectId
         }
+      },
+      doExport:function (name) {
+        this.$refs.searchTable.exportOper(name);
       }
     },
     watch:{
@@ -117,8 +133,14 @@
     margin-left: 10px;
     margin-top: 10px;
   }
-  .ml10{
+  .searchBtn{
+    margin-top: 10px;
+    float: right;
+  }
+  .exportBtn{
     margin-top: 10px;
     margin-left: 10px;
+    margin-right: 2px;
+    float: right;
   }
 </style>

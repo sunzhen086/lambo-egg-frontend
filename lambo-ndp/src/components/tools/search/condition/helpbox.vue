@@ -1,6 +1,6 @@
 <template>
   <span>
-    <Input v-model="value" placeholder="点击选择" icon="ios-search" style="width: 200px" readonly @on-focus="showHelpBox"></Input>
+    <Input v-model="value" placeholder="点击选择" icon="ios-search" style="width: 140px" readonly @on-focus="showHelpBox"></Input>
     <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle"
                     :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
     </lambo-help-box>

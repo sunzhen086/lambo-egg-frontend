@@ -1,5 +1,5 @@
 <template>
-  <DatePicker :type="dateType" :placeholder="placeholder" style="width: 200px" clearable @on-change="setParam" @on-clear="clearParam">
+  <DatePicker :type="dateType" :placeholder="placeholder" style="width: 140px" clearable @on-change="setParam" @on-clear="clearParam">
   </DatePicker>
 </template>
 

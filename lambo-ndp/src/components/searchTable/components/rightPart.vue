@@ -6,7 +6,7 @@
     <div class="main-tab">
       <Tabs type="card">
         <TabPane label="数据查询">
-          <leftTable :tableData="tableData" :subjectId="subjectId"></leftTable>
+          <leftTable :tableData="tableData" :subjectId="subjectId" :pageTitle="pageTitle"></leftTable>
         </TabPane>
         <TabPane label="数据描述">
           <rightTable :tableData="tableData" :subjectId="subjectId"></rightTable>

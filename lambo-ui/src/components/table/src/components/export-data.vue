@@ -53,7 +53,8 @@
                 default() {
                     return {};
                 }
-            }
+            },
+            exportName:String
         },
         data () {
             return {
@@ -97,7 +98,6 @@
                 if(exportType == "current"){
                     for(var key in self.paginationParams){
                         var value = self.paginationParams[key];
-                        console.log("属性：" + key + ",值：" + value);
                         var input = document.createElement("input");
                         input.setAttribute("name",key);
                         input.setAttribute("type","hidden");
@@ -107,7 +107,6 @@
                 }
                 for(var key in self.searchParams){
                     var value = self.searchParams[key];
-                    console.log("属性：" + key + ",值：" + value);
                     var input = document.createElement("input");
                     input.setAttribute("name",key);
                     input.setAttribute("type","hidden");
@@ -116,7 +115,6 @@
                 }
                 for(var key in self.sortParams){
                     var value = self.sortParams[key];
-                    console.log("属性：" + key + ",值：" + value);
                     var input = document.createElement("input");
                     input.setAttribute("name",key);
                     input.setAttribute("type","hidden");
@@ -124,6 +122,11 @@
                     tempForm.appendChild(input);
                 }
                 tempForm.submit();
+            }
+        },
+        watch:{
+            exportName:function () {
+                this.fileName = this.exportName;
             }
         }
     };

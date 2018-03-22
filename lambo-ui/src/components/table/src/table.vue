@@ -1,12 +1,20 @@
 <template>
 	<div class="lambo-grid-table">
+		<exportData ref="exportPart" style="display: none"
+					:tableColumns="tableColumns"
+					:dataUrl="dataUrl"
+					:searchParams="searchParams"
+					:sortParams="sortParams"
+					:paginationParams="paginationParams"
+					:exportName="exportName">
+		</exportData>
 		<Row>
-			<Col span="19">
+			<Col :span="showTableOption?19:24">
 			<slot name="search">
 
 			</slot>
 			</Col>
-			<Col span="5">
+			<Col :span="showTableOption?5:0">
 				<div v-if="showTableOption">
 					<Dropdown class="table-option-dropdown" trigger="custom" :visible="optionDropdownVisible" placement="bottom-end" style="float:right">
 						<ButtonGroup>
@@ -191,7 +199,8 @@
 			showTableOption:{
                 type: Boolean,
                 default: true
-			}
+			},
+			exportName:String,
 		},
 		data() {
 			return {
@@ -268,6 +277,12 @@
                     self.tableLoading = false;
 				})
 			},
+			getParams:function () {
+                return Object.assign({},this.paginationParams, this.searchParams, this.sortParams)
+            },
+            exportOper:function (type) {
+                this.$refs.exportPart.exportExcel(type);
+            },
 			onPageChange: function(currentPageIndex) {
 				this.currentPage = currentPageIndex;
 				this.tableRefresh();

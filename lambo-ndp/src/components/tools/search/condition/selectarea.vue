@@ -1,5 +1,5 @@
 <template>
-  <Select v-model="model1" style="width:200px" @on-change="changeVal">
+  <Select v-model="model1" style="width:140px" @on-change="changeVal">
     <Option v-for="item in options" :value="item.key" :key="item.key">{{ item.value }}</Option>
   </Select>
 </template>
