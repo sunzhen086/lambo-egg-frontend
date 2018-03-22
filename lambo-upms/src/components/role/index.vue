@@ -1,24 +1,12 @@
 <template>
 	<div>
 		<Card>
-			<p slot="title">
-				<Icon type="help-buoy"></Icon> {{title}}
-			</p>
-			<div slot="extra">
-				<a href="#" @click.prevent="doRolePermissionUpdate" style="margin-right:20px;">
-					<Icon type="key"></Icon>
-					角色权限
-				</a>
-				<a href="#" @click.prevent="goCreatePage">
-					<Icon type="plus-round"></Icon>
-					新增角色
-				</a>
-			</div>
-
 			<LamboTable dataUrl="/manage/role/list" :columns="tableColumn" :searchParams="tableSearchParams" @on-selection-change="onSelectionChange">
 				<div slot="search">
 					<Input v-model="searchRoleName" placeholder="按角色标题搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="default" icon="key" @click="doSearch">角色权限</Button>
+          <Button type="default" icon="plus-round" @click="doSearch">新增角色</Button>
 				</div>
 			</LamboTable>
 		</Card>

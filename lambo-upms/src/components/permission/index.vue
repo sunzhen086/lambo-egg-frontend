@@ -1,16 +1,6 @@
 <template>
 	<div>
 		<Card>
-			<p slot="title">
-				<Icon type="help-buoy"></Icon> {{title}}
-			</p>
-			<div slot="extra">
-				<a href="#" @click.prevent="goCreatePage">
-					<Icon type="plus-round"></Icon>
-					新增资源
-				</a>
-			</div>
-
 			<LamboTable dataUrl="/manage/permission/list" :columns="tableColumn" :searchParams="tableSearchParams">
 				<div slot="search">
           <Select v-model="searchPermissionType" placeholder="按权限类型搜索" style="width:200px">
@@ -19,6 +9,7 @@
           </Select>
 					<Input v-model="searchPermissionName" placeholder="按权限名称搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="default" icon="plus-round" @click="goCreatePage">新增资源</Button>
 				</div>
 			</LamboTable>
 		</Card>

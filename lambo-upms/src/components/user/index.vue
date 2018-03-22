@@ -1,27 +1,13 @@
 <template>
 	<div>
 		<Card>
-			<p slot="title">
-				<Icon type="help-buoy"></Icon> {{title}}
-			</p>
-			<div slot="extra">
-				<a href="#" @click.prevent="doUserRoleUpdate" style="margin-right:15px;">
-					<Icon type="ios-infinite"></Icon>
-					用户角色
-				</a>
-				<a href="#" @click.prevent="doUserOrganUpdate" style="margin-right:15px;">
-					<Icon type="ios-people"></Icon>
-					用户组织
-				</a>
-				<a href="#" @click.prevent="goCreatePage">
-					<Icon type="plus-round"></Icon>
-					新增用户
-				</a>
-			</div>
 			<LamboTable dataUrl="/manage/user/list" :columns="tableColumn" :searchParams="tableSearchParams" @on-selection-change="onSelectionChange">
 				<div slot="search">
 					<Input v-model="searchUserName" placeholder="按账号或名称搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
+          <Button type="default" icon="ios-infinite" @click="doUserRoleUpdate">用户角色</Button>
+          <Button type="default" icon="ios-people" @click="doUserOrganUpdate">用户组织</Button>
+          <Button type="default" icon="plus-round" @click="goCreatePage">新增用户</Button>
 				</div>
 			</LamboTable>
 		</Card>
