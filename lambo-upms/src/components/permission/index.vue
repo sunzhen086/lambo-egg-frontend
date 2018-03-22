@@ -9,7 +9,7 @@
           </Select>
 					<Input v-model="searchPermissionName" placeholder="按权限名称搜索" style="width: 200px" />
 					<Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="default" icon="plus-round" @click="goCreatePage">新增资源</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增资源</Button>
 				</div>
 			</LamboTable>
 		</Card>
