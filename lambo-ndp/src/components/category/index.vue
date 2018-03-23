@@ -1,9 +1,6 @@
 <template>
   <div>
     <Card>
-      <p slot="title">
-        {{title}}
-      </p>
       <div slot="extra"></div>
       <LamboTable ref="table" dataUrl="/manage/cateGoryData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
