@@ -3,6 +3,7 @@
   <div>
     <Card>
       <p slot="title">
+        {{title}}
       </p>
       <div slot="extra">
         <Button type="primary" @click="formSubmit">保存</Button>
@@ -34,10 +35,10 @@
         </Col>
       </Row>
 
-    </Card>
+
     <Row>
       <Col span="24">
-      <Card>
+
         <p slot="title">
           <Icon type="help-buoy"></Icon> 数据项信息
         </p>
@@ -45,10 +46,10 @@
           <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" ></lambo-edit-table>
-      </Card>
+
       </Col>
     </Row>
-
+    </Card>
   </div>
 </template>
 

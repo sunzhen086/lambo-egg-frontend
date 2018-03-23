@@ -32,10 +32,10 @@
       </Row>
 
 
-    </Card>
+
     <Row>
       <Col span="24">
-      <Card>
+
         <p slot="title">
           <Icon type="help-buoy"></Icon> 库表数据元
         </p>
@@ -44,10 +44,11 @@
           <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
-      </Card>
+
       </Col>
     </Row>
     </Row>
+    </Card>
   </div>
 </template>
 
@@ -195,16 +196,16 @@
           key: 'cellName',
           width: '15%',
           editor: {
-            type: "text",
+            type:"text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
+            validate:function(newVal,oldVal,row,index){
+              if(newVal.trim() == ""){
+                return{
+                  valid:false,
+                  msg:"输入不能为空！"
                 }
               }
-              return {valid: true}
+              return{valid:true}
             }
           }
         });
@@ -223,16 +224,6 @@
           width: '15%',
           editor: {
             type: "text",
-            //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
-                }
-              }
-              return {valid: true}
-            }
           }
         });
         columns.push(  {
@@ -242,16 +233,6 @@
           width: '15%',
           editor: {
             type: "text",
-            //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
-                }
-              }
-              return {valid: true}
-            }
           }
         });
         columns.push({
@@ -275,28 +256,31 @@
       formSubmit(){
 
         var self = this;
+        self.$refs.form.validate((valid) => {
+          if (valid) {
+            if (self.form.tablecode) {
+              var params = {
+                tableCode: self.form.tablecode,
+                tableName: self.form.tablename,
+                tableDesc: self.form.tabledesc,
+                TableCellss: JSON.stringify(this.$refs.table1.getTableData())
+              }
+              if (self.tableId) {  //修改
+                util.ajax.post("/manage/tableData/update/" + self.tableId, params).then(function (resp) {
+                  self.$Message.success('保存成功');
+                })
+              } else { //新增
+                util.ajax.post("/manage/tableData/create", params).then(function (resp) {
+                  self.$Message.success('新增成功');
+                  //self.created = true;
+                })
+              }
 
-          if(self.form.tablecode) {
-            var params = {
-              tableCode: self.form.tablecode,
-              tableName: self.form.tablename,
-              tableDesc: self.form.tabledesc,
-              TableCellss:JSON.stringify(this.$refs.table1.getTableData())
+            } else {
+              self.$Message.error("表名称不能为空");
             }
-            if(self.tableId) {  //修改
-              util.ajax.post("/manage/tableData/update/" + self.tableId, params).then(function(resp) {
-                self.$Message.success('保存成功');
-              })
-            } else { //新增
-              util.ajax.post("/manage/tableData/create", params).then(function(resp) {
-                self.$Message.success('新增成功');
-                //self.created = true;
-              })
-            }
-
-          }else{
-            self.$Message.error("表名称不能为空");
           }
+        })
 
       },
       getTableData:function(){
