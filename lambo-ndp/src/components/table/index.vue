@@ -67,8 +67,9 @@
         let columns = [];
         let self = this;
         columns.push({
+          title: '序号',
           key: 'tableId',
-          type:"selection",
+          type:"index",
           align:"center"
         });
         columns.push({

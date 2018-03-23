@@ -62,8 +62,9 @@
         let self = this;
         columns.push({
           key: 'categoryId',
-          type:"selection",
-          align:"center"
+          title: '序号',
+          type: 'index',
+          align: 'center'
         });
         columns.push({
           title: '名称',

@@ -64,8 +64,9 @@
         let columns = [];
         let self = this;
         columns.push({
+          title: '序号',
           key: 'subjectId',
-          type:"selection",
+          type:"index",
           align:"center"
         });
         columns.push({

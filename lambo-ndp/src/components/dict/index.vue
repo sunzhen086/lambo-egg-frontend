@@ -67,9 +67,9 @@
         let columns = [];
         let self = this;
         columns.push({
-          key: '',
-          type:"selection",
-          align:"center"
+          title: '序号',
+          type: 'index',
+          align: 'center'
         });
         columns.push({
           title: '标识',
