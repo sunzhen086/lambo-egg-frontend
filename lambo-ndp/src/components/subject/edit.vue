@@ -3,6 +3,7 @@
   <div>
     <Card>
       <p slot="title">
+        {{title}}
       </p>
       <div slot="extra">
         <Button type="primary" @click="formSubmit">保存</Button>
@@ -34,21 +35,21 @@
         </Col>
       </Row>
 
-    </Card>
+
     <Row>
       <Col span="24">
-      <Card>
+
         <p slot="title">
           <Icon type="help-buoy"></Icon> 数据项信息
         </p>
         <div slot="extra">
-          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" ></lambo-edit-table>
-      </Card>
+
       </Col>
     </Row>
-
+    </Card>
   </div>
 </template>
 
@@ -151,10 +152,7 @@
           title: '字段名称',
           align: 'center',
           key: 'cellCode',
-          width: '15%',
-          editor: {
-            type: "text",
-          }
+          width: '15%'
         });
         columns.push(
           {
@@ -167,15 +165,17 @@
               enums:[{"value":"province","label":"省公司纬度"},{"value":"city","label":"市公司纬度"},{"value":"brand","label":"品牌纬度"},{"value":"item","label":"商品纬度"},{"value":"year","label":"日期纬度(年)"},{"value":"month","label":"日期纬度(月)"},{"value":"date","label":"日期纬度(日)"}]
             }
           });
-        columns.push( {
-          title: '设置',
-          align: 'center',
-          key: 'searchSetting',
-          width: '15%',
-          editor: {
-            type: "text",
-          }
-        });
+        columns.push(
+          {
+            title: '显示',
+            align: 'center',
+
+            key: 'isShow',
+            editor:{
+              type:"select",
+              enums:[{"value":"1","label":"显示"},{"value":"0","label":"隐藏"}]
+            }
+          });
         columns.push( {
           title: '排序',
           align: 'center',
@@ -185,17 +185,17 @@
             type: "text",
           }
         });
-        columns.push(
-        {
-          title: '操作',
+        columns.push( {
+          title: '设置',
           align: 'center',
-
-          key: 'isShow',
-          editor:{
-          type:"select",
-            enums:[{"value":"1","label":"显示"},{"value":"0","label":"隐藏"}]
-        }
+          key: 'searchSetting',
+          width: '15%',
+          editor: {
+            type: "text",
+          }
         });
+
+
         return columns;
       }
     },

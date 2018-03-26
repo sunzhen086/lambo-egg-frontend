@@ -64,11 +64,17 @@ const router = new Router({
         },
         {
           path: '/category/update',
+          meta:{
+            title: '修改分类',
+          },
           name:'修改分类',
           component: categoryEdit
         },
         {
           path: '/category/create',
+          meta:{
+            title: '新增分类',
+          },
           name:'新增分类',
           component: categoryEdit
         },
@@ -79,11 +85,17 @@ const router = new Router({
         },
         {
           path: '/dict/update',
+          meta:{
+            title: '修改数据字典',
+          },
           name:'修改数据字典',
           component: dictEdit
         },
         {
           path: '/dict/create',
+          meta:{
+            title: '新增数据字典',
+          },
           name:'新增数据字典',
           component: dictEdit
         },
@@ -94,11 +106,17 @@ const router = new Router({
         },
         {
           path: '/subject/update',
+          meta:{
+            title: '修改专题',
+          },
           name:'修改专题',
           component: subjectEdit
         },
         {
           path: '/subject/create',
+          meta:{
+            title: '新增专题',
+          },
           name:'新增专题',
           component: subjectEdit
         },

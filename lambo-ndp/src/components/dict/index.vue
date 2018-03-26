@@ -8,7 +8,7 @@
           <Input v-model="searchDictId" placeholder="按标识搜索" style="width: 200px" />
           <Input v-model="searchDictName" placeholder="按名称搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="primary" @click="goCreatePage">新增</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增字典</Button>
         </div>
       </LamboTable>
     </Card>
@@ -67,9 +67,9 @@
         let columns = [];
         let self = this;
         columns.push({
-          key: '',
-          type:"selection",
-          align:"center"
+          title: '序号',
+          type: 'index',
+          align: 'center'
         });
         columns.push({
           title: '标识',

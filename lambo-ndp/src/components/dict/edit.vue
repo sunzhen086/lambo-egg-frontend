@@ -3,7 +3,7 @@
   <div>
     <Card>
       <p slot="title">
-
+        {{title}}
       </p>
       <div slot="extra">
         <Button type="primary" @click="formSubmit">保存</Button>
@@ -29,22 +29,23 @@
       </Row>
 
 
-    </Card>
+
     <Row>
       <Col span="24">
-      <Card>
+
         <p slot="title">
           <Icon type="help-buoy"></Icon> 字典项信息
         </p>
         <div slot="extra">
           <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增字典项</i-button>
-          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" ></lambo-edit-table>
-      </Card>
+
       </Col>
     </Row>
     </Row>
+    </Card>
   </div>
 </template>
 
@@ -95,6 +96,9 @@
       dictId: function() {
         return this.$route.query.dictId;
       },
+    title: function() {
+      return this.$route.meta.title;
+    },
       columns() {
         let columns = [];
         let self = this;

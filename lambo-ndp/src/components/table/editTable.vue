@@ -32,22 +32,23 @@
       </Row>
 
 
-    </Card>
+
     <Row>
       <Col span="24">
-      <Card>
+
         <p slot="title">
           <Icon type="help-buoy"></Icon> 库表数据元
         </p>
         <div slot="extra">
           <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
-          <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
         </div>
         <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
-      </Card>
+
       </Col>
     </Row>
     </Row>
+    </Card>
   </div>
 </template>
 
@@ -195,16 +196,16 @@
           key: 'cellName',
           width: '15%',
           editor: {
-            type: "text",
+            type:"text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
+            validate:function(newVal,oldVal,row,index){
+              if(newVal.trim() == ""){
+                return{
+                  valid:false,
+                  msg:"输入不能为空！"
                 }
               }
-              return {valid: true}
+              return{valid:true}
             }
           }
         });
@@ -223,16 +224,6 @@
           width: '15%',
           editor: {
             type: "text",
-            //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
-                }
-              }
-              return {valid: true}
-            }
           }
         });
         columns.push(  {
@@ -242,16 +233,6 @@
           width: '15%',
           editor: {
             type: "text",
-            //校验函数,参数分别为：新值、旧值、行数据、行号
-            validate: function (newVal, oldVal, row, index) {
-              if (newVal.trim() == "") {
-                return {
-                  valid: false,
-                  msg: "输入不能为空！"
-                }
-              }
-              return {valid: true}
-            }
           }
         });
         columns.push({
@@ -275,28 +256,31 @@
       formSubmit(){
 
         var self = this;
+        self.$refs.form.validate((valid) => {
+          if (valid) {
+            if (self.form.tablecode) {
+              var params = {
+                tableCode: self.form.tablecode,
+                tableName: self.form.tablename,
+                tableDesc: self.form.tabledesc,
+                TableCellss: JSON.stringify(this.$refs.table1.getTableData())
+              }
+              if (self.tableId) {  //修改
+                util.ajax.post("/manage/tableData/update/" + self.tableId, params).then(function (resp) {
+                  self.$Message.success('保存成功');
+                })
+              } else { //新增
+                util.ajax.post("/manage/tableData/create", params).then(function (resp) {
+                  self.$Message.success('新增成功');
+                  //self.created = true;
+                })
+              }
 
-          if(self.form.tablecode) {
-            var params = {
-              tableCode: self.form.tablecode,
-              tableName: self.form.tablename,
-              tableDesc: self.form.tabledesc,
-              TableCellss:JSON.stringify(this.$refs.table1.getTableData())
+            } else {
+              self.$Message.error("表名称不能为空");
             }
-            if(self.tableId) {  //修改
-              util.ajax.post("/manage/tableData/update/" + self.tableId, params).then(function(resp) {
-                self.$Message.success('保存成功');
-              })
-            } else { //新增
-              util.ajax.post("/manage/tableData/create", params).then(function(resp) {
-                self.$Message.success('新增成功');
-                //self.created = true;
-              })
-            }
-
-          }else{
-            self.$Message.error("表名称不能为空");
           }
+        })
 
       },
       getTableData:function(){
@@ -327,8 +311,14 @@
         if(selectData){
           let COLUMN_NAME = selectData.COLUMN_NAME;
           //let dictName = selectData.dictName;
-          //console.log("COLUMN_NAME:"+COLUMN_NAME);
-          this.datacolumn.push(COLUMN_NAME);
+
+          //this.datacolumn.push(COLUMN_NAME);
+          for(var i=0;i<this.datacolumn.length;i++){
+            if(COLUMN_NAME==this.datacolumn[i]){
+              this.datacolumn.splice(i, 1);
+              break;
+            }
+          }
           this.$set(this.datas[rowIndex],'cellCode',COLUMN_NAME);
           //this.$set(this.datas[rowIndex],'dictName',dictName);
         }else{
@@ -345,9 +335,21 @@
         this.result=result.table_name;
         this.form.tablecode=result.table_name;
         //console.log(this.datacolumns);
+        var self = this;
+        util.ajax.get("/manage/tableData/getColumn/" + self.form.tablecode).then(function(resp) {
+          var result = resp.data.data;
+          for(var i=0;i<result.length;i++){
+
+              self.datas.push(result[i]);
+
+          }
+        });
       },
       onClear:function(){
         this.result="";
+        this.form.tablecode="";
+        this.form.tablename="";
+        this.datas.splice(0,this.datas.length);//清除之前的数据
       },
       initData:function(){
         var self = this;
@@ -384,13 +386,18 @@
         }
       },
       doDelete: function(currentRow,index) {
-        var self = this;
-        for(var i=0;i<self.datacolumn.length;i++){
-          if(currentRow.cellCode==self.datacolumn[i]){
-            self.datacolumn.splice(index, 1);
-            break;
-          }
+        if(currentRow.cellCode!=null && currentRow.cellCode.length>0){
+          this.datacolumn.push(currentRow.cellCode);
         }
+
+         var self = this;
+        // for(var i=0;i<self.datacolumn.length;i++){
+        //   if(currentRow.cellCode==self.datacolumn[i]){
+        //     //self.datacolumn.splice(index, 1);
+        //     self.datacolumn.push(currentRow.cellCode);
+        //     break;
+        //   }
+        // }
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
@@ -398,6 +405,7 @@
             self.datas.splice(index,1);
           }
         });
+
       }
     },
     mounted(){

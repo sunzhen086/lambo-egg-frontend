@@ -6,7 +6,7 @@
         <div slot="search">
           <Input v-model="searchSubjectName" placeholder="按专题搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="primary" @click="goCreatePage">新增</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增专题</Button>
         </div>
       </LamboTable>
     </Card>
@@ -64,8 +64,9 @@
         let columns = [];
         let self = this;
         columns.push({
+          title: '序号',
           key: 'subjectId',
-          type:"selection",
+          type:"index",
           align:"center"
         });
         columns.push({

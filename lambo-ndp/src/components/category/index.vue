@@ -1,13 +1,12 @@
 <template>
   <div>
     <Card>
-
       <div slot="extra"></div>
       <LamboTable ref="table" dataUrl="/manage/cateGoryData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
           <Input v-model="searchDescription" placeholder="按分类搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="primary" @click="goCreatePage">新增</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增分类</Button>
         </div>
       </LamboTable>
     </Card>
@@ -63,8 +62,9 @@
         let self = this;
         columns.push({
           key: 'categoryId',
-          type:"selection",
-          align:"center"
+          title: '序号',
+          type: 'index',
+          align: 'center'
         });
         columns.push({
           title: '名称',
