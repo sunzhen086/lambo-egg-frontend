@@ -24,7 +24,7 @@
 
 <script>
   import queryCondition from './../../tools/query/query';
-  import codeModal from '../../codeModal/codeModal';
+  import codeModal from '../../tools/codeModal/codeModal';
   export default {
     name: "left-table",
     data(){
