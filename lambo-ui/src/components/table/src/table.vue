@@ -399,7 +399,7 @@
         }
 	}
 </script>
-<style>
+<style lang="less">
 	.lambo-grid-table{
 		.ivu-select-dropdown{
 
