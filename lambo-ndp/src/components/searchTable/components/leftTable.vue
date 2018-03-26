@@ -1,6 +1,6 @@
 <template>
   <LamboTable dataUrl="/manage/dataSubject/getTableData" :columns="tableColumns" :searchParams="tableSearchParams"
-              :showTableOption="showTableOption" ref="searchTable" :exportName="pageTitle">
+              :showTableOption="showTableOption" ref="searchTable" :exportName="pageTitle" :transformResponse="transformResponse">
     <div slot="search">
       <div class="searchArea" v-for="item in searchData">
         <queryCondition :item="item" @changeParams="operParam"></queryCondition>
@@ -17,12 +17,14 @@
       </Dropdown>
       <Button type="primary" icon="ios-search" @click="doSearch" class="searchBtn" v-if="searchData.length>0">查询</Button>
       <div v-else>&nbsp;</div>
+      <codeModal :openCodeModal="openCodeModal" @closeModal="closeModal"></codeModal>
     </div>
   </LamboTable>
 </template>
 
 <script>
   import queryCondition from './../../tools/query/query';
+  import codeModal from '../../codeModal/codeModal';
   export default {
     name: "left-table",
     data(){
@@ -34,6 +36,7 @@
         },
         showTableOption:false,
         params:'',
+        openCodeModal:false
       }
     },
     props:{
@@ -42,9 +45,19 @@
       pageTitle:String,
     },
     components:{
-      queryCondition
+      queryCondition,
+      codeModal
     },
     methods:{
+      transformResponse:function (data) {
+        if("code" in data && data.code == "20001"){
+          this.openCodeModal = true;
+        }
+        return data;
+      },
+      closeModal:function () {
+        this.openCodeModal = false;
+      },
       operData:function () {
         this.tableColumns.splice(0,this.tableColumns.length);
         this.searchData.splice(0,this.searchData.length);

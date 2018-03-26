@@ -1,8 +1,8 @@
 <template>
     <Breadcrumb>
-        <BreadcrumbItem 
+        <BreadcrumbItem
             v-for="item in currentPath"
-            :href="item.path" 
+            :to="item.path"
             :key="item.name"
         >{{item.title}}</BreadcrumbItem>
     </Breadcrumb>
@@ -16,6 +16,11 @@ export default {
     },
     methods: {
 
+    },
+    watch:{
+        currentPath:function () {
+            console.log(JSON.stringify(this.currentPath));
+        }
     }
 };
 </script>

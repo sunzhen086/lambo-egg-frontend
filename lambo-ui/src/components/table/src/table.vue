@@ -200,7 +200,19 @@
                 type: Boolean,
                 default: true
 			},
-            exportName:String
+            exportName:String,
+            transformRequest:{
+                type:Function,
+                default:function (data) {
+                    return data;
+                }
+			},
+            transformResponse:{
+			    type:Function,
+				default:function (data) {
+					return data;
+                }
+			}
 		},
 		data() {
 			return {
@@ -265,7 +277,10 @@
 				var self = this;
 				self.tableLoading = true;
 				util.ajax.get(self.dataUrl, {
-					params: Object.assign({},self.paginationParams, self.searchParams, self.sortParams)
+					params: Object.assign({},self.paginationParams, self.searchParams, self.sortParams),
+                    transformRequest:[self.transformRequest],
+                    transformResponse:[self.transformResponse],
+                    responseType: 'json'
 				}).then(function(resp) {
 				    if("code" in resp.data){
                         self.tableData = resp.data.data.rows;
@@ -275,7 +290,7 @@
                         self.totalNumber = resp.data.total;
 					}
                     self.tableLoading = false;
-				})
+				});
 			},
             getParams:function () {
                 return Object.assign({},this.paginationParams, this.searchParams, this.sortParams)

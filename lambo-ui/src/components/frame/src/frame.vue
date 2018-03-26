@@ -12,11 +12,13 @@
               :menuList="menuList" :menuTheme="menuTheme"
               :iconSize="14" @currentPath = "changeCurrentPath"
               @pageOpenedList = "changePageOpenedList" @currentPageName = "changeCurrentPageName"
+              @hasOpenChild = "openChild" @oldCurrentPageName = "changeOldCurrentPageName"
             />
             <sidebar-menu-shrink v-else
                 :icon-color="menuIconColor" :menuTheme="menuTheme"
                 :menuList="menuList" @currentPath = "changeCurrentPath"
                 @pageOpenedList = "changePageOpenedList" @currentPageName = "changeCurrentPageName"
+                @hasOpenChild = "openChild" @oldCurrentPageName = "changeOldCurrentPageName"
             />
         </div>
         <div class="main-header-con" :style="{paddingLeft: hideMenuText?'60px':'200px'}">
@@ -49,7 +51,7 @@
                 </div>
             </div>
             <div class="tags-con">
-                <tags-page-opened :pageOpenedList="pageOpenedList" :currentPageName="currentPageName"></tags-page-opened>
+                <tags-page-opened :pageOpenedList="pageOpenedList" :currentPageName="currentPageName" :hasOpenChild="hasOpenChild" :oldCurrentPageName="oldCurrentPageName"></tags-page-opened>
             </div>
         </div>
         <div class="single-page-con" :style="{left: hideMenuText?'60px':'200px'}">
@@ -103,6 +105,8 @@
                 currentPath:[],
                 pageOpenedList:[],
                 tagsList:[],
+                hasOpenChild:0,
+                oldCurrentPageName:""
             };
         },
         computed: {
@@ -119,6 +123,8 @@
                 this.currentPath = localStorage.currentPath ? JSON.parse(localStorage.currentPath) : [];
                 this.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [];
                 this.currentPageName = localStorage.currentPageName ? localStorage.currentPageName : '';
+                this.hasOpenChild = localStorage.hasOpenChild ? localStorage.hasOpenChild : 0;
+                this.oldCurrentPageName = localStorage.oldCurrentPageName ? localStorage.oldCurrentPageName : '';
             },
             toggleClick () {
                 this.hideMenuText = !this.hideMenuText;
@@ -143,12 +149,19 @@
                         this.tagsList.push(menuList[i]);
                     }
                 }
+            },
+            openChild(data){
+                this.hasOpenChild = data;
+            },
+            changeOldCurrentPageName(data){
+                this.oldCurrentPageName = data;
             }
         },
         watch: {
             menuList(data){
                 if(data){
                     localStorage.menuList = JSON.stringify(data);
+                    console.log("tagsList=="+localStorage.menuList);
                     this.setTagsList(data);
                     localStorage.tagsList = JSON.stringify(this.tagsList);
                 }

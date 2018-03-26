@@ -38,7 +38,9 @@
         data () {
             return {
                 currentPageName: 0,
-                openedSubmenuArr: []
+                openedSubmenuArr: [],
+                hasOpenChild:0,
+                oldCurrentPageName:'',
             };
         },
         components: {
@@ -49,7 +51,6 @@
         },
         methods: {
             changeMenu (active) {
-                localStorage.activeName = active;
                 util.openNewPage(active);
                 this.$router.push({
                     name: active
@@ -57,19 +58,44 @@
             },
         },
         watch: {
-            '$route' (to) {
-                this.currentPageName = to.name;
+            '$route' (to,from) {
+                //改变当前页的名称
+                this.oldCurrentPageName = localStorage.oldCurrentPageName = from.name;
+                let currentPageName = this.currentPageName = to.name;
                 //改变currentPath
-                var path = {
-                    title:to.meta.title,
-                    path:to.path,
-                    name:to.name
+                let menuList = JSON.parse(localStorage.tagsList) || [];
+                let pathstr = "", currentPath = [];
+                for(let menu of menuList){
+                    if(menu.name === currentPageName){
+                        pathstr = menu.path;
+                        break;
+                    }
                 }
-                var currentPath = [];
-                currentPath.push(path);
+                if(pathstr == ""){
+                    currentPath = JSON.parse(localStorage.currentPath);
+                    currentPath.push({
+                        title:currentPageName,
+                        name:currentPageName
+                    });
+                    this.hasOpenChild = localStorage.hasOpenChild = 1;
+                }else{
+                    let pathNams = pathstr.split("#");
+                    for(let name of pathNams){
+                        if(name){
+                            let path = {
+                                title:name,
+                                name:name
+                            };
+                            currentPath.push(path);
+                        }
+                    }
+                    this.hasOpenChild = localStorage.hasOpenChild = 0;
+                }
                 this.$emit("currentPath",currentPath);
                 localStorage.currentPath = JSON.stringify(currentPath);
                 //改变pageTagsList
+                this.$emit("hasOpenChild",this.hasOpenChild);
+                this.$emit("oldCurrentPageName",this.oldCurrentPageName);
                 this.$emit("pageOpenedList",JSON.parse(localStorage.pageOpenedList));
                 this.$emit("currentPageName",this.currentPageName);
             }

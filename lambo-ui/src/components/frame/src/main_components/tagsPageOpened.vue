@@ -27,7 +27,7 @@
                         @on-close="closePage"
                         @click.native="linkTo(item)"
                         :closable="item.name==='home_index'?false:true"
-                        :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
+                        :color="item.children?((item.children[0].name===currentPageName || hasOpenChild=='1' && item.children[0].name == oldCurrentPageName)?'blue':'default'):((item.name===currentPageName || hasOpenChild=='1' && item.name == oldCurrentPageName)?'blue':'default')"
                 >{{ item.title }}</Tag>
             </transition-group>
         </div>
@@ -47,7 +47,9 @@
         },
         props: {
             pageOpenedList: Array,
-            currentPageName: [Number, String]
+            currentPageName: [Number, String],
+            hasOpenChild:[Number,String],
+            oldCurrentPageName:[Number, String],
         },
         computed: {
 
