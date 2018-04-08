@@ -1,0 +1,45 @@
+export default  [
+  {
+    rank:1,
+    provinceName:"北京",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  },
+  {
+    rank:1,
+    provinceName:"大连",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  },
+  {
+    rank:1,
+    provinceName:"济南",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  },
+  {
+    rank:1,
+    provinceName:"青岛",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  },
+  {
+    rank:1,
+    provinceName:"泰安",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  },
+  {
+    rank:"",
+    provinceName:"时间进度",
+    measure1:2563,
+    measure2:1025,
+    rate:0.66
+  }
+];
+

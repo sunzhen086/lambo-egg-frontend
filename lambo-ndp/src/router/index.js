@@ -1,20 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/login/login'
-import main from '@/components/main/main'
-import searchTable from '@/components/searchTable/searchTable'
-import table from '@/components/table/index'
-import tableEdit from '@/components/table/editTable'
-import datatable from '@/components/main/components/datatable'
-import mainpage from '@/components/main/components/mainpage'
-import overview from '@/components/overview/overview'
-import category from '@/components/category/index'
-import categoryEdit from '@/components/category/edit'
-import dict from '@/components/dict/index'
-import dictEdit from '@/components/dict/edit'
-import subject from '@/components/subject/index'
-import subjectEdit from '@/components/subject/edit'
+
 import frame from '@/components/frame/frame'
+
+import table from '@/components/manage/table/index'
+import tableEdit from '@/components/manage/table/editTable'
+import category from '@/components/manage/category/index'
+import categoryEdit from '@/components/manage/category/edit'
+import dict from '@/components/manage/dict/index'
+import dictEdit from '@/components/manage/dict/edit'
+import subject from '@/components/manage/subject/index'
+import subjectEdit from '@/components/manage/subject/edit'
+
+import mainNav from '@/components/open-data/main-nav'
+import categoryNav from '@/components/open-data/category-nav'
+import homePage from '@/components/open-data/mainpage/mainpage'
+import categoryOverView from '@/components/open-data/category/overview/overview'
+import dataview from '@/components/open-data/dataview/dataview';
+import datadetail from '@/components/open-data/datadetail/datadetail';
+import viewPage from '@/components/open-data/overview/overview';
+import dataPage from '@/components/open-data/datatable/datatable';
+import feedback from '@/components/open-data/feedback/feedback';
 Vue.use(Router);
 const router = new Router({
   routes: [
@@ -148,8 +155,58 @@ const router = new Router({
           path: '/searchTable',
           name: '数据查询',
           component: searchTable
-        },
+        }
       ]
+    },
+    {
+      path:"/open-data",
+      name: "顶部导航",
+      component: mainNav,
+      children:[
+        {
+          path: '/home',
+          name:'新首页',
+          component: homePage
+        },
+        {
+          path:"/view",
+          name:'数据概览',
+          component:viewPage
+        },
+        {
+          path:"/data",
+          name:'新数据目录',
+          component:dataPage
+        },
+        {
+          path:"/detail",
+          name:'数据明细',
+          component:datadetail
+        },
+        {
+          path: '/category-nav',
+          name:'分类',
+          component: categoryNav,
+          children:[
+            {
+              path: '/category/overview',
+              name:'分类总览',
+              component: categoryOverView
+            },
+            {
+              path:"/category/dataview",
+              name:'分类数据',
+              component:dataview
+            },
+            {
+              path:"/category/feedback",
+              name:'分类反馈',
+              component:feedback
+            }
+          ]
+        }
+      ]
+
     }
   ]
 })
