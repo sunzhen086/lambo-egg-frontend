@@ -1,23 +1,30 @@
 <template>
   <div class="container">
-    <Table :data="tableDatas" :columns="tableColumns"></Table>
+    <Table :data="tableDatas" :columns="tableColumns" :width="500"></Table>
   </div>
 
 </template>
 
 <script>
-    import tableDatas from "./tableDatas";
     import Bar from "./bar";
     export default {
       props:{
-        measureCode:{
-          type:String,
-          default:"measure1"
+        tableDatas:{
+          type:Array,
+          default:function(){
+            return []
+          }
+        },
+        tableColumns:{
+          type:Array,
+          default:function(){
+            return []
+          }
         }
       },
       data(){
         return {
-          tableDatas:tableDatas,
+          /*tableDatas:tableDatas,
           tableColumns:[
             {
               title:"排名",
@@ -41,7 +48,7 @@
             },
             {
               title:"进度",
-              key:"rate",
+              key:"progress",
               width:120,
               render:(h,params) => {
                 return h(Bar,{
@@ -51,14 +58,15 @@
                 })
               }
             }
-          ]
+          ]*/
         }
+      },
+      watch: {
       },
       created(){
 
       },
       mounted:function(){
-        //alert(this.tableDatas);
       }
     }
 </script>

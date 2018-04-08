@@ -13,37 +13,37 @@
       return {
         btns:[
           {
-            code:"measure1",
+            code:"SaleProcess",
             label:"销售进度",
             active:true
           },
           {
-            code:"measure2",
+            code:"SaleSameRate",
             label:"销量同比",
             active:false
           },
           {
-            code:"measure3",
+            code:"BoxPrice",
             label:"单箱值",
             active:false
           },
           {
-            code:"measure4",
-            label:"正常经营户",
+            code:"CustNum",
+            label:"正常经营户数",
             active:false
           },
           {
-            code:"measure5",
+            code:"BigCust",
             label:"大户占比",
             active:false
           },
           {
-            code:"measure6",
+            code:"SelfregGroup",
             label:"自律互助小组",
             active:false
           },
           {
-            code:"measure7",
+            code:"TerminalBulid",
             label:"现代终端建设",
             active:false
           }
