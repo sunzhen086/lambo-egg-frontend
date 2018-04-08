@@ -9,8 +9,8 @@
           </div>
           <div class="right">
             <div class="label">销售量</div>
-            <div class="value color1">5785<span class="unit">万箱</span></div>
-            <div class="desc color1">销售进度72.68%</div>
+            <div class="value color1">{{measures.SALE_QTY}}<span class="unit">万箱</span></div>
+            <div class="desc color1">销售进度{{measures.SALE_PROGRESS}}%</div>
           </div>
         </div>
         </Col>
@@ -20,9 +20,9 @@
             <div class="icon icon2"></div>
           </div>
           <div class="right">
-            <div class="label">销售量</div>
-            <div class="value color2">5785<span class="unit">万箱</span></div>
-            <div class="desc color2">销售进度72.68%</div>
+            <div class="label">单箱销售收入</div>
+            <div class="value color2">{{measures.BOX_PRICE}}<span class="unit">元</span></div>
+            <div class="desc color2">同比增长{{measures.BOX_PRICE_GROWTH}}%</div>
           </div>
         </div>
         </Col>
@@ -32,9 +32,9 @@
             <div class="icon icon3"></div>
           </div>
           <div class="right">
-            <div class="label">销售量</div>
-            <div class="value color3">5785<span class="unit">万箱</span></div>
-            <div class="desc color3">销售进度72.68%</div>
+            <div class="label">零售户数</div>
+            <div class="value color3">{{measures.CUST_NUM}}<span class="unit">户</span></div>
+            <div class="desc color3">同比增长{{measures.CUST_NUM_GROWTH}}%</div>
           </div>
         </div>
         </Col>
@@ -44,9 +44,9 @@
             <div class="icon icon4"></div>
           </div>
           <div class="right">
-            <div class="label">销售量</div>
-            <div class="value color4">5785<span class="unit">万箱</span></div>
-            <div class="desc color4">销售进度72.68%</div>
+            <div class="label">在销规格</div>
+            <div class="value color4">{{measures.ITEM_NUM}}<span class="unit">个</span></div>
+            <div class="desc color4">品牌数{{measures.BRAND_NUM}}个</div>
           </div>
         </div>
         </Col>
@@ -55,18 +55,25 @@
   </div>
 </template>
 <script>
+  import util from '@/libs/util';
 
   export default {
     name: "overview",
     data() {
       return {
-        testData:{},
+        measures:{},
       }
     },
     methods:{
+      initPage:function () {
+        var self = this;
+        util.ajax.get('/main/overview/getMeasures',{}).then(function (resp) {
+          self.measures = resp.data.data;
+        });
+      }
     },
-    mounted(){
-
+    mounted() {
+      this.initPage();
     }
   }
 </script>

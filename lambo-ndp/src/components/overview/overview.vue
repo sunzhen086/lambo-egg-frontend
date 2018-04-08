@@ -5,10 +5,10 @@
       <Btns @on-btn-click="btnClick"></Btns>
       <div class="container">
         <div class="mtable">
-          <Mtable :measureCode="measureCode"></Mtable>
+          <Mtable :tableDatas="tableDatas" :tableColumns="tableColumns"></Mtable>
         </div>
         <div class="china-map">
-          <ChinaMap></ChinaMap>
+          <ChinaMap :tableDatas="tableDatas"></ChinaMap>
         </div>
       </div>
     </Card>
@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+  import util from '@/libs/util';
   import Measures from "./components/measures";
   import Btns from "./components/btns";
   import Mtable from "./components/mtable";
@@ -31,7 +32,9 @@
     },
     data() {
       return {
-        measureCode:""
+        measureCode:"",
+        tableDatas:[],
+        tableColumns:[]
       }
     },
     methods:{
@@ -39,8 +42,16 @@
         this.measureCode = code;
       }
     },
+    watch: {
+      measureCode: function (val, oldVal) {
+        var self = this;
+        util.ajax.get('/main/overview/get' + val,{}).then(function (resp) {
+          self.tableColumns = resp.data.data.tableColumn;
+          self.tableDatas = resp.data.data.tableData;
+        });
+      }
+    },
     mounted(){
-
     }
   }
 </script>
