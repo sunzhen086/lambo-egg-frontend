@@ -131,33 +131,33 @@ const router = new Router({
 
       ]
     },
-    {
-      path: "/main",
-      name: "导航",
-      component: main,
-      children: [
-        {
-          path: '/datatable',
-          name:'数据目录',
-          component: datatable
-        },
-        {
-          path: '/mainpage',
-          name:'首页',
-          component: mainpage
-        },
-        {
-          path: '/overview',
-          name:'行业概览',
-          component: overview
-        },
-        {
-          path: '/searchTable',
-          name: '数据查询',
-          component: searchTable
-        }
-      ]
-    },
+    // {
+    //   path: "/main",
+    //   name: "导航",
+    //   component: main,
+    //   children: [
+    //     {
+    //       path: '/datatable',
+    //       name:'数据目录',
+    //       component: datatable
+    //     },
+    //     {
+    //       path: '/mainpage',
+    //       name:'首页',
+    //       component: mainpage
+    //     },
+    //     {
+    //       path: '/overview',
+    //       name:'行业概览',
+    //       component: overview
+    //     },
+    //     {
+    //       path: '/searchTable',
+    //       name: '数据查询',
+    //       component: searchTable
+    //     }
+    //   ]
+    // },
     {
       path:"/open-data",
       name: "顶部导航",
