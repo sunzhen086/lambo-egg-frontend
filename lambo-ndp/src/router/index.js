@@ -1,27 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '@/components/login/login'
 
-import frame from '@/components/frame/frame'
+//登录
+import login from '@/components/login/login';
 
-import table from '@/components/manage/table/index'
-import tableEdit from '@/components/manage/table/editTable'
-import category from '@/components/manage/category/index'
-import categoryEdit from '@/components/manage/category/edit'
-import dict from '@/components/manage/dict/index'
-import dictEdit from '@/components/manage/dict/edit'
-import subject from '@/components/manage/subject/index'
-import subjectEdit from '@/components/manage/subject/edit'
+//后端管理
+import frame from '@/components/manage/frame/frame';
+import table from '@/components/manage/table/index';
+import tableEdit from '@/components/manage/table/editTable';
+import category from '@/components/manage/category/index';
+import categoryEdit from '@/components/manage/category/edit';
+import dict from '@/components/manage/dict/index';
+import dictEdit from '@/components/manage/dict/edit';
+import subject from '@/components/manage/subject/index';
+import subjectEdit from '@/components/manage/subject/edit';
 
-import mainNav from '@/components/open-data/main-nav'
-import categoryNav from '@/components/open-data/category-nav'
-import homePage from '@/components/open-data/mainpage/mainpage'
-import categoryOverView from '@/components/open-data/category/overview/overview'
-import dataview from '@/components/open-data/dataview/dataview';
-import datadetail from '@/components/open-data/datadetail/datadetail';
-import viewPage from '@/components/open-data/overview/overview';
-import dataPage from '@/components/open-data/datatable/datatable';
-import feedback from '@/components/open-data/feedback/feedback';
+//前端展示
+import mainnav from '@/components/userpage/main-nav';
+import homepage from '@/components/userpage/homepage/homepage';
+import overview from '@/components/userpage/overview/overview';
+import datatable from '@/components/userpage/datatable/datatable';
+import datadetail from '@/components/userpage/datadetail/datadetail';
+
+import categorynav from '@/components/userpage/category-nav';
+import categoryoverview from '@/components/userpage/category/overview/overview';
+import dataview from '@/components/userpage/dataview/dataview';
+import feedback from '@/components/userpage/feedback/feedback';
+
 Vue.use(Router);
 const router = new Router({
   routes: [
@@ -38,18 +43,17 @@ const router = new Router({
       }
     },
     {
-      path: "/frame",
+      path: "/manage/frame",
       name: "菜单框架",
       component: frame,
       children: [
         {
-          path: 'table',
-
+          path: '/manage/table',
           name:'库表管理',
           component: table
         },
         {
-          path: '/table/create',
+          path: '/manage/table/create',
           meta:{
             title: '新增库表',
           },
@@ -57,7 +61,7 @@ const router = new Router({
           component: tableEdit
         },
         {
-          path: '/table/update',
+          path: '/manage/table/update',
           meta:{
             title: '修改库表',
           },
@@ -65,12 +69,12 @@ const router = new Router({
           component: tableEdit
         },
         {
-          path: '/category',
+          path: '/manage/category',
           name:'分类管理',
           component: category
         },
         {
-          path: '/category/update',
+          path: '/manage/category/update',
           meta:{
             title: '修改分类',
           },
@@ -78,7 +82,7 @@ const router = new Router({
           component: categoryEdit
         },
         {
-          path: '/category/create',
+          path: '/manage/category/create',
           meta:{
             title: '新增分类',
           },
@@ -86,12 +90,12 @@ const router = new Router({
           component: categoryEdit
         },
         {
-          path: '/dict',
+          path: '/manage/dict',
           name:'字典管理',
           component: dict
         },
         {
-          path: '/dict/update',
+          path: '/manage/dict/update',
           meta:{
             title: '修改数据字典',
           },
@@ -99,7 +103,7 @@ const router = new Router({
           component: dictEdit
         },
         {
-          path: '/dict/create',
+          path: '/manage/dict/create',
           meta:{
             title: '新增数据字典',
           },
@@ -107,12 +111,12 @@ const router = new Router({
           component: dictEdit
         },
         {
-          path: '/subject',
+          path: '/manage/subject',
           name:'专题管理',
           component: subject
         },
         {
-          path: '/subject/update',
+          path: '/manage/subject/update',
           meta:{
             title: '修改专题',
           },
@@ -120,7 +124,7 @@ const router = new Router({
           component: subjectEdit
         },
         {
-          path: '/subject/create',
+          path: '/manage/subject/create',
           meta:{
             title: '新增专题',
           },
@@ -159,6 +163,55 @@ const router = new Router({
     //   ]
     // },
     {
+      path:"/mainnav",
+      name: "顶部导航",
+      component: mainnav,
+      children:[
+        {
+          path: '/home',
+          name:'新首页',
+          component: homepage
+        },
+        {
+          path: '/overview',
+          name:'烟草指数',
+          component: overview
+        },
+        {
+          path:"/datatable",
+          name:'新数据目录',
+          component:datatable
+        },
+        {
+          path:"/datadetail",
+          name:'数据明细',
+          component:datadetail
+        },
+        {
+          path: '/categorynav',
+          name:'分类',
+          component: categorynav,
+          children:[
+            {
+              path: '/category/overview',
+              name:'分类总览',
+              component: categoryoverview
+            },
+            {
+              path:"/category/dataview",
+              name:'分类数据',
+              component:dataview
+            },
+            {
+              path:"/category/feedback",
+              name:'分类反馈',
+              component:feedback
+            }
+          ]
+        }
+      ]
+    },
+    /*{
       path:"/open-data",
       name: "顶部导航",
       component: mainNav,
@@ -206,8 +259,7 @@ const router = new Router({
           ]
         }
       ]
-
-    }
+    }*/
   ]
 })
 

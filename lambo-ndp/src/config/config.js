@@ -6,8 +6,8 @@ let config = {
   env: Env,
   appContext:appContext,
   loginPage:appContext + "/#/login",
-  homePage:appContext + "/#/mainpage",
-  framePage:appContext + "/#/frame/table",
+  homePage:appContext + "/#/home",
+  framePage:appContext + "/#/manage/frame/table",
   serverContext:"ndp-server"
 };
 export default config;
