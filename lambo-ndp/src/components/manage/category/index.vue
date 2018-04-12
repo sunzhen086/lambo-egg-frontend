@@ -2,7 +2,7 @@
   <div>
     <Card>
       <div slot="extra"></div>
-      <LamboTable ref="table" dataUrl="/manage/cateGoryData/list" :columns="tableColumn" :searchParams="tableSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/category/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
           <Input v-model="searchDescription" placeholder="按分类搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
@@ -14,6 +14,7 @@
 </template>
 <script>
   import util from '@/libs/util.js';
+  import config from '@/config/config';
   //编辑按钮
   const editButton = (vm, h, currentRow, index) => {
     return h('Button', {
@@ -61,20 +62,34 @@
         let columns = [];
         let self = this;
         columns.push({
-          key: 'categoryId',
-          title: '序号',
-          type: 'index',
-          align: 'center'
+          title: '顺序',
+          key: 'categoryOrder',
+          sortable: "custom",
+          align:"center"
         });
         columns.push({
           title: '名称',
           key: 'categoryName',
-          sortable: "custom"
+          sortable: "custom",
+          align:"center"
         });
         columns.push({
-          title: '描述',
-          key: 'categoryDesc',
-          sortable: "custom"
+          title: '图片',
+          key: 'categoryImg',
+          sortable: "custom",
+          render:function(h, param){
+            if(param.row.categoryImg){
+              return h('img',{
+                attrs: {
+                  "src": "/"+config.serverContext+"/manage/file/get/"+ param.row.categoryImg
+                },
+                style:{
+                  width:"30px",
+                  height:"30px"
+                }
+              })
+            }
+          }
         });
         columns.push({
           title: '创建用户',
@@ -124,7 +139,7 @@
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/cateGoryData/delete/" + categoryId).then(function(resp) {
+            util.ajax.get("/manage/category/delete/" + categoryId).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
             }).catch(function(err) {
