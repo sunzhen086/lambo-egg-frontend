@@ -19,7 +19,7 @@ export default {
     },
     watch:{
         currentPath:function () {
-            console.log(JSON.stringify(this.currentPath));
+
         }
     }
 };
