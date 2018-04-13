@@ -10,6 +10,7 @@ import table from '@/components/manage/table/index';
 import tableEdit from '@/components/manage/table/editTable';
 import category from '@/components/manage/category/index';
 import categoryEdit from '@/components/manage/category/edit';
+import categoryOverview from '@/components/manage/category/overview';
 import dict from '@/components/manage/dict/index';
 import dictEdit from '@/components/manage/dict/edit';
 import subject from '@/components/manage/subject/index';
@@ -88,6 +89,14 @@ const router = new Router({
           },
           name:'新增分类',
           component: categoryEdit
+        },
+        {
+          path: '/manage/category/overview',
+          meta:{
+            title: '维护分类概览',
+          },
+          name:'维护分类概览',
+          component: categoryOverview
         },
         {
           path: '/manage/dict',
@@ -219,22 +228,34 @@ const router = new Router({
         {
           path: '/home',
           name:'新首页',
-          component: homePage
+          component: homePage,
+          meta:{
+            anonymous:true
+          }
         },
         {
           path:"/view",
           name:'数据概览',
-          component:viewPage
+          component:viewPage,
+          meta:{
+            anonymous:true
+          }
         },
         {
           path:"/data",
           name:'新数据目录',
-          component:dataPage
+          component:dataPage,
+          meta:{
+            anonymous:true
+          }
         },
         {
           path:"/detail",
           name:'数据明细',
-          component:datadetail
+          component:datadetail,
+          meta:{
+            anonymous:true
+          }
         },
         {
           path: '/category-nav',
@@ -244,17 +265,26 @@ const router = new Router({
             {
               path: '/category/overview',
               name:'分类总览',
-              component: categoryOverView
+              component: categoryOverView,
+              meta:{
+                anonymous:true
+              }
             },
             {
               path:"/category/dataview",
               name:'分类数据',
-              component:dataview
+              component:dataview,
+              meta:{
+                anonymous:true
+              }
             },
             {
               path:"/category/feedback",
               name:'分类反馈',
-              component:feedback
+              component:feedback,
+              meta:{
+                anonymous:true
+              }
             }
           ]
         }

@@ -34,6 +34,7 @@
 
               </Upload>
             </div>
+            <div>图片限制为:48*48px</div>
           </FormItem>
           <FormItem label="顺序" prop="categoryOrder">
             <Input  v-model="form.categoryOrder" placeholder="请输入描述" number></Input>

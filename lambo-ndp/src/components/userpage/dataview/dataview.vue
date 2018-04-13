@@ -144,17 +144,17 @@
                     <div class="item">
                       <div class="left">评分：</div>
                       <div class="right">
-                        <Rate :value="4" :disabled="true" class="rate"></Rate>
+                        <Rate :value="3" :disabled="true" class="rate"></Rate>
                       </div>
                     </div>
                     <div class="item">
                       <div class="left">访问量：</div>
-                      <div class="right">12558次</div>
+                      <div class="right">3652次</div>
                     </div>
                     <div class="item">
                       <div class="left">描述：</div>
                       <div class="right ovfTwo">
-                        本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
+                        本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
                       </div>
                     </div>
                   </div>
@@ -166,7 +166,7 @@
               <Card>
                 <p slot="title">
                   <Icon type="ios-film-outline"></Icon>
-                  全国品牌布局情况
+                  品牌销售月度情况
                 </p>
                 <a href="#" slot="extra" @click.prevent="goDataDetail">
                   <Icon type="android-radio-button-on"></Icon>
@@ -202,17 +202,17 @@
                   <div class="item">
                     <div class="left">评分：</div>
                     <div class="right">
-                      <Rate :value="4" :disabled="true" class="rate"></Rate>
+                      <Rate :value="5" :disabled="true" class="rate"></Rate>
                     </div>
                   </div>
                   <div class="item">
                     <div class="left">访问量：</div>
-                    <div class="right">12558次</div>
+                    <div class="right">8966次</div>
                   </div>
                   <div class="item">
                     <div class="left">描述：</div>
                     <div class="right ovfTwo">
-                      本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
+                      本数据涵盖了全行业品牌销售情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
                     </div>
                   </div>
                 </div>
@@ -226,7 +226,7 @@
               <Card>
                 <p slot="title">
                   <Icon type="ios-film-outline"></Icon>
-                  全国品牌布局情况
+                  品牌年度上柜率情况
                 </p>
                 <a href="#" slot="extra" @click.prevent="goDataDetail">
                   <Icon type="android-arrow-forward"></Icon>
@@ -267,12 +267,12 @@
                   </div>
                   <div class="item">
                     <div class="left">访问量：</div>
-                    <div class="right">12558次</div>
+                    <div class="right">24163次</div>
                   </div>
                   <div class="item">
                     <div class="left">描述：</div>
                     <div class="right ovfTwo">
-                      本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
+                      本数据涵盖了全行业品牌年度上柜率情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@
               <Card>
                 <p slot="title">
                   <Icon type="ios-film-outline"></Icon>
-                  全国品牌布局情况
+                  各品牌引入退出情况
                 </p>
                 <a href="#" slot="extra" @click.prevent="goDataDetail">
                   <Icon type="android-arrow-forward"></Icon>
@@ -330,7 +330,7 @@
                   <div class="item">
                     <div class="left">描述：</div>
                     <div class="right ovfTwo">
-                      本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
+                      本数据涵盖了全行业各品牌引入退出情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
                     </div>
                   </div>
                 </div>

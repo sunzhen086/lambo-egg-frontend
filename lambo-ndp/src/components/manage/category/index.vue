@@ -2,11 +2,12 @@
   <div>
     <Card>
       <div slot="extra"></div>
-      <LamboTable ref="table" dataUrl="/manage/category/list" :columns="tableColumn" :searchParams="tableSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/category/list" :columns="tableColumn" :searchParams="tableSearchParams" @on-selection-change="selectionChangeHandle">
         <div slot="search">
           <Input v-model="searchDescription" placeholder="按分类搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
           <Button type="ghost" icon="plus-round" @click="goCreatePage">新增分类</Button>
+          <Button type="ghost" icon="ios-compose" @click="goOverviewManagePage">维护分类概览</Button>
         </div>
       </LamboTable>
     </Card>
@@ -54,19 +55,18 @@
     data:function(){
       return {
         searchDescription:"",
-        tableSearchParams:{}
+        tableSearchParams:{},
+        tableSelection:[]
       }
     },
     computed: {
       tableColumn() {
-        let columns = [];
         let self = this;
-        columns.push({
-          title: '顺序',
-          key: 'categoryOrder',
-          sortable: "custom",
-          align:"center"
-        });
+        let columns = [{
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        }];
         columns.push({
           title: '名称',
           key: 'categoryName',
@@ -74,9 +74,16 @@
           align:"center"
         });
         columns.push({
+          title: '顺序',
+          key: 'categoryOrder',
+          sortable: "custom",
+          align:"center"
+        });
+        columns.push({
           title: '图片',
           key: 'categoryImg',
           sortable: "custom",
+          align:"center",
           render:function(h, param){
             if(param.row.categoryImg){
               return h('img',{
@@ -94,12 +101,14 @@
         columns.push({
           title: '创建用户',
           key: 'createUser',
-          sortable: "custom"
+          sortable: "custom",
+          align:"center"
         });
         columns.push({
           title: '创建时间',
           key: 'createTime',
-          sortable: "custom"
+          sortable: "custom",
+          align:"center"
         });
         columns.push({
           title: '操作',
@@ -147,6 +156,16 @@
             });
           }
         });
+      },
+      selectionChangeHandle:function(selection){
+        this.tableSelection = selection;
+      },
+      goOverviewManagePage:function(){
+        if(this.tableSelection.length === 1){
+          this.$router.push({name:"维护分类概览"});
+        }else{
+          this.$Message.error("请选择一条记录");
+        }
       }
     }
   };
