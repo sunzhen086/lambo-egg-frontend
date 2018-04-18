@@ -16,7 +16,7 @@
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
           <FormItem label="所属分类" prop="categoryName">
             <Input v-model="form.categoryName" placeholder="请选择分类" readonly @on-focus="showCateGoryHelpBox" icon="ios-search"></Input>
-            <lambo-help-box v-model="helpBoxCateGory" :url="helpCateGoryBoxUrl" :columns="helpCateGoryBoxColumns" :title="helpCateGoryBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
+            <lambo-help-box v-model="helpBoxCateGory" :url="helpCateGoryBoxUrl" :columns="helpCateGoryBoxColumns" :title="helpCateGoryBoxTitle" :muliSelect="false" @onOk="onOk" @onClear="onClear">
             </lambo-help-box>
           </FormItem>
           <FormItem label="专题名称" prop="subjectName">
@@ -27,7 +27,7 @@
           </FormItem>
           <FormItem label="库表" prop="tableCode">
             <Input v-model="form.tableCode" placeholder="请选择库表" readonly @on-focus="showTableHelpBox" icon="ios-search"></Input>
-            <lambo-help-box v-model="helpBoxTable" :url="helpTableBoxUrl" :columns="helpTableBoxColumns" :title="helpTableBoxTitle" :muliSelect="muliSelect" @onOk="onOkTable" @onClear="onClearTable">
+            <lambo-help-box v-model="helpBoxTable" :url="helpTableBoxUrl" :columns="helpTableBoxColumns" :title="helpTableBoxTitle" :muliSelect="false" @onOk="onOkTable" @onClear="onClearTable">
             </lambo-help-box>
 
           </FormItem>
@@ -38,15 +38,15 @@
 
     <Row>
       <Col span="24">
-
-        <p slot="title">
-          <Icon type="help-buoy"></Icon> 数据项信息
-        </p>
-        <div slot="extra">
-          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
-        </div>
-        <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" ></lambo-edit-table>
-
+        <Card :bordered="false" :dis-hover="true">
+          <p slot="title">
+            <Icon type="help-buoy"></Icon> 数据项信息
+          </p>
+          <div slot="extra">
+            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
+          </div>
+          <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" ></lambo-edit-table>
+        </Card>
       </Col>
     </Row>
     </Card>
@@ -89,14 +89,15 @@
     data () {
       return {
         helpBoxCateGory:false,
-        helpCateGoryBoxUrl:"/manage/cateGoryData/list",
-        helpCateGoryBoxColumnsStr: JSON.stringify(helpCateGoryBoxColumns),
-        muliSelect:false,
+        helpCateGoryBoxUrl:"/manage/category/list",
+        helpCateGoryBoxColumns: helpCateGoryBoxColumns,
         helpCateGoryBoxTitle:"分类帮助框",
+
         helpBoxTable:false,
         helpTableBoxUrl:"/manage/tableData/list",
-        helpCateTableColumnsStr: JSON.stringify(helpTableBoxColumns),
+        helpTableBoxColumns: helpTableBoxColumns,
         helpTableBoxTitle:"库表帮助框",
+
         result:"",
         datas: [],
         datacolumn:[],
@@ -109,26 +110,16 @@
           tableId:""
         },
         ruleValidate: {
-          // tableCode: [
-          //   {required: true,message: '库表不能为空',trigger: 'blur'},
-          //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          // ],
-          // categoryName: [
-          //   {required: true,message: '分类不能为空',trigger: 'blur'},
-          //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          // ]
+
         }
       };
     },
     computed: {
+      title:function(){
+        return this.$route.meta.title;
+      },
       subjectId: function() {
         return this.$route.query.subjectId;
-      },
-      helpCateGoryBoxColumns:function(){
-        return JSON.parse(this.helpCateGoryBoxColumnsStr);
-      },
-      helpTableBoxColumns:function(){
-        return JSON.parse(this.helpCateTableColumnsStr);
       },
       columns() {
         let columns = [];
@@ -136,14 +127,12 @@
         columns.push({
           title: '序号',
           type: 'index',
-          width: '15%',
           align: 'center'
         });
         columns.push({
           title: '中文名称',
           key: 'cellName',
           align: 'center',
-          width: '15%',
           editor: {
             type: "text",
           }
@@ -152,13 +141,11 @@
           title: '字段名称',
           align: 'center',
           key: 'cellCode',
-          width: '15%'
         });
         columns.push(
           {
             title: '维度',
             align: 'center',
-            width: '15%',
             key: 'searchCondition',
             editor:{
               type:"select",
@@ -180,7 +167,6 @@
           title: '排序',
           align: 'center',
           key: 'columnOrder',
-          width: '15%',
           editor: {
             type: "text",
           }
@@ -189,7 +175,6 @@
           title: '设置',
           align: 'center',
           key: 'searchSetting',
-          width: '15%',
           editor: {
             type: "text",
           }
