@@ -10,7 +10,6 @@ util.title = function (title) {
     title = title || 'lambo';
     window.document.title = title;
 };
-
 util.ajax = axios.create({
   baseURL: '/' +config.serverContext,
 });
