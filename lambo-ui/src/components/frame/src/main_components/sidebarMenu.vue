@@ -4,7 +4,7 @@
 
 <template>
     <Menu ref="sideMenu" :active-name="currentPageName" :open-names="openedSubmenuArr"
-          :theme="menuTheme" width="auto" @on-select="changeMenu">
+          :theme="menuTheme" width="auto" @on-select="changeMenu" @on-open-change="openChange">
         <sidebarSubMenu :menuList = "menuList"></sidebarSubMenu>
     </Menu>
 </template>
@@ -42,9 +42,11 @@
                 this.$router.push({
                     name: active
                 });
-                //改变打开子菜单数组
-                localStorage.openedSubmenuArr = JSON.stringify(this.openedSubmenuArr);
             },
+            openChange(names){
+                console.log(names);
+                localStorage.openedSubmenuArr = JSON.stringify(names);
+            }
         },
         watch: {
             '$route' (to,from) {
@@ -88,24 +90,10 @@
                 this.$emit("pageOpenedList",JSON.parse(localStorage.pageOpenedList));
                 this.$emit("currentPageName",this.currentPageName);
             },
-            openedSubmenuArr(){
-                //改变打开子菜单数组
-                localStorage.openedSubmenuArr = JSON.stringify(this.openedSubmenuArr);
-            },
             currentPageName () {
-                var self = this;
-                this.$nextTick(() => {
-                    this.$refs.sideMenu.updateOpened();
-                    this.$refs.sideMenu.updateActiveName();
-                });
             }
         },
         updated () {
-            var self = this;
-            this.$nextTick(() => {
-                self.$refs.sideMenu.updateOpened();
-                self.$refs.sideMenu.updateActiveName();
-            });
         },
         created(){
             if(localStorage.hasOpenChild && localStorage.hasOpenChild == "1"){
