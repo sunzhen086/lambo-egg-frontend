@@ -1,189 +1,229 @@
 <template>
-  <div class="page">
+  <div class="page home">
     <div class="banner">
+      <h1 class="pic-topic">营销开放数据&nbsp;&nbsp;&nbsp;释放智慧能量</h1>
       <div class="search-box">
-        <h1>从这里开始</h1>
-        <h4><span class="x">搜索超过</span><span class="y">4,233,785条</span><span class="x">的开放数据</span></h4>
-        <Icon type="arrow-down-b" size="25" style="margin-top:10px;"></Icon>
-        <Input v-model="searchValue" size="large" placeholder="存销比" style="margin-top:20px;">
-          <Button slot="append" type="primary" icon="ios-search" @click="goDataView">搜索</Button>
+        <Input v-model="searchValue" size="large" placeholder="单箱销售收入">
+          <Button slot="append" type="primary" icon="ios-search" @click="goDataView"></Button>
         </Input>
       </div>
     </div>
+    <div class="pic-num">
+      <div class="pic-num-box">
+        <div class="left">
+          <div class="icon icon1"></div>
+        </div>
+        <div class="right">
+          <div class="value">58</div>
+          <div class="label">数据分类(个)</div>
+        </div>
+      </div>
+      <div class="pic-num-box">
+        <div class="left">
+          <div class="icon icon2"></div>
+        </div>
+        <div class="right">
+          <div class="value">58</div>
+          <div class="label">数据文件(个)</div>
+        </div>
+      </div>
+      <div class="pic-num-box">
+        <div class="left">
+          <div class="icon icon3"></div>
+        </div>
+        <div class="right">
+          <div class="value">58</div>
+          <div class="label">数据总数(条)</div>
+        </div>
+      </div>
+      <div class="pic-num-box">
+        <div class="left">
+          <div class="icon icon4"></div>
+        </div>
+        <div class="right">
+          <div class="value">58</div>
+          <div class="label">访问量(次)</div>
+        </div>
+      </div>
+      <div class="pic-num-box last">
+        <div class="left">
+          <div class="icon icon5"></div>
+        </div>
+        <div class="right">
+          <div class="value">58</div>
+          <div class="label">下载量(次)</div>
+        </div>
+      </div>
+    </div>
+    <div class="hr"/>
     <div class="body">
+      <h2 class="category">主题分类</h2>
       <Row>
-        <Col span="4" class="category-box" >
-          <div @click="goCategoryView">
-            <Card class="card" >
-              <Icon type="android-contacts" size="80" color="#5C6B77"></Icon>
-              <h3>客户</h3>
-            </Card>
+        <Col span="4" class="category-box">
+          <div class="card" @click="goCategoryView">
+            <div class="icon icon1"></div>
+            <h3>客户</h3>
           </div>
         </Col>
         <Col span="4" class="category-box">
-          <div @click="goCategoryView">
-            <Card class="card">
-              <Icon type="pricetags" size="80" color="#5C6B77"></Icon>
-              <h3>品牌</h3>
-            </Card>
+          <div class="card" @click="goCategoryView">
+            <div class="icon icon2"></div>
+            <h3>品牌</h3>
           </div>
         </Col>
         <Col span="4" class="category-box">
-          <Card class="card">
-            <Icon type="ios-cart" size="80" color="#5C6B77"></Icon>
+          <div class="card">
+            <div class="icon icon3"></div>
             <h3>市场</h3>
-          </Card>
+          </div>
         </Col>
         <Col span="4" class="category-box">
-          <Card class="card">
-            <Icon type="ios-bookmarks" size="80" color="#5C6B77"></Icon>
+          <div class="card">
+            <div class="icon icon4"></div>
             <h3>销售</h3>
-          </Card>
+          </div>
         </Col>
         <Col span="4" class="category-box">
-          <Card class="card">
-            <Icon type="ios-box" size="80" color="#5C6B77"></Icon>
+          <div class="card">
+            <div class="icon icon5"></div>
             <h3>网建</h3>
-          </Card>
+          </div>
         </Col>
         <Col span="4" class="category-box">
-          <Card class="card">
-            <Icon type="ios-world" size="80" color="#5C6B77"></Icon>
+          <div class="card">
+            <div class="icon icon6"></div>
             <h3>物流</h3>
-          </Card>
+          </div>
         </Col>
       </Row>
       <Row>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="ios-keypad" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon7"></div>
           <h3>消费者</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="ios-basketball" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon8"></div>
           <h3>终端</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="ios-paw" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon9"></div>
           <h3>工业</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="ios-cloudy-night" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon10"></div>
           <h3>货源</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-twitter" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon11"></div>
           <h3>采购</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-instagram" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon12"></div>
           <h3>库存</h3>
-        </Card>
+        </div>
         </Col>
       </Row>
       <Row>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-python" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon13"></div>
           <h3>结算</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-angular" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon14"></div>
           <h3>呼叫</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-chrome" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon15"></div>
           <h3>非烟</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="ios-bookmarks" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon16"></div>
           <h3>内管</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-codepen" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon17"></div>
           <h3>自律小组</h3>
-        </Card>
+        </div>
         </Col>
         <Col span="4" class="category-box">
-        <Card class="card">
-          <Icon type="social-buffer" size="80" color="#5C6B77"></Icon>
+        <div class="card">
+          <div class="icon icon18"></div>
           <h3>专卖</h3>
-        </Card>
+        </div>
         </Col>
       </Row>
 
-      <Row style="margin-top:20px;">
-        <Col span="12" style="padding-right:10px;">
-          <Card :bordered="false" :dis-hover="true">
-            <p slot="title" style="font-size:20px;">热门数据</p>
-            <Row class="data-list">
-              <Col span="18">
-                【品牌】全国品牌分布情况表
-              </Col>
-              <Col span="6" style="text-align:right">
-                214次下载
-              </Col>
-            </Row>
-            <Row class="data-list">
-              <Col span="18">
+      <Row class="top-list">
+        <Col span="12" class="list">
+          <div class="title">热门数据</div>
+          <Row class="data-list">
+            <Col span="18">
               【品牌】全国品牌分布情况表
-              </Col>
-              <Col span="6" style="text-align:right">
-              214次下载
-              </Col>
-            </Row>
-            <Row class="data-list">
-              <Col span="18">
-              【品牌】全国品牌分布情况表
-              </Col>
-              <Col span="6" style="text-align:right">
-              214次下载
-              </Col>
-            </Row>
-            <Row class="data-list">
-              <Col span="18">
-              【品牌】全国品牌分布情况表
-              </Col>
-              <Col span="6" style="text-align:right">
-              214次下载
-              </Col>
-            </Row>
-            <Row class="data-list">
-              <Col span="18">
-              【品牌】全国品牌分布情况表
-              </Col>
-              <Col span="6" style="text-align:right">
-              214次下载
-              </Col>
-            </Row>
-          </Card>
+            </Col>
+            <Col span="6" class="data-desc">
+              <span class="num">214</span>次下载
+            </Col>
+          </Row>
+          <Row class="data-list">
+            <Col span="18">
+            【品牌】全国品牌分布情况表
+            </Col>
+            <Col span="6" class="data-desc">
+            <span class="num">214</span>次下载
+            </Col>
+          </Row>
+          <Row class="data-list">
+            <Col span="18">
+            【品牌】全国品牌分布情况表
+            </Col>
+            <Col span="6" class="data-desc">
+            <span class="num">214</span>次下载
+            </Col>
+          </Row>
+          <Row class="data-list">
+            <Col span="18">
+            【品牌】全国品牌分布情况表
+            </Col>
+            <Col span="6" class="data-desc">
+            <span class="num">214</span>次下载
+            </Col>
+          </Row>
+          <Row class="data-list">
+            <Col span="18">
+            【品牌】全国品牌分布情况表
+            </Col>
+            <Col span="6" class="data-desc">
+            <span class="num">214</span>次下载
+            </Col>
+          </Row>
         </Col>
-        <Col span="12" style="padding-right:10px;">
-        <Card :bordered="false" :dis-hover="true">
-          <p slot="title" style="font-size:20px;">最新开放</p>
+        <Col span="12" class="list">
+          <div class="title">最新开放</div>
           <Row class="data-list">
             <Col span="18">
             【品牌】全国品牌分布情况表
             </Col>
-            <Col span="6" style="text-align:right">
+            <Col span="6" class="data-desc">
               2018年3月28日
             </Col>
           </Row>
@@ -191,7 +231,7 @@
             <Col span="18">
             【品牌】全国品牌分布情况表
             </Col>
-            <Col span="6" style="text-align:right">
+            <Col span="6" class="data-desc">
               2018年3月28日
             </Col>
           </Row>
@@ -199,7 +239,7 @@
             <Col span="18">
             【品牌】全国品牌分布情况表
             </Col>
-            <Col span="6" style="text-align:right">
+            <Col span="6" class="data-desc">
               2018年3月28日
             </Col>
           </Row>
@@ -207,7 +247,7 @@
             <Col span="18">
             【品牌】全国品牌分布情况表
             </Col>
-            <Col span="6" style="text-align:right">
+            <Col span="6" class="data-desc">
               2018年3月28日
             </Col>
           </Row>
@@ -215,11 +255,10 @@
             <Col span="18">
             【品牌】全国品牌分布情况表
             </Col>
-            <Col span="6" style="text-align:right">
+            <Col span="6" class="data-desc">
               2018年3月28日
             </Col>
           </Row>
-        </Card>
         </Col>
       </Row>
     </div>
@@ -246,37 +285,282 @@
   }
 </script>
 
+<style lang="less">
+  .home{
+    .banner{
+      .search-box{
+        .ivu-input{
+          height: 68px;
+          background-color: rgba(0,2,20,0.46);
+          border:0;
+          padding-left: 26px;
+          font-size: 18px;
+          color: white;
+        }
+        .ivu-input::-webkit-input-placeholder {//webkit内核
+          color: #2e476d;
+        }
+        .ivu-input-group-append{
+          width: 144px;
+          background-color: rgb(1,41,175);
+          border: 0;
+          .ivu-icon{
+            font-size: 35px;
+            color: whitesmoke;
+          }
+        }
+      }
+    }
+  }
+</style>
 <style scoped lang="less">
   .page{
     padding-bottom:60px;
     .banner{
-      height:450px;
-      background:#EFEFEF url("../../../assets/main1.png") center top no-repeat;
+      height:590px;
+      background:#EFEFEF url("./images/banner.jpg") center top no-repeat;
       overflow:hidden;
-      .search-box{
-          width:1080px;
-          text-align:center;
-          margin:270px auto;
-          .x{
-            color: #999;
-          }
-          .y{
-            color:#25A9E5
-          }
+      .pic-topic{
+        width: 1080px;
+        text-align: center;
+        margin:160px auto;
+        font-size: 68px;
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        color: white;
       }
+      .search-box {
+        width: 880px;
+        text-align: center;
+        margin: -94px auto;
+      }
+    }
+    .pic-num{
+      width: 1080px;
+      margin: 24px auto;
+      overflow: hidden;
+      .pic-num-box{
+        height:62px;
+        width: 216px;
+        float: left;
+        border-right:1px solid #eeeeee;
+        display:flex;
+        &.last{
+          border-right:0;
+        }
+        .left{
+          flex:1;
+          .icon{
+            width:46px;
+            height:46px;
+            margin:12px auto;
+            &.icon1{
+              background:url("./images/shujvfenlei.png");
+            }
+            &.icon2{
+              background:url("./images/shujvwenjian.png");
+            }
+            &.icon3{
+              background:url("./images/shujvzongshu.png");
+            }
+            &.icon4{
+              background:url("./images/fangwenliang.png");
+            }
+            &.icon5{
+              background:url("./images/xiazailiang.png");
+            }
+          }
+        }
+        .right{
+          flex:2;
+          /*padding:5px 10px;*/
+          .label{
+            color:#999999;
+            font-size:16px;
+          }
+          .value{
+            color:#525252;
+            font-size:28px;
+            font-weight:600;
+          }
+        }
+      }
+    }
+    .hr{
+      width: 100%;
+      height: 1px;
+      border-bottom: 1px solid #e7e7e7;
     }
     .body{
       width:1080px;
       margin:10px auto;
+      .category{
+        margin: 64px auto;
+        font-size: 28px;
+        color: #333333;
+        text-align: center;
+        font-weight: normal;
+      }
       .category-box{
         padding:5px;
         .card{
           text-align:center;
           cursor:pointer;
+          .icon{
+            width:48px;
+            height:48px;
+            margin:12px auto;
+            &.icon1{
+              background:url("./images/kehu_1.png");
+            }
+            &.icon2{
+              background:url("./images/pinpai_1.png");
+            }
+            &.icon3{
+              background:url("./images/shichang_1.png");
+            }
+            &.icon4{
+              background:url("./images/xiaoshou_1.png");
+            }
+            &.icon5{
+              background:url("./images/wangjian_1.png");
+            }
+            &.icon6{
+              background:url("./images/wuliu_1.png");
+            }
+            &.icon7{
+              background:url("./images/xiaofeizhe_1.png");
+            }
+            &.icon8{
+              background:url("./images/zhongduan_1.png");
+            }
+            &.icon9{
+              background:url("./images/gongye_1.png");
+            }
+            &.icon10{
+              background:url("./images/huoyuan_1.png");
+            }
+            &.icon11{
+              background:url("./images/caigou_1.png");
+            }
+            &.icon12{
+              background:url("./images/kucun_1.png");
+            }
+            &.icon13{
+              background:url("./images/jiesuan_1.png");
+            }
+            &.icon14{
+              background:url("./images/hujiao_1.png");
+            }
+            &.icon15{
+              background:url("./images/feiyan_1.png");
+            }
+            &.icon16{
+              background:url("./images/neiguan_1.png");
+            }
+            &.icon17{
+              background:url("./images/zilvxiaozu_1.png");
+            }
+            &.icon18{
+              background:url("./images/zhuanmai_1.png");
+            }
+          }
+          h3{
+            text-align: center;
+            font-size: 16px;
+            color: #525252;
+            font-weight: normal;
+          }
+
+          &:hover,&.active{
+            .icon{
+              &.icon1{
+                background:url("./images/kehu_2.png");
+              }
+              &.icon2{
+                background:url("./images/pinpai_2.png");
+              }
+              &.icon3{
+                background:url("./images/shichang_2.png");
+              }
+              &.icon4{
+                background:url("./images/xiaoshou_2.png");
+              }
+              &.icon5{
+                background:url("./images/wangjian_2.png");
+              }
+              &.icon6{
+                background:url("./images/wuliu_2.png");
+              }
+              &.icon7{
+                background:url("./images/xiaofeizhe_2.png");
+              }
+              &.icon8{
+                background:url("./images/zhongduan_2.png");
+              }
+              &.icon9{
+                background:url("./images/gongye_2.png");
+              }
+              &.icon10{
+                background:url("./images/huoyuan_2.png");
+              }
+              &.icon11{
+                background:url("./images/caigou_2.png");
+              }
+              &.icon12{
+                background:url("./images/kucun_2.png");
+              }
+              &.icon13{
+                background:url("./images/jiesuan_2.png");
+              }
+              &.icon14{
+                background:url("./images/hujiao_2.png");
+              }
+              &.icon15{
+                background:url("./images/feiyan_2.png");
+              }
+              &.icon16{
+                background:url("./images/neiguan_2.png");
+              }
+              &.icon17{
+                background:url("./images/zilvxiaozu_2.png");
+              }
+              &.icon18{
+                background:url("./images/zhuanmai_2.png");
+              }
+            }
+            h3{
+              color: #4199e5;
+            }
+          }
         }
       }
-      .data-list{
-        padding:5px;
+      .top-list{
+        margin-top: 100px;
+        .list{
+          padding-right:10px;
+          .title{
+            margin-bottom: 30px;
+            font-size: 20px;
+            color: #333333;
+            border-left: 5px solid #ff9000;
+            padding-left: 10px;
+          }
+          .data-list{
+            padding-left: 34px;
+            font-size: 14px;
+            height: 32px;
+            line-height: 32px;
+            color: #525252;
+            .data-desc{
+              text-align:right;
+              color: #999999;
+              .num{
+                color: #4199e5;
+              }
+            }
+          }
+        }
       }
     }
   }
