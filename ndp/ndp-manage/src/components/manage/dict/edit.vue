@@ -32,16 +32,16 @@
 
     <Row>
       <Col span="24">
-
-        <p slot="title">
-          <Icon type="help-buoy"></Icon> 字典项信息
-        </p>
-        <div slot="extra">
-          <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增字典项</i-button>
-          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
-        </div>
-        <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" ></lambo-edit-table>
-
+        <Card :bordered="false" :dis-hover="true">
+          <p slot="title">
+            <Icon type="help-buoy"></Icon> 字典项信息
+          </p>
+          <div slot="extra">
+            <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增字典项</i-button>
+            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
+          </div>
+          <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" ></lambo-edit-table>
+        </Card>
       </Col>
     </Row>
     </Row>
@@ -96,47 +96,43 @@
       dictId: function() {
         return this.$route.query.dictId;
       },
-    title: function() {
-      return this.$route.meta.title;
-    },
+      title: function() {
+        return this.$route.meta.title;
+      },
       columns() {
         let columns = [];
         let self = this;
         columns.push({
           title: '序号',
           type: 'index',
-          width: '25%',
           align: 'center'
         },);
         columns.push(   {
-              title: '编码',
-              align: 'center',
-              key: 'dictKey',
-              width: '25%',
-              editor:{
-                type:"text",
-                //校验函数,参数分别为：新值、旧值、行数据、行号
-                validate:function(newVal,oldVal,row,index){
-                  if(newVal.trim() == ""){
-                    return{
-                      valid:false,
-                      msg:"输入不能为空！"
-                    }
-                  }
-                  return{valid:true}
+          title: '编码',
+          align: 'center',
+          key: 'dictKey',
+          editor:{
+            type:"text",
+            //校验函数,参数分别为：新值、旧值、行数据、行号
+            validate:function(newVal,oldVal,row,index){
+              if(newVal.trim() == ""){
+                return{
+                  valid:false,
+                  msg:"输入不能为空！"
                 }
               }
-            });
+              return{valid:true}
+            }
+          }
+        });
         columns.push(   {
-              title: '名称',
-              align: 'center',
-              key: 'dictValue',
-              width: '25%',
-              editor: {
-                type: "text",
-
-              }
-             });
+          title: '名称',
+          align: 'center',
+          key: 'dictValue',
+          editor: {
+            type: "text",
+          }
+         });
         columns.push({
           title: '操作',
           align: "center",

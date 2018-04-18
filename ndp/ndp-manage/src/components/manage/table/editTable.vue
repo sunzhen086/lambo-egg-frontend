@@ -35,16 +35,16 @@
 
     <Row>
       <Col span="24">
-
-        <p slot="title">
-          <Icon type="help-buoy"></Icon> 库表数据元
-        </p>
-        <div slot="extra">
-          <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
-          <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
-        </div>
-        <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
-
+        <Card :bordered="false" :dis-hover="true">
+          <p slot="title">
+            <Icon type="help-buoy"></Icon> 库表数据元
+          </p>
+          <div slot="extra">
+            <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
+            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
+          </div>
+          <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
+        </Card>
       </Col>
     </Row>
     </Row>
@@ -144,15 +144,12 @@
         columns.push({
           title: '序号',
           type: 'index',
-
-          width: '15%',
           align: 'center'
         });
         columns.push(
           {
             title: '标识',
             align: 'center',
-            width: '15%',
             key: 'cellCode',
             editor:{
               type:"helpbox",
@@ -194,7 +191,6 @@
           title: '名称',
           align: 'center',
           key: 'cellName',
-          width: '15%',
           editor: {
             type:"text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -213,15 +209,12 @@
           title: '字典',
           align: 'center',
           key: 'dictName',
-          width: '15%',
           editor:helpBoxEditor
         });
         columns.push( {
           title: '计量单位',
           align: 'center',
           key: 'dataUnit',
-          width: '15%',
-          width: '15%',
           editor: {
             type: "text",
           }
@@ -230,7 +223,6 @@
           title: '描述',
           align: 'center',
           key: 'dataDesc',
-          width: '15%',
           editor: {
             type: "text",
           }
