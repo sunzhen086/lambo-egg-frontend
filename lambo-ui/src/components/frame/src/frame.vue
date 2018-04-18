@@ -161,7 +161,6 @@
             menuList(data){
                 if(data){
                     localStorage.menuList = JSON.stringify(data);
-                    console.log("tagsList=="+localStorage.menuList);
                     this.setTagsList(data);
                     localStorage.tagsList = JSON.stringify(this.tagsList);
                 }

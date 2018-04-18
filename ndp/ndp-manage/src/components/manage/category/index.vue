@@ -162,7 +162,12 @@
       },
       goOverviewManagePage:function(){
         if(this.tableSelection.length === 1){
-          this.$router.push({name:"维护分类概览"});
+          this.$router.push({
+            name:"维护分类概览",
+            query: {
+              categoryId:this.tableSelection[0].categoryId
+            }
+          });
         }else{
           this.$Message.error("请选择一条记录");
         }

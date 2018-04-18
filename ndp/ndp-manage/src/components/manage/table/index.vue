@@ -1,13 +1,14 @@
 <template>
   <div>
     <Card>
+
       <div slot="extra"></div>
-      <LamboTable ref="table" dataUrl="/manage/category/list" :columns="tableColumn" :searchParams="tableSearchParams" @on-selection-change="selectionChangeHandle">
+      <LamboTable ref="table" dataUrl="/manage/tableData/list" :columns="tableColumn" :searchParams="tableSearchParams">
         <div slot="search">
-          <Input v-model="searchDescription" placeholder="按分类搜索" style="width: 200px" />
+          <Input v-model="searchTableCode" placeholder="按表名搜索" style="width: 200px" />
+          <Input v-model="searchTableName" placeholder="按中文名搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增分类</Button>
-          <Button type="ghost" icon="ios-compose" @click="goOverviewManagePage">维护分类概览</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增库表</Button>
         </div>
       </LamboTable>
     </Card>
@@ -15,7 +16,6 @@
 </template>
 <script>
   import util from '@/libs/util.js';
-  import config from '@/config/config';
   //编辑按钮
   const editButton = (vm, h, currentRow, index) => {
     return h('Button', {
@@ -27,8 +27,8 @@
         margin: '0 5px'
       },
       on: {
-        'click': () => {
-          vm.goUpdatePage(currentRow.categoryId);
+        'click': function() {
+          vm.goUpdatePage(currentRow.tableId);
         }
       }
     }, '编辑');
@@ -46,7 +46,7 @@
       },
       on: {
         'click': () => {
-          vm.doDelete(currentRow.categoryId);
+          vm.doDelete(currentRow.tableId);
         }
       }
     }, '删除');
@@ -54,61 +54,43 @@
   export default {
     data:function(){
       return {
-        searchDescription:"",
-        tableSearchParams:{},
-        tableSelection:[]
+        searchTableCode:"",
+        searchTableName:"",
+        tableSearchParams:{}
       }
     },
     computed: {
+      title: function() {
+        return this.$route.meta.title;
+      },
       tableColumn() {
+        let columns = [];
         let self = this;
-        let columns = [{
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        }];
         columns.push({
-          title: '名称',
-          key: 'categoryName',
-          sortable: "custom",
+          title: '序号',
+          key: 'tableId',
+          type:"index",
           align:"center"
         });
         columns.push({
-          title: '顺序',
-          key: 'categoryOrder',
-          sortable: "custom",
-          align:"center"
+          title: '表名',
+          key: 'tableCode',
+          sortable: "custom"
         });
         columns.push({
-          title: '图片',
-          key: 'categoryImg',
-          sortable: "custom",
-          align:"center",
-          render:function(h, param){
-            if(param.row.categoryImg){
-              return h('img',{
-                attrs: {
-                  "src": "/"+config.serverContext+"/manage/file/get/"+ param.row.categoryImg
-                },
-                style:{
-                  width:"30px",
-                  height:"30px"
-                }
-              })
-            }
-          }
+          title: '中文名',
+          key: 'tableName',
+          sortable: "custom"
         });
         columns.push({
           title: '创建用户',
           key: 'createUser',
-          sortable: "custom",
-          align:"center"
+          sortable: "custom"
         });
         columns.push({
           title: '创建时间',
           key: 'createTime',
-          sortable: "custom",
-          align:"center"
+          sortable: "custom"
         });
         columns.push({
           title: '操作',
@@ -126,29 +108,31 @@
     methods:{
       doSearch:function(){
         this.tableSearchParams = {
-          search:this.searchDescription
+          tableCode:this.searchTableCode,
+          tableName:this.searchTableName
         }
       },
       goCreatePage: function() {
         this.$router.push({
-          name: '新增分类'
+          name: '新增库表'
         });
       },
-      goUpdatePage: function(categoryId) {
+      goUpdatePage: function(tableId) {
         this.$router.push({
-          name: '修改分类',
+          name: '修改库表',
           query: {
-            categoryId
+            tableId
           }
         });
       },
-      doDelete: function(categoryId) {
+      doDelete: function(tableId) {
         var self = this;
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/category/delete/" + categoryId).then(function(resp) {
+            util.ajax.get("/manage/tableData/deleteTable/"+ tableId).then(function(resp) {
+              //console.log(typeof (tableId));
               self.$Message.success('删除成功');
               self.doSearch();
             }).catch(function(err) {
@@ -157,15 +141,8 @@
           }
         });
       },
-      selectionChangeHandle:function(selection){
-        this.tableSelection = selection;
-      },
-      goOverviewManagePage:function(){
-        if(this.tableSelection.length === 1){
-          this.$router.push({name:"维护分类概览"});
-        }else{
-          this.$Message.error("请选择一条记录");
-        }
+      fromDelete:function(){
+
       }
     }
   };
