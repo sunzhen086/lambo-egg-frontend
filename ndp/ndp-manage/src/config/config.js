@@ -1,6 +1,6 @@
 import Env from './env';
 
-let appContext = Env.isDevEnv ? "" : "/ndp";
+let appContext = Env.isDevEnv ? "" : "/ndp-manage";
 
 let config = {
   env: Env,
