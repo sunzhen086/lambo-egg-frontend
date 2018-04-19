@@ -1,58 +1,52 @@
 <template>
   <div class="page">
     <Layout>
-      <Sider hide-trigger width="300" :style="{background: '#fff'}">
-        <Card :bordered="false" :dis-hover="true">
-          <p slot="title">23个数据目录</p>
-          <Form label-position="right" :label-width="60">
-            <FormItem label="排序方式">
-              <Select value="1">
-                <Option value="1">更新时间</Option>
-                <Option>数据量</Option>
-                <Option>访问量</Option>
-                <Option>评分</Option>
-              </Select>
-            </FormItem>
-          </Form>
-        </Card>
-        <Card :bordered="false" :dis-hover="true">
-          <p slot="title">筛选</p>
-
-          <Form label-position="right" :label-width="60">
-            <FormItem label="关键字">
-              <Input placeholder="">
-                <Button slot="append" icon="ios-search"></Button>
-              </Input>
-            </FormItem>
-            <FormItem label="数据分类">
-              <Select value="1">
-                <Option value="1">品牌</Option>
-                <Option>客户</Option>
-                <Option>工业</Option>
-                <Option>消费者</Option>
-                <Option>...</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="时间粒度">
-              <Select value="1">
-                <Option value="1">全部</Option>
-                <Option>季度</Option>
-                <Option>月</Option>
-                <Option>日</Option>
-                <Option>年</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="组织粒度">
-              <Select value="1">
-                <Option value="1">全部</Option>
-                <Option>全国</Option>
-                <Option>省</Option>
-                <Option>市</Option>
-                <Option>区县</Option>
-              </Select>
-            </FormItem>
-          </Form>
-        </Card>
+      <Sider hide-trigger width="300" :style="{background: '#fff'}" class="sider">
+        <p class="title">数据目录筛选</p>
+        <Form label-position="right" :label-width="60">
+          <FormItem>
+            <Input placeholder="请输入关键词" icon="ios-search" class="search-box"></Input>
+          </FormItem>
+          <p class="subtitle">排序方式</p>
+          <FormItem label="排序方式">
+            <Select value="1">
+              <Option value="1">更新时间</Option>
+              <Option>数据量</Option>
+              <Option>访问量</Option>
+              <Option>评分</Option>
+            </Select>
+          </FormItem>
+        </Form>
+        <p slot="title">筛选</p>
+        <Form label-position="right" :label-width="60">
+          <FormItem label="数据分类">
+            <Select value="1">
+              <Option value="1">品牌</Option>
+              <Option>客户</Option>
+              <Option>工业</Option>
+              <Option>消费者</Option>
+              <Option>...</Option>
+            </Select>
+          </FormItem>
+          <FormItem label="时间粒度">
+            <Select value="1">
+              <Option value="1">全部</Option>
+              <Option>季度</Option>
+              <Option>月</Option>
+              <Option>日</Option>
+              <Option>年</Option>
+            </Select>
+          </FormItem>
+          <FormItem label="组织粒度">
+            <Select value="1">
+              <Option value="1">全部</Option>
+              <Option>全国</Option>
+              <Option>省</Option>
+              <Option>市</Option>
+              <Option>区县</Option>
+            </Select>
+          </FormItem>
+        </Form>
       </Sider>
       <Content>
         <div class="content-container" style="margin-top:-10px">
@@ -480,7 +474,24 @@
 </script>
 <style lang="less" scoped>
   .page{
-
+    width: 1080px;
+    margin: 30px auto;
+    .sider{
+      .title{
+        background-color: #4199e5;
+        font-size: 16px;
+        height: 34px;
+        line-height: 34px;
+        text-align: center;
+        color: white;
+      }
+      .subtitle{
+        margin-top: 22px;
+      }
+      .search-box{
+        margin-left: 0px;
+      }
+    }
   }
   .content-container{
     padding:10px;
