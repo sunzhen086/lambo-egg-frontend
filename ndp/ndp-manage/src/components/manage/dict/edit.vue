@@ -162,7 +162,11 @@
             }
             if(self.dictId) {  //修改
               util.ajax.post("/manage/dictData/update" , params).then(function(resp) {
-                self.$Message.success('保存成功');
+                if(resp.data && resp.data.code === 1){
+                  self.$Message.success('保存成功');
+                }else{
+                  self.$Message.error("保存失败,请稍后再试");
+                }
               })
             } else { //新增
               util.ajax.post("/manage/dictData/create", params).then(function(resp) {
