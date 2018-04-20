@@ -1,471 +1,218 @@
 <template>
   <div class="page">
-    <Layout>
-      <Sider hide-trigger width="300" :style="{background: '#fff'}" class="sider">
-        <p class="title">数据目录筛选</p>
-        <Form label-position="right" :label-width="60">
-          <FormItem>
-            <Input placeholder="请输入关键词" icon="ios-search" class="search-box"></Input>
-          </FormItem>
-          <p class="subtitle">排序方式</p>
-          <FormItem label="排序方式">
-            <Select value="1">
-              <Option value="1">更新时间</Option>
-              <Option>数据量</Option>
-              <Option>访问量</Option>
-              <Option>评分</Option>
-            </Select>
-          </FormItem>
-        </Form>
-        <p slot="title">筛选</p>
-        <Form label-position="right" :label-width="60">
-          <FormItem label="数据分类">
-            <Select value="1">
-              <Option value="1">品牌</Option>
-              <Option>客户</Option>
-              <Option>工业</Option>
-              <Option>消费者</Option>
-              <Option>...</Option>
-            </Select>
-          </FormItem>
-          <FormItem label="时间粒度">
-            <Select value="1">
-              <Option value="1">全部</Option>
-              <Option>季度</Option>
-              <Option>月</Option>
-              <Option>日</Option>
-              <Option>年</Option>
-            </Select>
-          </FormItem>
-          <FormItem label="组织粒度">
-            <Select value="1">
-              <Option value="1">全部</Option>
-              <Option>全国</Option>
-              <Option>省</Option>
-              <Option>市</Option>
-              <Option>区县</Option>
-            </Select>
-          </FormItem>
-        </Form>
-      </Sider>
-      <Content>
-        <div class="content-container" style="margin-top:-10px">
-          <Card>
-            <Row>
-              <Col :lg="1" :md="2" :sm="3" :xs="4" >
-                <Tag :checked="false"><h3>标签</h3></Tag>
-              </Col>
-              <Col :lg="1" :md="2" :sm="3" :xs="4">
-                <Tag checkable  color="blue">不限</Tag>
-              </Col>
-              <Col :lg="22" :md="20" :sm="18" :xs="16">
-                <Tag checkable color="blue" :checked="false">销量</Tag>
-                <Tag checkable color="blue" :checked="false">销额</Tag>
-                <Tag checkable color="blue" :checked="false">同比</Tag>
-                <Tag checkable color="blue" :checked="false">全国</Tag>
-                <Tag checkable color="blue" :checked="false">环比</Tag>
-                <Tag checkable color="blue" :checked="false">非烟</Tag>
-                <Tag checkable color="blue" :checked="false">工业</Tag>
-                <Tag checkable color="blue" :checked="false">品牌</Tag>
-                <Tag checkable color="blue" :checked="false">商品</Tag>
-                <Tag checkable color="blue" :checked="false">零售户</Tag>
-                <Tag checkable color="blue" :checked="false">消费者</Tag>
-                <Tag checkable color="blue" :checked="false">终端</Tag>
-                <Tag checkable color="blue" :checked="false">市场</Tag>
-                <Tag checkable color="blue" :checked="false">结算</Tag>
-                <Tag checkable color="blue" :checked="false">库存</Tag>
-                <Tag checkable color="blue" :checked="false">货源</Tag>
-                <Tag checkable color="blue" :checked="false">年累</Tag>
-                <Tag checkable color="blue" :checked="false">价格</Tag>
-                <Tag checkable color="blue" :checked="false">订货方式</Tag>
-              </Col>
-            </Row>
-            <Row>
-              <Col :lg="1" :md="2" :sm="3" :xs="4" >
-                <Tag :checked="false"><h3>评分</h3></Tag>
-              </Col>
-              <Col :lg="1" :md="2" :sm="3" :xs="4">
-                <Tag checkable  color="blue">不限</Tag>
-              </Col>
-              <Col :lg="22" :md="20" :sm="18" :xs="16">
-                <Tag checkable color="blue" :checked="false">一星</Tag>
-                <Tag checkable color="blue" :checked="false">二星</Tag>
-                <Tag checkable color="blue" :checked="false">三星</Tag>
-                <Tag checkable color="blue" :checked="false">四星</Tag>
-                <Tag checkable color="blue" :checked="false">五星</Tag>
-              </Col>
-            </Row>
-          </Card>
-          <Row style="margin-top:10px;">
-            <Col span="12">
-              <div class="view-box">
-                <Card>
-                  <p slot="title">
-                    <Icon type="ios-film-outline"></Icon>
-                    全国品牌布局情况
-                  </p>
-                  <a href="#" slot="extra" @click.prevent="goDataDetail">
-                    <Icon type="android-arrow-forward"></Icon>
-                    查看数据
-                  </a>
-                  <div class="tags">
-                    <Tag type="border">销量</Tag>
-                    <Tag type="border">销额</Tag>
-                    <Tag type="border">同比</Tag>
-                    <Tag type="border">销量环比</Tag>
-                    <Tag type="border">销额环比</Tag>
-                    <Tag type="border">销量同比</Tag>
-                    <Tag type="border">销额同比</Tag>
-                    <Tag type="border">存销比</Tag>
-                  </div>
-                  <div class="infos">
-                    <div class="item">
-                      <div class="left">所属分类：</div>
-                      <div class="right">品牌</div>
-                    </div>
-                    <div class="item">
-                      <div class="left">时间粒度：</div>
-                      <div class="right">年</div>
-                    </div>
-                    <div class="item">
-                      <div class="left">组织粒度：</div>
-                      <div class="right">市</div>
-                    </div>
-                    <div class="item">
-                      <div class="left">发布时间：</div>
-                      <div class="right">2018年3月29日</div>
-                    </div>
-                    <div class="item">
-                      <div class="left">评分：</div>
-                      <div class="right">
-                        <Rate :value="3" :disabled="true" class="rate"></Rate>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="left">访问量：</div>
-                      <div class="right">3652次</div>
-                    </div>
-                    <div class="item">
-                      <div class="left">描述：</div>
-                      <div class="right ovfTwo">
-                        本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
-                      </div>
-                    </div>
-                  </div>
-                </Card>
+    <div class="content">
+      <Row>
+        <Col span="7" >
+          <div class="left">
+            <div class="title">
+              数据目录筛选
+            </div>
+            <div class="container">
+              <Input v-model="searchText" icon="search" placeholder="请输入关键词"></Input>
+              <div class="sub-title">
+                <div class="icon"></div>
+                <div class="text">排序方式</div>
               </div>
-            </Col>
-            <Col span="12">
-            <div class="view-box">
-              <Card>
-                <p slot="title">
-                  <Icon type="ios-film-outline"></Icon>
-                  品牌销售月度情况
-                </p>
-                <a href="#" slot="extra" @click.prevent="goDataDetail">
-                  <Icon type="android-radio-button-on"></Icon>
-                  查看数据
-                </a>
-                <div class="tags">
-                  <Tag type="border">销量</Tag>
-                  <Tag type="border">销额</Tag>
-                  <Tag type="border">同比</Tag>
-                  <Tag type="border">销量环比</Tag>
-                  <Tag type="border">销额环比</Tag>
-                  <Tag type="border">销量同比</Tag>
-                  <Tag type="border">销额同比</Tag>
-                  <Tag type="border">存销比</Tag>
+              <div class="orders">
+                <div class="order-item" :class="{ active: activeOrder =='gengxinshijian' }" @click="changeOrderItem('gengxinshijian')">
+                  <div class="icon gengxinshijian"></div>
+                  <div class="text">更新时间</div>
                 </div>
-                <div class="infos">
-                  <div class="item">
-                    <div class="left">所属分类：</div>
-                    <div class="right">品牌</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">时间粒度：</div>
-                    <div class="right">年</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">组织粒度：</div>
-                    <div class="right">市</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">发布时间：</div>
-                    <div class="right">2018年3月29日</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">评分：</div>
-                    <div class="right">
-                      <Rate :value="5" :disabled="true" class="rate"></Rate>
+                <div class="order-item" :class="{ active: activeOrder =='shujvliang' }" @click="changeOrderItem('shujvliang')">
+                  <div class="icon shujvliang"></div>
+                  <div class="text">数据量</div>
+                </div>
+                <div class="order-item" :class="{ active: activeOrder =='fangwenliang' }" @click="changeOrderItem('fangwenliang')">
+                  <div class="icon fangwenliang"></div>
+                  <div class="text">访问量</div>
+                </div>
+                <div class="order-item" :class="{ active: activeOrder =='pingfen' }" @click="changeOrderItem('pingfen')">
+                  <div class="icon pingfen"></div>
+                  <div class="text">评分</div>
+                </div>
+              </div>
+              <div class="sub-title">
+                <div class="icon"></div>
+                <div class="text">筛选条件</div>
+              </div>
+              <Form :model="formItem" :label-width="60" class="form">
+                <FormItem label="分类：" class="form-item-sz">
+                  <Select v-model="formItem.catograyId">
+                    <Option v-for="item in catograyList" :value="item.catograyId" :key="item.catograyId">{{ item.catograyName }}</Option>
+                  </Select>
+                </FormItem>
+                <FormItem label="时间：" class="form-item-sz">
+                  <Select v-model="formItem.periodTypeId">
+                    <Option v-for="item in periodTypeList" :value="item.periodTypeId" :key="item.periodTypeId">{{ item.periodTypeName }}</Option>
+                  </Select>
+                </FormItem>
+                <FormItem label="组织：" class="form-item-sz">
+                  <Select v-model="formItem.organTypeId">
+                    <Option v-for="item in organTypeList" :value="item.organTypeId" :key="item.organTypeId">{{ item.organTypeName }}</Option>
+                  </Select>
+                </FormItem>
+                <FormItem label="指标：" class="form-item-sz">
+                  <div class="tag-container">
+                    <div class="tag" v-for="tag in tagList" :key="tag.tagId" :class="{active:formItem.activeTags.indexOf(tag.tagId) > -1}" @click="tagActiveChange(tag.tagId)">
+                      {{tag.tagName}}
                     </div>
                   </div>
-                  <div class="item">
-                    <div class="left">访问量：</div>
-                    <div class="right">8966次</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">描述：</div>
-                    <div class="right ovfTwo">
-                      本数据涵盖了全行业品牌销售情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
+                </FormItem>
+                <FormItem label="评价：" class="form-item-sz">
+                  <div class="tag-container">
+                    <div class="tag" v-for="star in starList" :key="star.starId" :class="{active:formItem.activeStars.indexOf(star.starId) > -1}" @click="starActiveChange(star.starId)">
+                      {{star.starName}}
                     </div>
                   </div>
-                </div>
-              </Card>
+                </FormItem>
+              </Form>
             </div>
-            </Col>
-          </Row>
-          <Row style="margin-top:10px;">
-            <Col span="12">
-            <div class="view-box">
-              <Card>
-                <p slot="title">
-                  <Icon type="ios-film-outline"></Icon>
-                  品牌年度上柜率情况
-                </p>
-                <a href="#" slot="extra" @click.prevent="goDataDetail">
-                  <Icon type="android-arrow-forward"></Icon>
-                  查看数据
-                </a>
-                <div class="tags">
-                  <Tag type="border">销量</Tag>
-                  <Tag type="border">销额</Tag>
-                  <Tag type="border">同比</Tag>
-                  <Tag type="border">销量环比</Tag>
-                  <Tag type="border">销额环比</Tag>
-                  <Tag type="border">销量同比</Tag>
-                  <Tag type="border">销额同比</Tag>
-                  <Tag type="border">存销比</Tag>
-                </div>
-                <div class="infos">
-                  <div class="item">
-                    <div class="left">所属分类：</div>
-                    <div class="right">品牌</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">时间粒度：</div>
-                    <div class="right">年</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">组织粒度：</div>
-                    <div class="right">市</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">发布时间：</div>
-                    <div class="right">2018年3月29日</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">评分：</div>
-                    <div class="right">
-                      <Rate :value="4" :disabled="true" class="rate"></Rate>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="left">访问量：</div>
-                    <div class="right">24163次</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">描述：</div>
-                    <div class="right ovfTwo">
-                      本数据涵盖了全行业品牌年度上柜率情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            </Col>
-            <Col span="12">
-            <div class="view-box">
-              <Card>
-                <p slot="title">
-                  <Icon type="ios-film-outline"></Icon>
-                  各品牌引入退出情况
-                </p>
-                <a href="#" slot="extra" @click.prevent="goDataDetail">
-                  <Icon type="android-arrow-forward"></Icon>
-                  查看数据
-                </a>
-                <div class="tags">
-                  <Tag type="border">销量</Tag>
-                  <Tag type="border">销额</Tag>
-                  <Tag type="border">同比</Tag>
-                  <Tag type="border">销量环比</Tag>
-                  <Tag type="border">销额环比</Tag>
-                  <Tag type="border">销量同比</Tag>
-                  <Tag type="border">销额同比</Tag>
-                  <Tag type="border">存销比</Tag>
-                </div>
-                <div class="infos">
-                  <div class="item">
-                    <div class="left">所属分类：</div>
-                    <div class="right">品牌</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">时间粒度：</div>
-                    <div class="right">年</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">组织粒度：</div>
-                    <div class="right">市</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">发布时间：</div>
-                    <div class="right">2018年3月29日</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">评分：</div>
-                    <div class="right">
-                      <Rate :value="4" :disabled="true" class="rate"></Rate>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="left">访问量：</div>
-                    <div class="right">12558次</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">描述：</div>
-                    <div class="right ovfTwo">
-                      本数据涵盖了全行业各品牌引入退出情况，数据来源为行业卷烟营销系统，有部分没有上线卷烟营销系统的地区，采用的是手工上报形式.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            </Col>
-          </Row>
-          <Row style="margin-top:10px;">
-            <Col span="12">
-            <div class="view-box">
-              <Card>
-                <p slot="title">
-                  <Icon type="ios-film-outline"></Icon>
-                  全国品牌布局情况
-                </p>
-                <a href="#" slot="extra" @click.prevent="goDataDetail">
-                  <Icon type="android-arrow-forward"></Icon>
-                  查看数据
-                </a>
-                <div class="tags">
-                  <Tag type="border">销量</Tag>
-                  <Tag type="border">销额</Tag>
-                  <Tag type="border">同比</Tag>
-                  <Tag type="border">销量环比</Tag>
-                  <Tag type="border">销额环比</Tag>
-                  <Tag type="border">销量同比</Tag>
-                  <Tag type="border">销额同比</Tag>
-                  <Tag type="border">存销比</Tag>
-                </div>
-                <div class="infos">
-                  <div class="item">
-                    <div class="left">所属分类：</div>
-                    <div class="right">品牌</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">时间粒度：</div>
-                    <div class="right">年</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">组织粒度：</div>
-                    <div class="right">市</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">发布时间：</div>
-                    <div class="right">2018年3月29日</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">评分：</div>
-                    <div class="right">
-                      <Rate :value="4" :disabled="true" class="rate"></Rate>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="left">访问量：</div>
-                    <div class="right">12558次</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">描述：</div>
-                    <div class="right ovfTwo">
-                      本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            </Col>
-            <Col span="12">
-            <div class="view-box">
-              <Card>
-                <p slot="title">
-                  <Icon type="ios-film-outline"></Icon>
-                  全国品牌布局情况
-                </p>
-                <a href="#" slot="extra" @click.prevent="goDataDetail">
-                  <Icon type="android-arrow-forward"></Icon>
-                  查看数据
-                </a>
-                <div class="tags">
-                  <Tag type="border">销量</Tag>
-                  <Tag type="border">销额</Tag>
-                  <Tag type="border">同比</Tag>
-                  <Tag type="border">销量环比</Tag>
-                  <Tag type="border">销额环比</Tag>
-                  <Tag type="border">销量同比</Tag>
-                  <Tag type="border">销额同比</Tag>
-                  <Tag type="border">存销比</Tag>
-                </div>
-                <div class="infos">
-                  <div class="item">
-                    <div class="left">所属分类：</div>
-                    <div class="right">品牌</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">时间粒度：</div>
-                    <div class="right">年</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">组织粒度：</div>
-                    <div class="right">市</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">发布时间：</div>
-                    <div class="right">2018年3月29日</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">评分：</div>
-                    <div class="right">
-                      <Rate :value="4" :disabled="true" class="rate"></Rate>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="left">访问量：</div>
-                    <div class="right">12558次</div>
-                  </div>
-                  <div class="item">
-                    <div class="left">描述：</div>
-                    <div class="right ovfTwo">
-                      本数据涵盖了全行业所有品牌的市场布局情况，数据来源为行业卷烟营销系统，有部分没有上线汗液卷烟营销系统的地区，采用的是手工上报形式.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            </Col>
-          </Row>
-        </div>
-      </Content>
-    </Layout>
+          </div>
+        </Col>
+        <Col span="17">
+          <div class="right">
+            <Card :bordered="false" dis-hover>
+              <p slot="title">共搜索到<span class="searchResultNumber">{{searchResultNumber}}</span>个数据目录</p>
+              <SearchResult :params="formItem"></SearchResult>
+            </Card>
+          </div>
+        </Col>
+      </Row>
+    </div>
   </div>
 </template>
 <script>
+  import SearchResult from "./components/searchresult";
   export default {
     name: "dataview",
+    components:{
+      "SearchResult":SearchResult
+    },
     data() {
       return {
-        testData:{},
+        searchText:"",
+        activeOrder:"gengxinshijian",
+        formItem:{
+          catograyId:1,
+          periodTypeId:1,
+          organTypeId:1,
+          activeTags:[],
+          activeStars:[]
+        },
+        searchResultNumber:23,
+        catograyList:[
+          {
+            catograyId:1,
+            catograyName:"品牌"
+          },
+          {
+            catograyId:2,
+            catograyName:"商品"
+          }
+        ],
+        periodTypeList:[
+          {
+            periodTypeId:1,
+            periodTypeName:"日"
+          },
+          {
+            periodTypeId:2,
+            periodTypeName:"月"
+          },
+          {
+            periodTypeId:3,
+            periodTypeName:"年"
+          }
+        ],
+        organTypeList:[
+          {
+            organTypeId:1,
+            organTypeName:"省"
+          },
+          {
+            organTypeId:2,
+            organTypeName:"市"
+          },
+          {
+            organTypeId:3,
+            organTypeName:"县"
+          }
+        ],
+        tagList:[
+          {
+            tagId:1,
+            tagName:"销量"
+          },
+          {
+            tagId:2,
+            tagName:"销额"
+          },
+          {
+            tagId:3,
+            tagName:"库存"
+          },
+          {
+            tagId:4,
+            tagName:"购进"
+          },
+          {
+            tagId:5,
+            tagName:"存销比"
+          },
+          {
+            tagId:6,
+            tagName:"客户数"
+          },
+          {
+            tagId:7,
+            tagName:"品类数"
+          }
+        ],
+        starList:[
+          {
+            starId:1,
+            starName:"一星"
+          },
+          {
+            starId:2,
+            starName:"二星"
+          },
+          {
+            starId:3,
+            starName:"三星"
+          },
+          {
+            starId:4,
+            starName:"四星"
+          },
+          {
+            starId:5,
+            starName:"五星"
+          }
+        ]
       }
     },
     methods:{
-      goDataDetail:function(){
-        this.$router.push({name: "数据明细"});
+      changeOrderItem:function(orderItem){
+        this.activeOrder = orderItem;
+      },
+      tagActiveChange:function(tagId){
+        let activeTags = this.formItem.activeTags;
+        let index = activeTags.indexOf(tagId);
+        if(index> -1){
+          activeTags.splice(index,1);
+        }else{
+          activeTags.push(tagId);
+        }
+      },
+      starActiveChange:function(starId){
+        let activeStars = this.formItem.activeStars;
+        let index = activeStars.indexOf(starId);
+        if(index> -1){
+          activeStars.splice(index,1);
+        }else{
+          activeStars.push(starId);
+        }
       }
     },
     mounted(){
@@ -474,55 +221,138 @@
 </script>
 <style lang="less" scoped>
   .page{
-    width: 1080px;
-    margin: 30px auto;
-    .sider{
-      .title{
-        background-color: #4199e5;
-        font-size: 16px;
-        height: 34px;
-        line-height: 34px;
-        text-align: center;
-        color: white;
-      }
-      .subtitle{
-        margin-top: 22px;
-      }
-      .search-box{
-        margin-left: 0px;
-      }
-    }
-  }
-  .content-container{
-    padding:10px;
-  }
-
-  .infos{
-    margin-top:10px;
-    .item{
-      overflow: hidden;
-      display:flex;
+    background:#fafafa;
+    .content{
+      width:1080px;
+      margin:20px auto;
       .left{
-        float:left;
-        height:40px;
-        line-height:40px;
-        width:80px;
-        text-align:right;
+        background:#fff;
+        margin-right:20px;
+        .title{
+          background:#4199e5;
+          color:#fff;
+          font-size:16px;
+          line-height:34px;
+          text-align:center;
+        }
+        .container{
+          padding:22px 16px 22px;
+          .sub-title{
+            margin-top:10px;
+            overflow:hidden;
+            .icon{
+              width:5px;
+              height:14px;
+              background:#ff9000;
+              float:left;
+              margin-top:3px;
+            }
+            .text{
+              font-size:14px;
+              float:left;
+              margin-left:5px;
+            }
+          }
+          .orders{
+            margin-top:10px;
+            display:flex;
+            .order-item{
+              flex:1;
+              cursor:pointer;
+              .icon{
+                width:42px;
+                height:42px;
+                margin:0 auto;
+                &.gengxinshijian{
+                  background:url("../../assets/dataview/gengxinshijian_1.png");
+                }
+                &.shujvliang{
+                  background:url("../../assets/dataview/shujvliang_1.png");
+                }
+                &.fangwenliang{
+                  background:url("../../assets/dataview/fangwenliang_1.png");
+                }
+                &.pingfen{
+                  background:url("../../assets/dataview/pingfen_1.png");
+                }
+              }
+              .text{
+                margin-top:5px;
+                text-align:center;
+              }
+              &:hover{
+                .icon{
+                  &.gengxinshijian{
+                    background:url("../../assets/dataview/gengxinshijian_2.png");
+                  }
+                  &.shujvliang{
+                    background:url("../../assets/dataview/shujvliang_2.png");
+                  }
+                  &.fangwenliang{
+                    background:url("../../assets/dataview/fangwenliang_2.png");
+                  }
+                  &.pingfen{
+                    background:url("../../assets/dataview/pingfen_2.png");
+                  }
+                }
+                .text{
+                  color:#4199e5;
+                }
+              }
+              &.active{
+                .icon{
+                  &.gengxinshijian{
+                    background:url("../../assets/dataview/gengxinshijian_2.png");
+                  }
+                  &.shujvliang{
+                    background:url("../../assets/dataview/shujvliang_2.png");
+                  }
+                  &.fangwenliang{
+                    background:url("../../assets/dataview/fangwenliang_2.png");
+                  }
+                  &.pingfen{
+                    background:url("../../assets/dataview/pingfen_2.png");
+                  }
+                }
+                .text{
+                  color:#4199e5;
+                }
+              }
+            }
+          }
+          .form{
+            margin-top:5px;
+            .form-item-sz{
+              margin-bottom:10px;
+            }
+            .tag-container{
+              .tag{
+                cursor:pointer;
+                white-space: nowrap;
+                float:left;
+                line-height:1.1;
+                margin-top:5px;
+                margin-right:5px;
+                padding:4px;
+                border-radius:2px;
+                &.active{
+                  background:#4199e5;
+                  color:#fff;
+                }
+              }
+            }
+
+          }
+        }
       }
       .right{
-        float:left;
-        line-height:40px;
-        flex:1;
-      }
-      .ivu-rate{
-        font-size:16px;
+        background:#fff;
+        .searchResultNumber{
+          color:#4199e5;
+          font-weight:bold;
+        }
       }
     }
   }
-  .view-box{
-    margin-right:10px;
-  }
-
-  .ovfTwo{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
 
 </style>
