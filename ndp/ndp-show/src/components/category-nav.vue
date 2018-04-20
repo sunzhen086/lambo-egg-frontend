@@ -2,7 +2,7 @@
   <div>
     <div class="title-back">
       <div class="title">
-        <h2 class="cat-head">品牌</h2>
+        <h2 class="cat-head">{{categoryId}}品牌</h2>
         <div class="nav">
           <Tabs value="分类总览" @on-click="tabOnClick">
             <TabPane label="概览" name="分类总览"></TabPane>
@@ -19,10 +19,25 @@
 <script>
   export default {
     name: "category-nav",
+    data () {
+      return {
+        categoryId: this.$route.query.categoryId,
+        CategoryOverview : {}
+      }
+    },
     methods:{
+      initPage:function (categoryId) {
+        var self = this;
+        util.ajax.get('/main/overview/getCategoryOverview?categoryId=' + categoryId,{}).then(function (resp) {
+          self.dataStatistics = resp.data.data;
+        });
+      },
       tabOnClick:function(name){
         this.$router.push({name: name})
       }
+    },
+    created(){
+      this.initPage(categoryId);
     }
   }
 </script>

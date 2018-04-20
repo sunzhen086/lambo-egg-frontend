@@ -14,7 +14,7 @@
           <div class="icon icon1"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.category_num}}</div>
           <div class="label">数据分类(个)</div>
         </div>
       </div>
@@ -23,7 +23,7 @@
           <div class="icon icon2"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.file_num}}</div>
           <div class="label">数据文件(个)</div>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <div class="icon icon3"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.subject_num}}</div>
           <div class="label">数据总数(条)</div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <div class="icon icon4"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.record_num}}</div>
           <div class="label">访问量(次)</div>
         </div>
       </div>
@@ -50,7 +50,7 @@
           <div class="icon icon5"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.download_num}}</div>
           <div class="label">下载量(次)</div>
         </div>
       </div>
@@ -60,13 +60,13 @@
       <h2 class="category">主题分类</h2>
       <Row>
         <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView">
+          <div class="card" @click="goCategoryView(2)">
             <div class="icon icon1"></div>
             <h3>客户</h3>
           </div>
         </Col>
         <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView">
+          <div class="card" @click="goCategoryView(3)">
             <div class="icon icon2"></div>
             <h3>品牌</h3>
           </div>
@@ -176,111 +176,81 @@
       <Row class="top-list">
         <Col span="12" class="list">
           <div class="title">热门数据</div>
-          <Row class="data-list">
-            <Col span="18">
-              【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
+          <div v-for="item in hotSubject">
+            <Row class="data-list">
+              <Col span="18">
+                【{{ item.category_name }}】{{ item.subject_name }}
+              </Col>
+              <Col span="6" class="data-desc">
+                <span class="num">{{ item.record_num }}</span>次查看
+              </Col>
+            </Row>
+          </div>
         </Col>
         <Col span="12" class="list">
           <div class="title">最新开放</div>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
+          <div v-for="item in newSubject">
+            <Row class="data-list">
+              <Col span="18">
+                【{{ item.category_name }}】{{ item.subject_name }}
+              </Col>
+              <Col span="6" class="data-desc">
+                {{ item.create_time }}
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     </div>
   </div>
 </template>
 <script>
+  import util from '@/libs/util';
 
   export default {
     name: "homepage",
     data () {
       return {
-        value2: 0,
+        dataStatistics: {},
+        categories: [],
+        hotSubject: [],
+        newSubject: [],
         searchValue:""
       }
     },
     methods:{
-      goCategoryView:function(){
-        this.$router.push({name:"分类总览"});
+      initPage:function () {
+        var self = this;
+        util.ajax.get('/main/homepage/getDataStatistics',{}).then(function (resp) {
+          self.dataStatistics = resp.data.data;
+        });
+        util.ajax.get('/main/homepage/getAllCategory',{}).then(function (resp) {
+          self.categories = resp.data.data;
+        });
+        util.ajax.get('/main/homepage/getHotSubject',{}).then(function (resp) {
+          self.hotSubject = resp.data.data;
+        });
+        util.ajax.get('/main/homepage/getNewSubject',{}).then(function (resp) {
+          self.newSubject = resp.data.data;
+        });
+      },
+      goCategoryView:function(categoryId){
+        this.$router.push({
+          name:'分类总览',
+          query:{
+            categoryId:categoryId
+          }
+        });
       },
       goDataView:function(){
         this.$router.push({name:"新数据目录"});
       }
+    },
+    created(){
+      this.initPage();
+    },
+    mounted(){
+
     }
   }
 </script>
@@ -552,6 +522,9 @@
             height: 32px;
             line-height: 32px;
             color: #525252;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
             .data-desc{
               text-align:right;
               color: #999999;
