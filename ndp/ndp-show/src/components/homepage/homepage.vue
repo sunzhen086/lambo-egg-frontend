@@ -60,13 +60,13 @@
       <h2 class="category">主题分类</h2>
       <Row>
         <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView(2)">
+          <div class="card" @click="goCategoryView(2,'客户')">
             <div class="icon icon1"></div>
             <h3>客户</h3>
           </div>
         </Col>
         <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView(3)">
+          <div class="card" @click="goCategoryView(3,'品牌')">
             <div class="icon icon2"></div>
             <h3>品牌</h3>
           </div>
@@ -234,11 +234,12 @@
           self.newSubject = resp.data.data;
         });
       },
-      goCategoryView:function(categoryId){
+      goCategoryView:function(categoryId,categoryName){
         this.$router.push({
           name:'分类总览',
-          query:{
-            categoryId:categoryId
+          params:{
+            categoryId:categoryId,
+            categoryName:categoryName
           }
         });
       },
