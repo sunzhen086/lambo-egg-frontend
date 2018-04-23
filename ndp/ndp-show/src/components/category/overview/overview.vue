@@ -7,7 +7,7 @@
       <div class="content">
         <h1 class="example-head">{{categoryOverview.caption}}</h1>
         <div class="image-container">
-          <img :src="examplePic" id="pic"/>
+          <img :src="examplePic"/>
         </div>
         <div class="text-container" v-html="categoryOverview.article">
         </div>
@@ -48,17 +48,21 @@
     data(){
       return {
         examplePic:"",
-        categoryId: this.$route.params.categoryId,
         categoryOverview:{},
         newSubject: []
       }
+    },
+    computed:{
+      categoryId: function () {
+        return this.$route.query.categoryId
+      },
     },
     methods:{
       initPage:function () {
         var self = this;
         util.ajax.get('/main/overview/getCategoryOverview?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.categoryOverview = resp.data.data;
-          self.examplePic = "/"+config.serverContext+"/manage/file/get/"+self.categoryOverview.picture;
+          self.examplePic = "/"+config.fileServerContext+"/file/get/"+self.categoryOverview.picture;
         });
         util.ajax.get('/main/homepage/getNewSubject?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.newSubject = resp.data.data;
@@ -68,10 +72,16 @@
         this.$router.push({name: name})
       }
     },
+    watch: {
+      '$route' (to, from) {
+        // 对路由变化作出响应
+        this.initPage()
+      }
+    },
     created(){
+      this.initPage()
     },
     mounted(){
-      this.initPage();
     }
   }
 </script>
@@ -113,14 +123,14 @@
           background:#fff;
           display: inline-block;
           float: left;
-          .description{
+          /*.description{
             height: 32px;
             line-height: 32px;
             font-size:14px;
             color: white;
             text-align: center;
             background-color: #dedede;
-          }
+          }*/
         }
         .text-container{
           margin-top:30px;

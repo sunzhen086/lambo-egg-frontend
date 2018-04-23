@@ -21,13 +21,19 @@
     name: "category-nav",
     data () {
       return {
-        categoryId: this.$route.params.categoryId,
-        categoryName: this.$route.params.categoryName
+        categoryId: this.$route.query.categoryId,
+        categoryName: this.$route.query.categoryName
       }
     },
     methods:{
       tabOnClick:function(name){
-        this.$router.push({name: name})
+        var self = this;
+        this.$router.push({
+          name: name,
+          params:{
+            categoryId:self.categoryId
+          }
+        })
       }
     }
   }
