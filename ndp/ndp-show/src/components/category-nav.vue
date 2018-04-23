@@ -24,6 +24,11 @@
         categoryId: this.$route.params.categoryId,
         categoryName: this.$route.params.categoryName
       }
+    },
+    methods:{
+      tabOnClick:function(name){
+        this.$router.push({name: name})
+      }
     }
   }
 </script>
