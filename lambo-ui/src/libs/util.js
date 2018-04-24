@@ -1,11 +1,9 @@
 import axios from 'axios';
-import Vue from 'vue';
 import ai from './interceptors';
 import config from '@/config/config';
 var qs = require('qs');
-var vm = new Vue();
 
-let util = {};
+var util = {};
 util.title = function (title) {
     title = title || 'lambo';
     window.document.title = title;

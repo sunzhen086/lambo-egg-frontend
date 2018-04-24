@@ -30,12 +30,12 @@ if (typeof window !== 'undefined' && window.Vue) {
 };
 
 export default {
-    install,
-    Login,
-    Frame,
-    Table,
-    EditTable,
-    HelpBox,
-    TreeTable,
-    Permission
+    install:install,
+    Login:Login,
+    Frame:Frame,
+    Table:Table,
+    EditTable:EditTable,
+    HelpBox:HelpBox,
+    TreeTable:TreeTable,
+    Permission:Permission
 };

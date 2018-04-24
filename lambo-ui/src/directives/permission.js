@@ -1,17 +1,17 @@
 import util from '@/libs/util.js';
 
 const checkPermission = function(el, binding, vnode){
-    let permissionValue = binding.value;
-    let oldValue = binding.oldValue;
+    var permissionValue = binding.value;
+    var oldValue = binding.oldValue;
     if(permissionValue === oldValue){
         return;
     }
     util.ajax("/manage/permission/check",{
         params:{
-            permissionValue
+            permissionValue:permissionValue
         }
     }).then(function(resp){
-        let result = resp.data;
+        var result = resp.data;
 
         if(Boolean(result) === true){
             el.style.display = "";

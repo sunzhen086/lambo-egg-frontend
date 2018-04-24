@@ -4,7 +4,7 @@ import HelpboxEditor from "./editors/helpbox-editor";
 export default{
     functional: true,
     render:function(createElement,context){
-        let editorType = context.props.column.editor.type;
+        var editorType = context.props.column.editor.type;
         if(editorType === "text"){
             return createElement(TextEditor, context.data, context.children);
         }else if(editorType === "select"){
