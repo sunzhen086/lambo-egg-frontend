@@ -4,14 +4,14 @@
 */
 'use strict'
 import Vue from 'vue'
-export default function treeToArray(data, expandAll, parent = false, level = null) {
-  let tmp = []
+export default function treeToArray(data, expandAll, parent, level) {
+  var tmp = []
   Array.from(data).forEach(function(record) {
-    let recordChildren = JSON.parse(JSON.stringify(record.children || null));
+    var recordChildren = JSON.parse(JSON.stringify(record.children || null));
     if (record._expanded === undefined) {
       Vue.set(record, '_expand', expandAll)
     }
-    let _level = 1
+    var _level = 1
     if (level !== undefined && level !== null) {
       _level = level + 1;
         Vue.set(record, '_show', false);
@@ -24,7 +24,7 @@ export default function treeToArray(data, expandAll, parent = false, level = nul
     tmp.push(record);
     if (recordChildren && recordChildren.length > 0) {
       record.children = true;
-      const children = treeToArray(recordChildren, expandAll, true, _level)
+      var children = treeToArray(recordChildren, expandAll, true, _level)
       tmp = tmp.concat(children);
     }
   });

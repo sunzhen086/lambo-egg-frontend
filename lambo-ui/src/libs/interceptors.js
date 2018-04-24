@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Config from '@/config/config';
 var qs = require('qs');
-let vm = new Vue();
-let timer1,timer2;
+var timer1,timer2;
 
 function requestInterceptors(config){
 	if(config.method === 'post') {
@@ -41,8 +40,8 @@ function responseError(error){
 }
 
 export default {
-	requestInterceptors,
-	responseInterceptors,
-	requestError,
-	responseError
+	requestInterceptors:requestInterceptors,
+	responseInterceptors:responseInterceptors,
+	requestError:requestError,
+	responseError:responseError
 }
