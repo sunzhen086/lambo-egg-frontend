@@ -6,7 +6,8 @@
             <FormItem label="主题"  prop="title" >
               <Input v-model="form.title" placeholder="30个字以内" />
             </FormItem>
-            <div class="requir-rate">*</div><FormItem label="评价" prop="rateCount" >
+            <div class="requir-rate">*</div>
+              <FormItem label="评价" prop="rateCount" >
               <Rate v-model="form.rateCount"></Rate>
             </FormItem>
             <FormItem label="内容" prop="commentContent">
@@ -15,7 +16,7 @@
             </FormItem>
             <FormItem>
               <Button type="primary" @click="formSubmit" :disabled="submitFlag">提交</Button>
-              <Button type="ghost" @click="formReset">重置</Button>
+              <Button type="ghost" @click="formReset" :disabled="submitFlag">重置</Button>
             </FormItem>
           </Form>
     </Card>

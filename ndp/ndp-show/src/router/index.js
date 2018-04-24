@@ -10,7 +10,6 @@ import homepage from '@/components/homepage/homepage';
 import overview from '@/components/overview/overview';
 import datatable from '@/components/datatable/datatable';
 import datadetail from '@/components/datadetail/datadetail';
-
 import categorynav from '@/components/category-nav';
 import categoryoverview from '@/components/category/overview/overview';
 import dataview from '@/components/dataview/dataview';
