@@ -79,11 +79,10 @@
               article:""
             },
             defaultList: [],
-            uploadUrl:"",
             imgUrl: '',
             visible: false,
             uploadList: [],
-            uploadUrl:"/"+config.serverContext+"/manage/file/put",
+            uploadUrl:"/"+config.fileServerContext+"/manage/file/put",
             ruleValidate: {
               summary:[
                 { required: true, message: '分类概述不能为空', trigger: 'blur' }
@@ -147,7 +146,6 @@
           formSubmit(){
             var self = this;
             self.$refs.form.validate((valid) => {
-              alert(this.form.picture.toString());
               if(valid) {
                 let params = {
                   categoryId:self.categoryId,
@@ -187,8 +185,8 @@
           }
         },
         mounted () {
-          this.uploadList = this.$refs.upload.fileList;
           this.initData();
+          this.uploadList = this.$refs.upload.fileList;
         }
     }
 </script>

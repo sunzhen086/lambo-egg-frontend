@@ -80,7 +80,7 @@
           ]
 				},
 				created:false,
-        uploadUrl:"/"+config.serverContext+"/manage/file/put"
+        uploadUrl:"/"+config.fileServerContext+"/manage/file/put"
 			}
 		},
 		computed: {

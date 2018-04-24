@@ -9,6 +9,6 @@ let config = {
   homePage:appContext + "/#/home",
   framePage:appContext + "/#/manage/frame/table",
   serverContext:"ndp-show-server",
-  fileServerContext:"ndp-file-server"
+  fileServerContext:"file-server"
 };
 export default config;

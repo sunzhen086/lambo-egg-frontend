@@ -37,6 +37,11 @@ module.exports = {
         pathRewrite: {'^/ndp-manage-server' : ''},
         changeOrigin: false
       },
+      '/file-server': {
+        target: 'http://127.0.0.1:1115/file-server',
+        pathRewrite: {'^/file-server' : ''},
+        changeOrigin: false
+      },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

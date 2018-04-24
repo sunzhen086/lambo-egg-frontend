@@ -26,7 +26,8 @@
                   <Col span="4" class="category-box" v-for="(item,index) in categories.slice(n * 6 - 6,n * 6)">
                     <div class="card" @click="goCategoryView(item.category_id,item.category_name)">
                       <div class="icon">
-                        <img :src="item.category_img_path"/>
+                        <img :src="item.category_img_path" class="icon-default"/>
+                        <img :src="item.category_img1_path" class="icon-hover"/>
                       </div>
                       <p>{{item.category_name}}</p>
                     </div>
@@ -70,7 +71,8 @@
         util.ajax.get('/main/homepage/getAllCategory',{}).then(function (resp) {
           self.categories = resp.data.data;
           for (var j = 0; j < self.categories.length; j++){
-            self.categories[j].category_img_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img;
+            self.categories[j].category_img_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img.split(',')[0];
+            self.categories[j].category_img1_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img.split(',')[1];
           }
         });
       },
@@ -166,59 +168,11 @@
                 width:48px;
                 height:48px;
                 margin:12px auto;
-                &.icon1{
-                  background:url("./homepage/images/kehu_1.png");
+                .icon-default{
+                  display: block;
                 }
-                &.icon2{
-                  background:url("./homepage/images/pinpai_1.png");
-                }
-                &.icon3{
-                  background:url("./homepage/images/shichang_1.png");
-                }
-                &.icon4{
-                  background:url("./homepage/images/xiaoshou_1.png");
-                }
-                &.icon5{
-                  background:url("./homepage/images/wangjian_1.png");
-                }
-                &.icon6{
-                  background:url("./homepage/images/wuliu_1.png");
-                }
-                &.icon7{
-                  background:url("./homepage/images/xiaofeizhe_1.png");
-                }
-                &.icon8{
-                  background:url("./homepage/images/zhongduan_1.png");
-                }
-                &.icon9{
-                  background:url("./homepage/images/gongye_1.png");
-                }
-                &.icon10{
-                  background:url("./homepage/images/huoyuan_1.png");
-                }
-                &.icon11{
-                  background:url("./homepage/images/caigou_1.png");
-                }
-                &.icon12{
-                  background:url("./homepage/images/kucun_1.png");
-                }
-                &.icon13{
-                  background:url("./homepage/images/jiesuan_1.png");
-                }
-                &.icon14{
-                  background:url("./homepage/images/hujiao_1.png");
-                }
-                &.icon15{
-                  background:url("./homepage/images/feiyan_1.png");
-                }
-                &.icon16{
-                  background:url("./homepage/images/neiguan_1.png");
-                }
-                &.icon17{
-                  background:url("./homepage/images/zilvxiaozu_1.png");
-                }
-                &.icon18{
-                  background:url("./homepage/images/zhuanmai_1.png");
+                .icon-hover{
+                  display: none;
                 }
               }
               p{
@@ -229,59 +183,11 @@
 
               &:hover,&.active{
                 .icon{
-                  &.icon1{
-                    background:url("./homepage/images/kehu_2.png");
+                  .icon-default{
+                    display: none;
                   }
-                  &.icon2{
-                    background:url("./homepage/images/pinpai_2.png");
-                  }
-                  &.icon3{
-                    background:url("./homepage/images/shichang_2.png");
-                  }
-                  &.icon4{
-                    background:url("./homepage/images/xiaoshou_2.png");
-                  }
-                  &.icon5{
-                    background:url("./homepage/images/wangjian_2.png");
-                  }
-                  &.icon6{
-                    background:url("./homepage/images/wuliu_2.png");
-                  }
-                  &.icon7{
-                    background:url("./homepage/images/xiaofeizhe_2.png");
-                  }
-                  &.icon8{
-                    background:url("./homepage/images/zhongduan_2.png");
-                  }
-                  &.icon9{
-                    background:url("./homepage/images/gongye_2.png");
-                  }
-                  &.icon10{
-                    background:url("./homepage/images/huoyuan_2.png");
-                  }
-                  &.icon11{
-                    background:url("./homepage/images/caigou_2.png");
-                  }
-                  &.icon12{
-                    background:url("./homepage/images/kucun_2.png");
-                  }
-                  &.icon13{
-                    background:url("./homepage/images/jiesuan_2.png");
-                  }
-                  &.icon14{
-                    background:url("./homepage/images/hujiao_2.png");
-                  }
-                  &.icon15{
-                    background:url("./homepage/images/feiyan_2.png");
-                  }
-                  &.icon16{
-                    background:url("./homepage/images/neiguan_2.png");
-                  }
-                  &.icon17{
-                    background:url("./homepage/images/zilvxiaozu_2.png");
-                  }
-                  &.icon18{
-                    background:url("./homepage/images/zhuanmai_2.png");
+                  .icon-hover{
+                    display: block;
                   }
                 }
                 p{

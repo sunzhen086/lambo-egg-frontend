@@ -7,6 +7,7 @@ let config = {
   appContext:appContext,
   loginPage:appContext + "/#/login",
   homePage:appContext + "/#/manage/table",
-  serverContext:"ndp-manage-server"
+  serverContext:"ndp-manage-server",
+  fileServerContext:"file-server"
 };
 export default config;

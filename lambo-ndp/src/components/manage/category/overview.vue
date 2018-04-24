@@ -83,7 +83,7 @@
             imgUrl: '',
             visible: false,
             uploadList: [],
-            uploadUrl:"/"+config.serverContext+"/manage/file/put",
+            uploadUrl:"/"+config.fileServerContext+"/manage/file/put",
             ruleValidate: {
               summary:[
                 { required: true, message: '分类概述不能为空', trigger: 'blur' }
