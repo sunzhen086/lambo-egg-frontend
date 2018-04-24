@@ -96,7 +96,7 @@
               ],
               picture:[
                 { validator:function(rule, value, callback, source, options) {
-                    if(value.length > 1){
+                    if(value.length > 0){
                       callback();
                     }else{
                       callback("文章图片至少要有一张");
@@ -127,7 +127,7 @@
             this.form.picture.splice(this.form.picture.indexOf(file.newName), 1);
           },
           handleSuccess (response, file) {
-            file.url = "/"+config.serverContext+"/manage/file/get/"+response.data[0].name;
+            file.url = "/"+config.serverContext+"/file/get/"+response.data[0].name;
             file.newName = response.data[0].name;
             this.form.picture.push(file.newName);
           },
@@ -147,14 +147,16 @@
           formSubmit(){
             var self = this;
             self.$refs.form.validate((valid) => {
+              alert(this.form.picture.toString());
               if(valid) {
                 let params = {
+                  categoryId:self.categoryId,
                   summary:this.form.summary,
                   caption:this.form.caption,
-                  picture:this.form.picture,
+                  picture:this.form.picture.toString(),
                   article:this.form.article
                 };
-                util.ajax.post("/manage/category/overview/update/" + self.categoryId, params).then(function(resp) {
+                util.ajax.post("/manage/category/overview/update", params).then(function(resp) {
                   let result = resp.data;
                   if(result.code === 1){
                     self.$Message.info("保存成功");

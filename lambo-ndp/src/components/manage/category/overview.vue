@@ -123,7 +123,7 @@
             this.form.picture.splice(this.form.picture.indexOf(file.newName), 1);
           },
           handleSuccess (response, file) {
-            file.url = "/"+config.serverContext+"/manage/file/get/"+response.data[0].name;
+            file.url = "/"+config.serverContext+"/file/get/"+response.data[0].name;
             file.newName = response.data[0].name;
             this.form.picture.push(file.newName);
           },

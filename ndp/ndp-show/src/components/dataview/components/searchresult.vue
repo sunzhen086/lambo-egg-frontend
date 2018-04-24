@@ -21,7 +21,7 @@
             <Row>
               <Col span="16">
                 <div class="tags">
-                  <Tag type="border" v-for="tag in result.tags" class="tag">{{tag}}</Tag>
+                  <Tag type="border" v-for="tag in result.tags" :key="tag" class="tag">{{tag}}</Tag>
                 </div>
               </Col>
               <Col span="8">
@@ -72,130 +72,10 @@
                 catograyId: 1,
                 catograyName: "品牌",
                 description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
+                tags: ["销量", "销额1", "销额2", "销额3", "销额4", "销额5"],
                 createTime: "2018-03-09",
                 viewCount: 1256,
                 dataType: 1
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
               }
             ]
           }

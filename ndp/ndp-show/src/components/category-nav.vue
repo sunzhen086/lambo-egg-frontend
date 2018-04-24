@@ -2,7 +2,7 @@
   <div>
     <div class="title-back">
       <div class="title">
-        <h2 class="cat-head">品牌</h2>
+        <h2 class="cat-head">{{categoryName}}</h2>
         <div class="nav">
           <Tabs value="分类总览" @on-click="tabOnClick">
             <TabPane label="概览" name="分类总览"></TabPane>
@@ -19,9 +19,21 @@
 <script>
   export default {
     name: "category-nav",
+    data () {
+      return {
+        categoryId: this.$route.query.categoryId,
+        categoryName: this.$route.query.categoryName
+      }
+    },
     methods:{
       tabOnClick:function(name){
-        this.$router.push({name: name})
+        var self = this;
+        this.$router.push({
+          name: name,
+          params:{
+            categoryId:self.categoryId
+          }
+        })
       }
     }
   }

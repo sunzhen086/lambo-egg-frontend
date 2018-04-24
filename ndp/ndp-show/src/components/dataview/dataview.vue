@@ -222,9 +222,10 @@
 <style lang="less" scoped>
   .page{
     background:#fafafa;
+    padding-top: 10px;
     .content{
       width:1080px;
-      margin:20px auto;
+      margin:10px auto;
       .left{
         background:#fff;
         margin-right:20px;

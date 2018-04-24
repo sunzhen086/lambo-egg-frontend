@@ -88,7 +88,7 @@
             if(param.row.categoryImg){
               return h('img',{
                 attrs: {
-                  "src": "/"+config.serverContext+"/manage/file/get/"+ param.row.categoryImg
+                  "src": "/"+config.serverContext+"/file/get/"+ param.row.categoryImg
                 },
                 style:{
                   width:"30px",

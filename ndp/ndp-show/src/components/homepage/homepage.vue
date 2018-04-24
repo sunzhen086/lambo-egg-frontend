@@ -14,7 +14,7 @@
           <div class="icon icon1"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.category_num}}</div>
           <div class="label">数据分类(个)</div>
         </div>
       </div>
@@ -23,7 +23,7 @@
           <div class="icon icon2"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.file_num}}</div>
           <div class="label">数据文件(个)</div>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <div class="icon icon3"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.subject_num}}</div>
           <div class="label">数据总数(条)</div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <div class="icon icon4"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.record_num}}</div>
           <div class="label">访问量(次)</div>
         </div>
       </div>
@@ -50,7 +50,7 @@
           <div class="icon icon5"></div>
         </div>
         <div class="right">
-          <div class="value">58</div>
+          <div class="value">{{dataStatistics.download_num}}</div>
           <div class="label">下载量(次)</div>
         </div>
       </div>
@@ -58,229 +58,100 @@
     <div class="hr"/>
     <div class="body">
       <h2 class="category">主题分类</h2>
-      <Row>
-        <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView">
-            <div class="icon icon1"></div>
-            <h3>客户</h3>
+      <Row v-for="n in parseInt(categories.length/6 + 1)">
+        <Col span="4" class="category-box" v-for="(item,index) in categories.slice(n * 6 - 6,n * 6)">
+          <div class="card" @click="goCategoryView(item.category_id,item.category_name)">
+            <div class="icon">
+              <img :src="item.category_img_path"/>
+            </div>
+            <p>{{item.category_name}}</p>
           </div>
-        </Col>
-        <Col span="4" class="category-box">
-          <div class="card" @click="goCategoryView">
-            <div class="icon icon2"></div>
-            <h3>品牌</h3>
-          </div>
-        </Col>
-        <Col span="4" class="category-box">
-          <div class="card">
-            <div class="icon icon3"></div>
-            <h3>市场</h3>
-          </div>
-        </Col>
-        <Col span="4" class="category-box">
-          <div class="card">
-            <div class="icon icon4"></div>
-            <h3>销售</h3>
-          </div>
-        </Col>
-        <Col span="4" class="category-box">
-          <div class="card">
-            <div class="icon icon5"></div>
-            <h3>网建</h3>
-          </div>
-        </Col>
-        <Col span="4" class="category-box">
-          <div class="card">
-            <div class="icon icon6"></div>
-            <h3>物流</h3>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon7"></div>
-          <h3>消费者</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon8"></div>
-          <h3>终端</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon9"></div>
-          <h3>工业</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon10"></div>
-          <h3>货源</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon11"></div>
-          <h3>采购</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon12"></div>
-          <h3>库存</h3>
-        </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon13"></div>
-          <h3>结算</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon14"></div>
-          <h3>呼叫</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon15"></div>
-          <h3>非烟</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon16"></div>
-          <h3>内管</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon17"></div>
-          <h3>自律小组</h3>
-        </div>
-        </Col>
-        <Col span="4" class="category-box">
-        <div class="card">
-          <div class="icon icon18"></div>
-          <h3>专卖</h3>
-        </div>
         </Col>
       </Row>
 
       <Row class="top-list">
         <Col span="12" class="list">
           <div class="title">热门数据</div>
-          <Row class="data-list">
-            <Col span="18">
-              【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-            <span class="num">214</span>次下载
-            </Col>
-          </Row>
+          <div v-for="item in hotSubject">
+            <Row class="data-list">
+              <Col span="18">
+                【{{ item.category_name }}】{{ item.subject_name }}
+              </Col>
+              <Col span="6" class="data-desc">
+                <span class="num">{{ item.record_num }}</span>次查看
+              </Col>
+            </Row>
+          </div>
         </Col>
         <Col span="12" class="list">
           <div class="title">最新开放</div>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
-          <Row class="data-list">
-            <Col span="18">
-            【品牌】全国品牌分布情况表
-            </Col>
-            <Col span="6" class="data-desc">
-              2018年3月28日
-            </Col>
-          </Row>
+          <div v-for="item in newSubject">
+            <Row class="data-list">
+              <Col span="18">
+                【{{ item.category_name }}】{{ item.subject_name }}
+              </Col>
+              <Col span="6" class="data-desc">
+                {{ item.create_time }}
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     </div>
   </div>
 </template>
 <script>
+  import util from '@/libs/util';
+  import config from '@/config/config';
 
   export default {
     name: "homepage",
     data () {
       return {
-        value2: 0,
+        dataStatistics: {},
+        categories: [],
+        hotSubject: [],
+        newSubject: [],
         searchValue:""
       }
     },
     methods:{
-      goCategoryView:function(){
-        this.$router.push({name:"分类总览"});
+      initPage:function () {
+        var self = this;
+        util.ajax.get('/main/homepage/getDataStatistics',{}).then(function (resp) {
+          self.dataStatistics = resp.data.data;
+        });
+        util.ajax.get('/main/homepage/getAllCategory',{}).then(function (resp) {
+          self.categories = resp.data.data;
+          for (var j = 0; j < self.categories.length; j++){
+            self.categories[j].category_img_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img;
+          }
+        });
+        util.ajax.get('/main/homepage/getHotSubject',{}).then(function (resp) {
+          self.hotSubject = resp.data.data;
+        });
+        util.ajax.get('/main/homepage/getNewSubject',{}).then(function (resp) {
+          self.newSubject = resp.data.data;
+        });
+      },
+      goCategoryView:function(categoryId,categoryName){
+        this.$router.push({
+          name:'分类总览',
+          query:{
+            categoryId:categoryId,
+            categoryName:categoryName
+          }
+        });
       },
       goDataView:function(){
-        this.$router.push({name:"新数据目录"});
+        this.$router.push({name:"数据目录"});
       }
+    },
+    created(){
+      this.initPage();
+    },
+    mounted(){
+
     }
   }
 </script>
@@ -406,6 +277,7 @@
         .card{
           text-align:center;
           cursor:pointer;
+          font-size: 16px;
           .icon{
             width:48px;
             height:48px;
@@ -465,9 +337,8 @@
               background:url("./images/zhuanmai_1.png");
             }
           }
-          h3{
+          p{
             text-align: center;
-            font-size: 16px;
             color: #525252;
             font-weight: normal;
           }
@@ -529,7 +400,7 @@
                 background:url("./images/zhuanmai_2.png");
               }
             }
-            h3{
+            p{
               color: #4199e5;
             }
           }
@@ -552,6 +423,9 @@
             height: 32px;
             line-height: 32px;
             color: #525252;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
             .data-desc{
               text-align:right;
               color: #999999;
