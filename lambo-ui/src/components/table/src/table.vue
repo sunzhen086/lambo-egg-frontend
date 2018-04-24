@@ -282,12 +282,16 @@
                     transformResponse:[self.transformResponse],
                     responseType: 'json'
 				}).then(function(resp) {
-				    if("code" in resp.data){
-                        self.tableData = resp.data.data.rows;
-                        self.totalNumber = resp.data.data.total;
-					}else{
-                        self.tableData = resp.data.rows;
-                        self.totalNumber = resp.data.total;
+				    if(resp.data){
+				        if(resp.data.code === 1){
+                            self.tableData = resp.data.data.rows;
+                            self.totalNumber = resp.data.data.total;
+						}else if(resp.data.code === 0){
+                            alert("获取数据异常，请稍后重试");
+						}else{
+                            self.tableData = resp.data.rows;
+                            self.totalNumber = resp.data.total;
+                        }
 					}
                     self.tableLoading = false;
 				});

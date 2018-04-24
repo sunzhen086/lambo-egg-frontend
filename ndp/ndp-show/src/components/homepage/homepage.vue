@@ -58,7 +58,7 @@
     <div class="hr"/>
     <div class="body">
       <h2 class="category">主题分类</h2>
-      <Row v-for="n in parseInt(categories.length/6 + 1)">
+      <Row v-for="n in parseInt(categories.length/6 + 1)" >
         <Col span="4" class="category-box" v-for="(item,index) in categories.slice(n * 6 - 6,n * 6)">
           <div class="card" @click="goCategoryView(item.category_id,item.category_name)">
             <div class="icon">

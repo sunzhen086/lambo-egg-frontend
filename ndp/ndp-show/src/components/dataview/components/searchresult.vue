@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import util from '@/libs/util';
     export default {
         name: "searchresult",
         props:{
@@ -80,13 +81,16 @@
             ]
           }
         },
-        watch:{
-            params:{
-              deep:true,
-              handler:function(value){
-                console.log(value);
-              }
+        watch: {
+          params: {
+            deep: true,
+            handler: function (value) {
+              console.log(value);
+              util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
+                self.resultList = resp.data.data;
+              });
             }
+          }
         }
     }
 </script>
