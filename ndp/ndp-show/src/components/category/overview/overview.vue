@@ -7,7 +7,11 @@
       <div class="content">
         <h1 class="example-head">{{categoryOverview.caption}}</h1>
         <div class="image-container">
-          <img :src="examplePic"/>
+          <Carousel autoplay loop style="width: 328px">
+            <CarouselItem v-for="item in examplePic">
+              <img :src="item"/>
+            </CarouselItem>
+          </Carousel>
         </div>
         <div class="text-container" v-html="categoryOverview.article">
         </div>
@@ -47,7 +51,7 @@
     name: "overview",
     data(){
       return {
-        examplePic:"",
+        examplePic:[],
         categoryOverview:{},
         newSubject: []
       }
@@ -62,7 +66,10 @@
         var self = this;
         util.ajax.get('/main/overview/getCategoryOverview?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.categoryOverview = resp.data.data;
-          self.examplePic = "/"+config.fileServerContext+"/file/get/"+self.categoryOverview.picture;
+          var length = self.categoryOverview.picture.split(',').length;
+          for (var i=0; i < length; i++) {
+            self.examplePic.push("/"+config.fileServerContext+"/file/get/"+self.categoryOverview.picture.split(',')[i]);
+          }
         });
         util.ajax.get('/main/homepage/getNewSubject?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.newSubject = resp.data.data;
@@ -112,6 +119,7 @@
         width:1080px;
         margin:0 auto;
         overflow: hidden;
+        padding:0 22px;
         .example-head{
           color:#525252;
           font-size: 18px;
@@ -119,10 +127,17 @@
           margin: 15px;
         }
         .image-container{
-          margin:22px;
+          margin-top:15px;
+          margin-right:22px;
           background:#fff;
           display: inline-block;
           float: left;
+          img{
+            width:auto;
+            height:auto;
+            max-width:328px;
+            max-height:208px;
+          }
           /*.description{
             height: 32px;
             line-height: 32px;
@@ -133,7 +148,7 @@
           }*/
         }
         .text-container{
-          margin-top:30px;
+          margin-top:8px;
           line-height:2;
           font-size:14px;
           text-indent: 2em;

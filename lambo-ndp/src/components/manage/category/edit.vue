@@ -91,7 +91,7 @@
 				return this.$route.meta.title;
 			},
       imgUrl: function(){
-        return "/"+config.serverContext+"/file/get/"+ this.form.categoryImg;
+        return "/"+config.fileServerContext+"/file/get/"+ this.form.categoryImg;
       }
 		},
 		methods: {

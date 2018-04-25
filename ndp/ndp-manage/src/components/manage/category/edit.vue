@@ -129,6 +129,7 @@
       handleSuccess (response, file) {
         file.url = this.downloadUrl + "/"+response.data[0].name;
         file.newName = response.data[0].name;
+        this.uploadList.push(file);
         this.form.categoryImg.push(file.newName);
       },
       handleFormatError (file) {
@@ -206,11 +207,6 @@
 				}
 			}
 		},
-    watch:{
-      uploadList: function (val, oldVal) {
-        console.log('new: %s, old: %s', val, oldVal)
-      }
-    },
 		created() {
       this.initData();
 		},
