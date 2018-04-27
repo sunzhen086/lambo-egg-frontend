@@ -21,8 +21,8 @@
     name: "category-nav",
     data () {
       return {
-        categoryId: this.$route.query.categoryId,
-        categoryName: this.$route.query.categoryName
+        categoryId: this.$route.params.categoryId,
+        categoryName: this.$route.params.categoryName
       }
     },
     methods:{

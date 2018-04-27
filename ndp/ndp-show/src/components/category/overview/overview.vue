@@ -58,7 +58,7 @@
     },
     computed:{
       categoryId: function () {
-        return this.$route.query.categoryId
+        return this.$route.params.categoryId
       },
     },
     methods:{
@@ -67,6 +67,7 @@
         util.ajax.get('/main/overview/getCategoryOverview?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.categoryOverview = resp.data.data;
           var length = self.categoryOverview.picture.split(',').length;
+          self.examplePic = [];
           for (var i=0; i < length; i++) {
             self.examplePic.push("/"+config.fileServerContext+"/file/get/"+self.categoryOverview.picture.split(',')[i]);
           }
@@ -74,14 +75,13 @@
         util.ajax.get('/main/homepage/getNewSubject?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.newSubject = resp.data.data;
         });
-      },
-      tabOnClick:function(name){
-        this.$router.push({name: name})
       }
     },
     watch: {
       '$route' (to, from) {
         // 对路由变化作出响应
+        this.categoryOverview = {};
+        this.newSubject = [];
         this.initPage()
       }
     },
