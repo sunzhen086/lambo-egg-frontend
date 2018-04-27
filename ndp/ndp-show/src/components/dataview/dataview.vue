@@ -14,19 +14,19 @@
                 <div class="text">排序方式</div>
               </div>
               <div class="orders">
-                <div class="order-item" :class="{ active: formItem.activeOrder =='updateTime' }" @click="changeOrderItem('gengxinshijian')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==1 }" @click="changeOrderItem(1)">
                   <div class="icon gengxinshijian"></div>
                   <div class="text">更新时间</div>
                 </div>
-                <div class="order-item" :class="{ active: formItem.activeOrder =='dataCount' }" @click="changeOrderItem('shujvliang')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==2 }" @click="changeOrderItem(2)">
                   <div class="icon shujvliang"></div>
                   <div class="text">数据量</div>
                 </div>
-                <div class="order-item" :class="{ active: formItem.activeOrder =='visitCount' }" @click="changeOrderItem('fangwenliang')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==3 }" @click="changeOrderItem(3)">
                   <div class="icon fangwenliang"></div>
                   <div class="text">访问量</div>
                 </div>
-                <div class="order-item" :class="{ active: formItem.activeOrder =='rateCount' }" @click="changeOrderItem('pingfen')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==4 }" @click="changeOrderItem(4)">
                   <div class="icon pingfen"></div>
                   <div class="text">评分</div>
                 </div>
@@ -38,23 +38,23 @@
               <Form :model="formItem" :label-width="60" class="form">
                 <FormItem label="分类：" class="form-item-sz">
                   <Select v-model="formItem.catograyId">
-                    <Option v-for="item in catograyList" :value="item.dictKey" :key="item.dictKey">{{ item.dictValue }}</Option>
+                    <Option v-for="item in catograyList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="时间：" class="form-item-sz">
                   <Select v-model="formItem.periodTypeId">
-                    <Option v-for="item in periodTypeList" :value="item.dictKey" :key="item.dictKey">{{ item.dictValue }}</Option>
+                    <Option v-for="item in periodTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="组织：" class="form-item-sz">
                   <Select v-model="formItem.organTypeId">
-                    <Option v-for="item in organTypeList" :value="item.dictKey" :key="item.dictKey">{{ item.dictValue }}</Option>
+                    <Option v-for="item in organTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="指标：" class="form-item-sz">
                   <div class="tag-container">
-                    <div class="tag" v-for="tag in tagList" :key="tag.dictKey" :class="{active:formItem.activeTags.indexOf(tag.dictKey) > -1}" @click="tagActiveChange(tag.dictKey)">
-                      {{tag.dictValue}}
+                    <div class="tag" v-for="tag in tagList" :key="tag.DICT_KEY" :class="{active:formItem.activeTags.indexOf(tag.DICT_KEY) > -1}" @click="tagActiveChange(tag.DICT_KEY)">
+                      {{tag.DICT_VALUE}}
                     </div>
                   </div>
                 </FormItem>
@@ -71,10 +71,7 @@
         </Col>
         <Col span="17">
           <div class="right">
-            <Card :bordered="false" dis-hover>
-              <p slot="title">共搜索到<span class="searchResultNumber">{{searchResultNumber}}</span>个数据目录</p>
               <SearchResult :params="formItem"></SearchResult>
-            </Card>
           </div>
         </Col>
       </Row>
@@ -99,7 +96,7 @@
           organTypeId:"",
           activeTags:[],
           activeStars:[],
-          activeOrder:"updateTime",
+          activeOrder:"1",
         },
         searchResultNumber:0,
         catograyList:[],
@@ -145,6 +142,7 @@
         }else{
           activeTags.push(tagId);
         }
+        this.formItem.activeTags = activeTags;
       },
       starActiveChange:function(starId){
         let activeStars = this.formItem.activeStars;
