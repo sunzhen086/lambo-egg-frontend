@@ -1,12 +1,15 @@
 <template>
+  <Card :bordered="false" dis-hover>
+  <p slot="title">共搜索到<span class="searchResultNumber">{{pageTotal}}</span>个数据目录</p>
     <div class="result">
-        <div class="result-item" v-for="result in resultList">
-            <div class="title">{{result.title}}</div>
-            <Rate disabled v-model="result.rate" class="rate"></Rate>
+
+        <div class="result-item" v-for="result in resultList" >
+            <div class="title">{{result.SUBJECT_NAME}}</div>
+            <Rate disabled v-model="result.RATE_COUNT" class="rate"></Rate>
             <div class="attr-container">
               <div class="attr-item">
                 时间粒度：{{result.periodTypeName}}
-              </div>
+              </div>s
               <div class="attr-item">
                 组织粒度：{{result.organTypeName}}
               </div>
@@ -15,7 +18,7 @@
               </div>
             </div>
             <div class="desciption">
-              {{result.description}}
+              {{result.SUBJECT_DESC}}
               <span class="link">查看数据>></span>
             </div>
             <Row>
@@ -45,9 +48,10 @@
             </template>
         </div>
         <div class="page-container">
-          <Page :total="100"></Page>
+          <Page :total="pageTotal" :current="currentPage" :page-size="pageSize" @on-change="search()" ></Page>
         </div>
     </div>
+  </Card>
 </template>
 
 <script>
@@ -62,8 +66,11 @@
         },
         data:function() {
           return {
+            pageTotal:0,
+            currentPage:1,
+            pageSize:10,
             resultList: [
-              {
+              /*{
                 title: "全国品牌布局情况",
                 rate: 4,
                 periodType: 1,
@@ -77,7 +84,7 @@
                 createTime: "2018-03-09",
                 viewCount: 1256,
                 dataType: 1
-              }
+              }*/
             ]
           }
         },
@@ -85,15 +92,44 @@
           params: {
             deep: true,
             handler: function (value) {
-              console.log(value);
+              let self = this;
+              value.pageNum="1";
+              value.pageSize="5";
               util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
-                self.resultList = resp.data.data;
+                console.log(resp);
+                let resultData = resp.data.data;
+                self.resultList = resultData.list;
+                self.pageTotal = resultData.total;
+                self.currentPage = resultData.pageNum;
+                self.pageSize = resultData.pageSize;
+
               });
             }
           }
+        },
+      methods: {
+        search: function () {
+          let self = this;
+          value.pageNum = "1";
+          value.pageSize = "5";
+          util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
+            console.log(resp);
+            let resultData = resp.data.data;
+            self.resultList = resultData.list;
+            self.pageTotal = resultData.total;
+            self.currentPage = resultData.pageNum;
+            self.pageSize = resultData.pageSize;
+
+          })
         }
-    }
-</script>
+        /*,
+      created(){
+        util.ajax.post('/manage/dataView/getSearchResult').then(function (resp) {
+          self.resultList = resp.data.data;
+        })
+      }*/
+      }}
+    </script>
 
 <style lang="less" scoped>
   .result{
