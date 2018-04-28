@@ -8,7 +8,7 @@
               数据目录筛选
             </div>
             <div class="container">
-              <Input v-model="searchText" icon="search" placeholder="请输入关键词" @on-blur="checkString" @on-click="searchCategory()"></Input>
+              <Input v-model="queryText" icon="search" placeholder="请输入关键词" @on-blur="checkString" @on-click="search()" ></Input>
               <div class="sub-title">
                 <div class="icon"></div>
                 <div class="text">排序方式</div>
@@ -37,17 +37,17 @@
               </div>
               <Form :model="formItem" :label-width="60" class="form">
                 <FormItem label="分类：" class="form-item-sz">
-                  <Select v-model="formItem.catograyId">
-                    <Option v-for="item in catograyList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
+                  <Select v-model="formItem.catograyId" clearable>
+                    <Option v-for="item in catograyList" :value="item.CATEGORY_ID" :key="item.CATEGORY_ID">{{ item.CATEGORY_NAME }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="时间：" class="form-item-sz">
-                  <Select v-model="formItem.periodTypeId">
+                  <Select v-model="formItem.periodTypeId" clearable>
                     <Option v-for="item in periodTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="组织：" class="form-item-sz">
-                  <Select v-model="formItem.organTypeId">
+                  <Select v-model="formItem.organTypeId" clearable>
                     <Option v-for="item in organTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
@@ -60,8 +60,20 @@
                 </FormItem>
                 <FormItem label="评价：" class="form-item-sz">
                   <div class="tag-container">
-                    <div class="tag" v-for="star in starList" :key="star.starId" :class="{active:formItem.activeStars.indexOf(star.starId) > -1}" @click="starActiveChange(star.starId)">
-                      {{star.starName}}
+                    <div class="tag"   :class="{active:formItem.activeStars == 1}" @click="starActiveChange(1)">
+                      一星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 2}" @click="starActiveChange(2)">
+                      二星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 3}" @click="starActiveChange(3)">
+                      三星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 4}" @click="starActiveChange(4)">
+                      四星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 5}" @click="starActiveChange(5)">
+                      五星
                     </div>
                   </div>
                 </FormItem>
@@ -88,16 +100,16 @@
     },
     data() {
       return {
-        searchText:"",
-
         formItem:{
-          catograyId:"",
+          catograyId:"" ,
           periodTypeId:"",
           organTypeId:"",
           activeTags:[],
-          activeStars:[],
+          activeStars:"",
           activeOrder:"1",
+          searchText:"",
         },
+        queryText:"",
         searchResultNumber:0,
         catograyList:[],
         periodTypeList:[],
@@ -130,9 +142,6 @@
     methods:{
       changeOrderItem:function(orderItem){
         this.formItem.activeOrder = orderItem;
-
-        //组织查询条件进行查询
-
       },
       tagActiveChange:function(tagId){
         let activeTags = this.formItem.activeTags;
@@ -145,26 +154,22 @@
         this.formItem.activeTags = activeTags;
       },
       starActiveChange:function(starId){
-        let activeStars = this.formItem.activeStars;
-        let index = activeStars.indexOf(starId);
-        if(index> -1){
-          activeStars.splice(index,1);
-        }else{
-          activeStars.push(starId);
-        }
+        this.formItem.activeStars=starId;
       },
-      searchCategory:function () {
-
+      search:function () {
+        var self = this;
+        this.formItem.searchText=this.queryText;
       },
       checkString:function () {
         //校验字符串长度
-        searchText
+
       },
       initPage:function () {
         var self = this;
         //获取
         util.ajax.post('/manage/dataView/getConditionMap',{}).then(function (resp) {
           self.catograyList=resp.data.data.categoryTypeList;
+          self.formItem.catograyId=self.$route.params.categoryId;
           self.periodTypeList=resp.data.data.timeTypeList;
           self.organTypeList=resp.data.data.organTypeList;
           self.tagList=resp.data.data.indexTypeList;
