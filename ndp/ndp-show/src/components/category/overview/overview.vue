@@ -100,6 +100,7 @@
 
 <style lang="less" scoped>
   .container{
+    padding-top: 10px;
     margin-bottom: 50px;
     background:#fafafa;
     .overinfo{
