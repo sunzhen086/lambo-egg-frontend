@@ -10,6 +10,7 @@ import homepage from '@/components/homepage/homepage';
 import overview from '@/components/overview/overview';
 import datatable from '@/components/datatable/datatable';
 import datadetail from '@/components/datadetail/datadetail';
+import filedetail from '@/components/datadetail/filedetail';
 import categorynav from '@/components/category-nav';
 import categoryoverview from '@/components/category/overview/overview';
 import dataview from '@/components/dataview/dataview';
@@ -54,6 +55,11 @@ const router = new Router({
           path:"/datadetail",
           name:'数据明细',
           component:datadetail
+        },
+        {
+          path:"/filedetail",
+          name:'文件明细',
+          component:filedetail
         },
         {
           path: '/categorynav',

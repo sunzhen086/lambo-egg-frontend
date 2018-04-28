@@ -7,11 +7,16 @@
       <div class="content">
         <h1 class="example-head">{{categoryOverview.caption}}</h1>
         <div class="image-container">
-          <Carousel autoplay loop style="width: 328px">
-            <CarouselItem v-for="item in examplePic">
-              <img :src="item"/>
-            </CarouselItem>
-          </Carousel>
+          <div v-if="examplePic.length == 1">
+            <img :src="examplePic[0]"/>
+          </div>
+          <div v-else="">
+            <Carousel autoplay loop style="width: 328px">
+              <CarouselItem v-for="item in examplePic">
+                <img :src="item"/>
+              </CarouselItem>
+            </Carousel>
+          </div>
         </div>
         <div class="text-container" v-html="categoryOverview.article">
         </div>
@@ -96,6 +101,7 @@
 <style lang="less" scoped>
   .container{
     margin-bottom: 50px;
+    background:#fafafa;
     .overinfo{
       width:1080px;
       margin:20px auto;
@@ -103,9 +109,11 @@
       font-size:14px;
       color: #525252;
       text-indent: 2em;
+      background:white;
     }
     .highlight{
       /*background:#25A9E5;*/
+      background:white;
       width:1080px; /*如果全屏宽则去掉*/
       margin:0 auto;
       border-width: 0 1px 1px 1px;
@@ -157,9 +165,10 @@
       }
     }
     .update{
-      padding:22px;
+      background:white;
+      padding:0 22px;
       width:1080px;
-      margin:0 auto;
+      margin:22px auto;
       .title{
         border-bottom:1px solid #dcdcdc;
         .text{
@@ -196,7 +205,6 @@
         }
       }
     }
-
   }
 </style>
 
