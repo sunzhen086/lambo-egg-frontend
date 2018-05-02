@@ -76,7 +76,7 @@
           <div v-for="item in hotSubject">
             <Row class="data-list">
               <Col span="18">
-                【{{ item.category_name }}】{{ item.subject_name }}
+                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 <span class="num">{{ item.record_num }}</span>次查看
@@ -89,7 +89,7 @@
           <div v-for="item in newSubject">
             <Row class="data-list">
               <Col span="18">
-                【{{ item.category_name }}】{{ item.subject_name }}
+                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 {{ item.create_time }}
@@ -147,6 +147,14 @@
       },
       goDataView:function(){
         this.$router.push({name:"数据目录"});
+      },
+      goSubjectView:function(subjectId){
+        this.$router.push({
+          name:"数据明细",
+          params:{
+            subjectId:subjectId
+          }
+        });
       }
     },
     created(){
@@ -331,6 +339,9 @@
             overflow:hidden;
             white-space:nowrap;
             text-overflow:ellipsis;
+            p{
+              cursor:pointer;
+            }
             .data-desc{
               text-align:right;
               color: #999999;

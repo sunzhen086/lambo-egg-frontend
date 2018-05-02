@@ -9,7 +9,7 @@
             <div class="attr-container">
               <div class="attr-item">
                 时间粒度：{{result.periodTypeName}}
-              </div>s
+              </div>
               <div class="attr-item">
                 组织粒度：{{result.organTypeName}}
               </div>
@@ -17,7 +17,7 @@
                 所属分类：{{result.catograyName}}
               </div>
             </div>
-            <div class="desciption">
+            <div class="desciption" @click="showDetail(result.SUBJECT_TYPE,result.SUBJECT_ID)"  >
               {{result.SUBJECT_DESC}}
               <span class="link">查看数据>></span>
             </div>
@@ -31,16 +31,16 @@
                 <div class="infos">
                   <div class="info">
                     <Icon type="ios-clock"></Icon>
-                    {{result.createTime}}
+                    {{result.CREATE_TIME}}
                   </div>
                   <div class="info">
                     <Icon type="eye"></Icon>
-                    {{result.viewCount}}
+                    {{result.VISIT_COUNT}}
                   </div>
                 </div>
               </Col>
             </Row>
-            <template v-if="result.dataType === 1">
+            <template v-if="result.SUBJECT_TYPE == 1">
               <div class="type biaoge"></div>
             </template>
             <template v-else>
@@ -48,7 +48,7 @@
             </template>
         </div>
         <div class="page-container">
-          <Page :total="pageTotal" :current="currentPage" :page-size="pageSize" @on-change="search()" ></Page>
+          <Page :total="pageTotal" :current="currentPage" :page-size="pageSize" @on-change="search" ></Page>
         </div>
     </div>
   </Card>
@@ -62,6 +62,9 @@
           params:{
             type:Object,
             required:true
+          },
+          categoryId:{
+            type:String
           }
         },
         data:function() {
@@ -69,6 +72,7 @@
             pageTotal:0,
             currentPage:1,
             pageSize:10,
+            querryParam:[],
             resultList: [
               /*{
                 title: "全国品牌布局情况",
@@ -100,18 +104,19 @@
                 let resultData = resp.data.data;
                 self.resultList = resultData.list;
                 self.pageTotal = resultData.total;
-                self.currentPage = resultData.pageNum;
                 self.pageSize = resultData.pageSize;
-
+                self.querryParam=value;
               });
             }
           }
         },
       methods: {
-        search: function () {
+        search: function (current) {
           let self = this;
-          value.pageNum = "1";
-          value.pageSize = "5";
+          let value=self.querryParam;
+          value.pageNum=current;
+          value.pageSize="5";
+          console.log(value);
           util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
             console.log(resp);
             let resultData = resp.data.data;
@@ -121,6 +126,23 @@
             self.pageSize = resultData.pageSize;
 
           })
+        },
+        showDetail:function (dataType,subjectId) {
+          if(dataType==1){
+            this.$router.push({
+              name: "数据明细",
+              params:{
+                categoryId:subjectId
+              }
+            })
+          }else{
+            this.$router.push({
+              name: "文件明细",
+              params:{
+                categoryId:subjectId
+              }
+            })
+          }
         }
         /*,
       created(){
