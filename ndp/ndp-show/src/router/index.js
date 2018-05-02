@@ -10,7 +10,7 @@ import homepage from '@/components/homepage/homepage';
 import overview from '@/components/overview/overview';
 import datatable from '@/components/datatable/datatable';
 import datadetail from '@/components/datadetail/datadetail';
-
+import filedetail from '@/components/datadetail/filedetail';
 import categorynav from '@/components/category-nav';
 import categoryoverview from '@/components/category/overview/overview';
 import dataview from '@/components/dataview/dataview';
@@ -38,7 +38,7 @@ const router = new Router({
       children:[
         {
           path: '/home',
-          name:'新首页',
+          name:'首页',
           component: homepage
         },
         {
@@ -48,7 +48,7 @@ const router = new Router({
         },
         {
           path:"/datatable",
-          name:'新数据目录',
+          name:'数据目录',
           component:datatable
         },
         {
@@ -57,8 +57,13 @@ const router = new Router({
           component:datadetail
         },
         {
+          path:"/filedetail",
+          name:'文件明细',
+          component:filedetail
+        },
+        {
           path: '/categorynav',
-          name:'分类',
+          name:'数据分类',
           component: categorynav,
           children:[
             {

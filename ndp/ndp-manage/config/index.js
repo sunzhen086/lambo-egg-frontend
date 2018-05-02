@@ -30,11 +30,16 @@ module.exports = {
     port: process.env.PORT || 8527,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '',
+    assetsPublicPath: '/ndp-manage/',
     proxyTable: {
       '/ndp-manage-server': {
         target: 'http://127.0.0.1:9527/ndp-manage-server',
         pathRewrite: {'^/ndp-manage-server' : ''},
+        changeOrigin: false
+      },
+      '/file-server': {
+        target: 'http://127.0.0.1:1115/file-server',
+        pathRewrite: {'^/file-server' : ''},
         changeOrigin: false
       },
     },

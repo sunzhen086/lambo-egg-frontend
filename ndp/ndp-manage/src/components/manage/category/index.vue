@@ -86,18 +86,30 @@
           align:"center",
           render:function(h, param){
             if(param.row.categoryImg){
-              return h('img',{
-                attrs: {
-                  "src": "/"+config.serverContext+"/manage/file/get/"+ param.row.categoryImg
-                },
-                style:{
-                  width:"30px",
-                  height:"30px"
-                }
-              })
+              return h('div',[
+                h('img',{
+                  attrs:{
+                    "src": "/"+config.fileServerContext+"/file/get/"+ param.row.categoryImg.split(',')[0]
+                  },
+                  style:{
+                    width:"30px",
+                    height:"30px"
+                  }
+                }),
+                h('img',{
+                  attrs:{
+                    "src": "/"+config.fileServerContext+"/file/get/"+ param.row.categoryImg.split(',')[1]
+                  },
+                  style:{
+                    width:"30px",
+                    height:"30px"
+                  }
+                })
+              ])
             }
           }
         });
+
         columns.push({
           title: '创建用户',
           key: 'createUser',

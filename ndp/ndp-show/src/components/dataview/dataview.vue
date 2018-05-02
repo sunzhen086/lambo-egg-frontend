@@ -8,25 +8,25 @@
               数据目录筛选
             </div>
             <div class="container">
-              <Input v-model="searchText" icon="search" placeholder="请输入关键词"></Input>
+              <Input v-model="queryText" icon="search" placeholder="请输入关键词" @on-blur="checkString" @on-click="search()" ></Input>
               <div class="sub-title">
                 <div class="icon"></div>
                 <div class="text">排序方式</div>
               </div>
               <div class="orders">
-                <div class="order-item" :class="{ active: activeOrder =='gengxinshijian' }" @click="changeOrderItem('gengxinshijian')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==1 }" @click="changeOrderItem(1)">
                   <div class="icon gengxinshijian"></div>
                   <div class="text">更新时间</div>
                 </div>
-                <div class="order-item" :class="{ active: activeOrder =='shujvliang' }" @click="changeOrderItem('shujvliang')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==2 }" @click="changeOrderItem(2)">
                   <div class="icon shujvliang"></div>
                   <div class="text">数据量</div>
                 </div>
-                <div class="order-item" :class="{ active: activeOrder =='fangwenliang' }" @click="changeOrderItem('fangwenliang')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==3 }" @click="changeOrderItem(3)">
                   <div class="icon fangwenliang"></div>
                   <div class="text">访问量</div>
                 </div>
-                <div class="order-item" :class="{ active: activeOrder =='pingfen' }" @click="changeOrderItem('pingfen')">
+                <div class="order-item" :class="{ active: formItem.activeOrder ==4 }" @click="changeOrderItem(4)">
                   <div class="icon pingfen"></div>
                   <div class="text">评分</div>
                 </div>
@@ -37,31 +37,43 @@
               </div>
               <Form :model="formItem" :label-width="60" class="form">
                 <FormItem label="分类：" class="form-item-sz">
-                  <Select v-model="formItem.catograyId">
-                    <Option v-for="item in catograyList" :value="item.catograyId" :key="item.catograyId">{{ item.catograyName }}</Option>
+                  <Select v-model="formItem.catograyId" clearable>
+                    <Option v-for="item in catograyList" :value="item.CATEGORY_ID" :key="item.CATEGORY_ID">{{ item.CATEGORY_NAME }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="时间：" class="form-item-sz">
-                  <Select v-model="formItem.periodTypeId">
-                    <Option v-for="item in periodTypeList" :value="item.periodTypeId" :key="item.periodTypeId">{{ item.periodTypeName }}</Option>
+                  <Select v-model="formItem.periodTypeId" clearable>
+                    <Option v-for="item in periodTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="组织：" class="form-item-sz">
-                  <Select v-model="formItem.organTypeId">
-                    <Option v-for="item in organTypeList" :value="item.organTypeId" :key="item.organTypeId">{{ item.organTypeName }}</Option>
+                  <Select v-model="formItem.organTypeId" clearable>
+                    <Option v-for="item in organTypeList" :value="item.DICT_KEY" :key="item.DICT_KEY">{{ item.DICT_VALUE }}</Option>
                   </Select>
                 </FormItem>
                 <FormItem label="指标：" class="form-item-sz">
                   <div class="tag-container">
-                    <div class="tag" v-for="tag in tagList" :key="tag.tagId" :class="{active:formItem.activeTags.indexOf(tag.tagId) > -1}" @click="tagActiveChange(tag.tagId)">
-                      {{tag.tagName}}
+                    <div class="tag" v-for="tag in tagList" :key="tag.DICT_KEY" :class="{active:formItem.activeTags.indexOf(tag.DICT_KEY) > -1}" @click="tagActiveChange(tag.DICT_KEY)">
+                      {{tag.DICT_VALUE}}
                     </div>
                   </div>
                 </FormItem>
                 <FormItem label="评价：" class="form-item-sz">
                   <div class="tag-container">
-                    <div class="tag" v-for="star in starList" :key="star.starId" :class="{active:formItem.activeStars.indexOf(star.starId) > -1}" @click="starActiveChange(star.starId)">
-                      {{star.starName}}
+                    <div class="tag"   :class="{active:formItem.activeStars == 1}" @click="starActiveChange(1)">
+                      一星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 2}" @click="starActiveChange(2)">
+                      二星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 3}" @click="starActiveChange(3)">
+                      三星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 4}" @click="starActiveChange(4)">
+                      四星
+                    </div>
+                    <div class="tag"   :class="{active:formItem.activeStars == 5}" @click="starActiveChange(5)">
+                      五星
                     </div>
                   </div>
                 </FormItem>
@@ -71,10 +83,7 @@
         </Col>
         <Col span="17">
           <div class="right">
-            <Card :bordered="false" dis-hover>
-              <p slot="title">共搜索到<span class="searchResultNumber">{{searchResultNumber}}</span>个数据目录</p>
               <SearchResult :params="formItem"></SearchResult>
-            </Card>
           </div>
         </Col>
       </Row>
@@ -83,6 +92,7 @@
 </template>
 <script>
   import SearchResult from "./components/searchresult";
+  import util from '@/libs/util';
   export default {
     name: "dataview",
     components:{
@@ -90,84 +100,21 @@
     },
     data() {
       return {
-        searchText:"",
-        activeOrder:"gengxinshijian",
         formItem:{
-          catograyId:1,
-          periodTypeId:1,
-          organTypeId:1,
+          catograyId:"" ,
+          periodTypeId:"",
+          organTypeId:"",
           activeTags:[],
-          activeStars:[]
+          activeStars:"",
+          activeOrder:"1",
+          searchText:"",
         },
-        searchResultNumber:23,
-        catograyList:[
-          {
-            catograyId:1,
-            catograyName:"品牌"
-          },
-          {
-            catograyId:2,
-            catograyName:"商品"
-          }
-        ],
-        periodTypeList:[
-          {
-            periodTypeId:1,
-            periodTypeName:"日"
-          },
-          {
-            periodTypeId:2,
-            periodTypeName:"月"
-          },
-          {
-            periodTypeId:3,
-            periodTypeName:"年"
-          }
-        ],
-        organTypeList:[
-          {
-            organTypeId:1,
-            organTypeName:"省"
-          },
-          {
-            organTypeId:2,
-            organTypeName:"市"
-          },
-          {
-            organTypeId:3,
-            organTypeName:"县"
-          }
-        ],
-        tagList:[
-          {
-            tagId:1,
-            tagName:"销量"
-          },
-          {
-            tagId:2,
-            tagName:"销额"
-          },
-          {
-            tagId:3,
-            tagName:"库存"
-          },
-          {
-            tagId:4,
-            tagName:"购进"
-          },
-          {
-            tagId:5,
-            tagName:"存销比"
-          },
-          {
-            tagId:6,
-            tagName:"客户数"
-          },
-          {
-            tagId:7,
-            tagName:"品类数"
-          }
-        ],
+        queryText:"",
+        searchResultNumber:0,
+        catograyList:[],
+        periodTypeList:[],
+        organTypeList:[],
+        tagList:[],
         starList:[
           {
             starId:1,
@@ -194,7 +141,7 @@
     },
     methods:{
       changeOrderItem:function(orderItem){
-        this.activeOrder = orderItem;
+        this.formItem.activeOrder = orderItem;
       },
       tagActiveChange:function(tagId){
         let activeTags = this.formItem.activeTags;
@@ -204,16 +151,33 @@
         }else{
           activeTags.push(tagId);
         }
+        this.formItem.activeTags = activeTags;
       },
       starActiveChange:function(starId){
-        let activeStars = this.formItem.activeStars;
-        let index = activeStars.indexOf(starId);
-        if(index> -1){
-          activeStars.splice(index,1);
-        }else{
-          activeStars.push(starId);
-        }
+        this.formItem.activeStars=starId;
+      },
+      search:function () {
+        var self = this;
+        this.formItem.searchText=this.queryText;
+      },
+      checkString:function () {
+        //校验字符串长度
+
+      },
+      initPage:function () {
+        var self = this;
+        //获取
+        util.ajax.post('/manage/dataView/getConditionMap',{}).then(function (resp) {
+          self.catograyList=resp.data.data.categoryTypeList;
+          self.formItem.catograyId=self.$route.query.categoryId;
+          self.periodTypeList=resp.data.data.timeTypeList;
+          self.organTypeList=resp.data.data.organTypeList;
+          self.tagList=resp.data.data.indexTypeList;
+        });
       }
+    },
+    created(){
+      this.initPage();
     },
     mounted(){
     }
@@ -222,9 +186,11 @@
 <style lang="less" scoped>
   .page{
     background:#fafafa;
+    padding-top: 10px;
     .content{
       width:1080px;
-      margin:20px auto;
+      margin:0px auto;
+      margin-top: 10px;
       .left{
         background:#fff;
         margin-right:20px;

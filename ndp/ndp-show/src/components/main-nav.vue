@@ -8,7 +8,7 @@
         </div>
         <div class="nav">
           <Menu mode="horizontal" theme="light" :active-name="activeName" @on-select="changeMenu">
-            <MenuItem name="新首页">
+            <MenuItem name="首页">
               <Icon type="home"></Icon>
               首页
             </MenuItem>
@@ -22,123 +22,20 @@
                 数据分类
               </template>
               <div class="category-list">
-                <Row>
-                  <Col span="4" class="category-box">
-                    <div class="card" @click="goCategoryView">
-                      <div class="icon icon1"></div>
-                      <h3>客户</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card" @click="goCategoryView">
-                      <div class="icon icon2"></div>
-                      <h3>品牌</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon3"></div>
-                      <h3>市场</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon4"></div>
-                      <h3>销售</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon5"></div>
-                      <h3>网建</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon6"></div>
-                      <h3>物流</h3>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon7"></div>
-                      <h3>消费者</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon8"></div>
-                      <h3>终端</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon9"></div>
-                      <h3>工业</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon10"></div>
-                      <h3>货源</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon11"></div>
-                      <h3>采购</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon12"></div>
-                      <h3>库存</h3>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon13"></div>
-                      <h3>结算</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon14"></div>
-                      <h3>呼叫</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon15"></div>
-                      <h3>非烟</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon16"></div>
-                      <h3>内管</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon17"></div>
-                      <h3>自律小组</h3>
-                    </div>
-                  </Col>
-                  <Col span="4" class="category-box">
-                    <div class="card">
-                      <div class="icon icon18"></div>
-                      <h3>专卖</h3>
+                <Row v-for="n in parseInt(categories.length/6 + 1)">
+                  <Col span="4" class="category-box" v-for="(item,index) in categories.slice(n * 6 - 6,n * 6)">
+                    <div class="card" @click="goCategoryView(item.category_id,item.category_name)">
+                      <div class="icon">
+                        <img :src="item.category_img_path" class="icon-default"/>
+                        <img :src="item.category_img1_path" class="icon-hover"/>
+                      </div>
+                      <p>{{item.category_name}}</p>
                     </div>
                   </Col>
                 </Row>
               </div>
             </Submenu>
-            <MenuItem name="新数据目录">
+            <MenuItem name="数据目录">
               <Icon type="ios-list"></Icon>
               数据目录
             </MenuItem>
@@ -154,19 +51,30 @@
 
 </template>
 <script>
-  import Config from '@/config/config';
+  import util from '@/libs/util';
+  import config from '@/config/config';
+
   export default {
     data() {
       return {
         searchValue:"",
-        activeName:"首页",
+        activeName:"数据分类",
         frameBtnPermission:'1',
-        framePage:Config.framePage
+        framePage:config.framePage,
+        categories: []
       }
     },
     methods:{
       initPage:function () {
+        var self = this;
         this.activeName = this.$route.name;
+        util.ajax.get('/main/homepage/getAllCategory',{}).then(function (resp) {
+          self.categories = resp.data.data;
+          for (var j = 0; j < self.categories.length; j++){
+            self.categories[j].category_img_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img.split(',')[0];
+            self.categories[j].category_img1_path = "/"+config.fileServerContext+"/file/get/"+self.categories[j].category_img.split(',')[1];
+          }
+        });
       },
       goFramePage:function () {
         window.location.href = this.framePage;
@@ -184,12 +92,20 @@
           query:query
         })
       },
-      goCategoryView:function(){
-        this.$router.push({name:"分类总览"});
-      }
+      goCategoryView:function(categoryId,categoryName){
+        this.$router.push({
+          name:'分类总览',
+          query:{
+            categoryId:categoryId,
+            categoryName:categoryName
+          }
+        });
+      },
+    },
+    created(){
+      this.initPage();
     },
     mounted(){
-      this.initPage();
     }
   }
 </script>
@@ -247,130 +163,34 @@
             .card{
               text-align:center;
               cursor:pointer;
+              font-size: 14px;
               .icon{
                 width:48px;
                 height:48px;
                 margin:12px auto;
-                &.icon1{
-                  background:url("./homepage/images/kehu_1.png");
+                .icon-default{
+                  display: block;
                 }
-                &.icon2{
-                  background:url("./homepage/images/pinpai_1.png");
-                }
-                &.icon3{
-                  background:url("./homepage/images/shichang_1.png");
-                }
-                &.icon4{
-                  background:url("./homepage/images/xiaoshou_1.png");
-                }
-                &.icon5{
-                  background:url("./homepage/images/wangjian_1.png");
-                }
-                &.icon6{
-                  background:url("./homepage/images/wuliu_1.png");
-                }
-                &.icon7{
-                  background:url("./homepage/images/xiaofeizhe_1.png");
-                }
-                &.icon8{
-                  background:url("./homepage/images/zhongduan_1.png");
-                }
-                &.icon9{
-                  background:url("./homepage/images/gongye_1.png");
-                }
-                &.icon10{
-                  background:url("./homepage/images/huoyuan_1.png");
-                }
-                &.icon11{
-                  background:url("./homepage/images/caigou_1.png");
-                }
-                &.icon12{
-                  background:url("./homepage/images/kucun_1.png");
-                }
-                &.icon13{
-                  background:url("./homepage/images/jiesuan_1.png");
-                }
-                &.icon14{
-                  background:url("./homepage/images/hujiao_1.png");
-                }
-                &.icon15{
-                  background:url("./homepage/images/feiyan_1.png");
-                }
-                &.icon16{
-                  background:url("./homepage/images/neiguan_1.png");
-                }
-                &.icon17{
-                  background:url("./homepage/images/zilvxiaozu_1.png");
-                }
-                &.icon18{
-                  background:url("./homepage/images/zhuanmai_1.png");
+                .icon-hover{
+                  display: none;
                 }
               }
-              h3{
+              p{
                 text-align: center;
-                font-size: 14px;
                 color: #525252;
                 font-weight: normal;
               }
 
               &:hover,&.active{
                 .icon{
-                  &.icon1{
-                    background:url("./homepage/images/kehu_2.png");
+                  .icon-default{
+                    display: none;
                   }
-                  &.icon2{
-                    background:url("./homepage/images/pinpai_2.png");
-                  }
-                  &.icon3{
-                    background:url("./homepage/images/shichang_2.png");
-                  }
-                  &.icon4{
-                    background:url("./homepage/images/xiaoshou_2.png");
-                  }
-                  &.icon5{
-                    background:url("./homepage/images/wangjian_2.png");
-                  }
-                  &.icon6{
-                    background:url("./homepage/images/wuliu_2.png");
-                  }
-                  &.icon7{
-                    background:url("./homepage/images/xiaofeizhe_2.png");
-                  }
-                  &.icon8{
-                    background:url("./homepage/images/zhongduan_2.png");
-                  }
-                  &.icon9{
-                    background:url("./homepage/images/gongye_2.png");
-                  }
-                  &.icon10{
-                    background:url("./homepage/images/huoyuan_2.png");
-                  }
-                  &.icon11{
-                    background:url("./homepage/images/caigou_2.png");
-                  }
-                  &.icon12{
-                    background:url("./homepage/images/kucun_2.png");
-                  }
-                  &.icon13{
-                    background:url("./homepage/images/jiesuan_2.png");
-                  }
-                  &.icon14{
-                    background:url("./homepage/images/hujiao_2.png");
-                  }
-                  &.icon15{
-                    background:url("./homepage/images/feiyan_2.png");
-                  }
-                  &.icon16{
-                    background:url("./homepage/images/neiguan_2.png");
-                  }
-                  &.icon17{
-                    background:url("./homepage/images/zilvxiaozu_2.png");
-                  }
-                  &.icon18{
-                    background:url("./homepage/images/zhuanmai_2.png");
+                  .icon-hover{
+                    display: block;
                   }
                 }
-                h3{
+                p{
                   color: #4199e5;
                 }
               }

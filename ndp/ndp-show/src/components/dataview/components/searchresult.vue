@@ -1,8 +1,11 @@
 <template>
+  <Card :bordered="false" dis-hover>
+  <p slot="title">共搜索到<span class="searchResultNumber">{{pageTotal}}</span>个数据目录</p>
     <div class="result">
-        <div class="result-item" v-for="result in resultList">
-            <div class="title">{{result.title}}</div>
-            <Rate disabled v-model="result.rate" class="rate"></Rate>
+
+        <div class="result-item" v-for="result in resultList" >
+            <div class="title">{{result.SUBJECT_NAME}}</div>
+            <Rate disabled v-model="result.RATE_COUNT" class="rate"></Rate>
             <div class="attr-container">
               <div class="attr-item">
                 时间粒度：{{result.periodTypeName}}
@@ -14,30 +17,30 @@
                 所属分类：{{result.catograyName}}
               </div>
             </div>
-            <div class="desciption">
-              {{result.description}}
+            <div class="desciption" @click="showDetail(result.SUBJECT_TYPE,result.SUBJECT_ID)"  >
+              {{result.SUBJECT_DESC}}
               <span class="link">查看数据>></span>
             </div>
             <Row>
               <Col span="16">
                 <div class="tags">
-                  <Tag type="border" v-for="tag in result.tags" class="tag">{{tag}}</Tag>
+                  <Tag type="border" v-for="tag in result.tags" :key="tag" class="tag">{{tag}}</Tag>
                 </div>
               </Col>
               <Col span="8">
                 <div class="infos">
                   <div class="info">
                     <Icon type="ios-clock"></Icon>
-                    {{result.createTime}}
+                    {{result.CREATE_TIME}}
                   </div>
                   <div class="info">
                     <Icon type="eye"></Icon>
-                    {{result.viewCount}}
+                    {{result.VISIT_COUNT}}
                   </div>
                 </div>
               </Col>
             </Row>
-            <template v-if="result.dataType === 1">
+            <template v-if="result.SUBJECT_TYPE == 1">
               <div class="type biaoge"></div>
             </template>
             <template v-else>
@@ -45,24 +48,33 @@
             </template>
         </div>
         <div class="page-container">
-          <Page :total="100"></Page>
+          <Page :total="pageTotal" :current="currentPage" :page-size="pageSize" @on-change="search" ></Page>
         </div>
     </div>
+  </Card>
 </template>
 
 <script>
+  import util from '@/libs/util';
     export default {
         name: "searchresult",
         props:{
           params:{
             type:Object,
             required:true
+          },
+          categoryId:{
+            type:String
           }
         },
         data:function() {
           return {
+            pageTotal:0,
+            currentPage:1,
+            pageSize:10,
+            querryParam:[],
             resultList: [
-              {
+              /*{
                 title: "全国品牌布局情况",
                 rate: 4,
                 periodType: 1,
@@ -72,144 +84,74 @@
                 catograyId: 1,
                 catograyName: "品牌",
                 description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
+                tags: ["销量", "销额1", "销额2", "销额3", "销额4", "销额5"],
                 createTime: "2018-03-09",
                 viewCount: 1256,
                 dataType: 1
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              },
-              {
-                title: "全国品牌布局情况",
-                rate: 4,
-                periodType: 1,
-                periodTypeName: "年",
-                organType: 1,
-                organTypeName: "省",
-                catograyId: 1,
-                catograyName: "品牌",
-                description: "dsfssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf",
-                tags: ["销量", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额", "销额",],
-                createTime: "2018-03-09",
-                viewCount: 1256,
-                dataType: 2
-              }
+              }*/
             ]
           }
         },
-        watch:{
-            params:{
-              deep:true,
-              handler:function(value){
-                console.log(value);
-              }
+        watch: {
+          params: {
+            deep: true,
+            handler: function (value) {
+              let self = this;
+              value.pageNum="1";
+              value.pageSize="5";
+              util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
+                console.log(resp);
+                let resultData = resp.data.data;
+                self.resultList = resultData.list;
+                self.pageTotal = resultData.total;
+                self.pageSize = resultData.pageSize;
+                self.querryParam=value;
+              });
             }
+          }
+        },
+      methods: {
+        search: function (current) {
+          let self = this;
+          let value=self.querryParam;
+          value.pageNum=current;
+          value.pageSize="5";
+          console.log(value);
+          util.ajax.post('/manage/dataView/getSearchResult', value).then(function (resp) {
+            console.log(resp);
+            let resultData = resp.data.data;
+            self.resultList = resultData.list;
+            self.pageTotal = resultData.total;
+            self.currentPage = resultData.pageNum;
+            self.pageSize = resultData.pageSize;
+
+          })
+        },
+        showDetail:function (dataType,subjectId) {
+          if(dataType==1){
+            this.$router.push({
+              name: "数据明细",
+              query:{
+                subjectId:subjectId
+              }
+            })
+          }else{
+            this.$router.push({
+              name: "文件明细",
+              query:{
+                subjectId:subjectId
+              }
+            })
+          }
         }
-    }
-</script>
+        /*,
+      created(){
+        util.ajax.post('/manage/dataView/getSearchResult').then(function (resp) {
+          self.resultList = resp.data.data;
+        })
+      }*/
+      }}
+    </script>
 
 <style lang="less" scoped>
   .result{

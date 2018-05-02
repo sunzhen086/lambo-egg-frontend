@@ -8,6 +8,7 @@ let config = {
   loginPage:appContext + "/#/login",
   homePage:appContext + "/#/home",
   framePage:appContext + "/#/manage/frame/table",
-  serverContext:"ndp-show-server"
+  serverContext:"ndp-show-server",
+  fileServerContext:"file-server"
 };
 export default config;
