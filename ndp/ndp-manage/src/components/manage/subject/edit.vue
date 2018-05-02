@@ -452,36 +452,6 @@
       initData:function(){
         var self = this;
         //初始化数据
-        // self.timeList=[
-        //   {
-        //     value: 'YEAR',
-        //     label: '年'
-        //   },
-        //   {
-        //     value: 'MONTH',
-        //     label: '月',
-        //
-        // },
-        //   {
-        //     value: 'DAY',
-        //     label: '日',
-        //
-        //   }];
-        // self.organList=[
-        //       {
-        //     value: 'PROVINCE',
-        //     label: '省'
-        //   },
-        //   {
-        //     value: 'CITY',
-        //     label: '市',
-        //
-        //   },
-        //   {
-        //     value: 'COUNTY',
-        //     label: '县',
-        //
-        //   }];
         util.ajax.get("/manage/subjectData/getInitData" ).then(function(resp) {
           var results = resp.data.data;
 
