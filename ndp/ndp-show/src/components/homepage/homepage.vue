@@ -1,7 +1,7 @@
 <template>
   <div class="page home">
     <div class="banner">
-      <h1 class="pic-topic">营销开放数据&nbsp;&nbsp;&nbsp;释放智慧能量</h1>
+      <h1 class="pic-topic"><!--营销开放数据&nbsp;&nbsp;&nbsp;释放智慧能量--></h1>
       <div class="search-box">
         <Input v-model="searchValue" size="large" placeholder="单箱销售收入">
           <Button slot="append" type="primary" icon="ios-search" @click="goDataView"></Button>
@@ -206,9 +206,12 @@
         text-align: center;
         margin:160px auto;
         font-size: 68px;
+        height: 130px;
+        line-height: 130px;
         font-family: "Microsoft YaHei";
         font-weight: bold;
         color: white;
+        background: url("./images/xuanchuanyu.png") center no-repeat;
       }
       .search-box {
         width: 880px;
