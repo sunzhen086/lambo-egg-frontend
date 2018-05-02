@@ -139,7 +139,7 @@
       goCategoryView:function(categoryId,categoryName){
         this.$router.push({
           name:'分类总览',
-          params:{
+          query:{
             categoryId:categoryId,
             categoryName:categoryName
           }
@@ -151,7 +151,7 @@
       goSubjectView:function(subjectId){
         this.$router.push({
           name:"数据明细",
-          params:{
+          query:{
             subjectId:subjectId
           }
         });
@@ -341,6 +341,10 @@
             text-overflow:ellipsis;
             p{
               cursor:pointer;
+              &:hover,&.active{
+                color: #4199e5;
+                /*text-decoration: underline;*/
+              }
             }
             .data-desc{
               text-align:right;

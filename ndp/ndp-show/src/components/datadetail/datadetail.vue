@@ -19,7 +19,7 @@
     name: "searchTable",
     data(){
       return{
-        subjectId:this.$route.params.subjectId,
+        subjectId:this.$route.query.subjectId,
       }
     },
     components: {

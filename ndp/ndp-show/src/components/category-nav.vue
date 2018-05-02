@@ -21,8 +21,8 @@
     name: "category-nav",
     data () {
       return {
-        categoryId: this.$route.params.categoryId,
-        categoryName: this.$route.params.categoryName
+        categoryId: this.$route.query.categoryId,
+        categoryName: this.$route.query.categoryName
       }
     },
     methods:{
@@ -30,8 +30,9 @@
         var self = this;
         this.$router.push({
           name: name,
-          params:{
-            categoryId:self.categoryId
+          query:{
+            categoryId:self.categoryId,
+            categoryName:self.categoryName
           }
         })
       }
