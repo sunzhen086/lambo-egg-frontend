@@ -48,7 +48,7 @@
     },
     computed:{
       subjectId: function () {
-        return this.$route.params.subjectId
+        return this.$route.query.subjectId
       },
     },
     methods:{
