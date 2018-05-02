@@ -95,7 +95,7 @@
       goCategoryView:function(categoryId,categoryName){
         this.$router.push({
           name:'分类总览',
-          params:{
+          query:{
             categoryId:categoryId,
             categoryName:categoryName
           }

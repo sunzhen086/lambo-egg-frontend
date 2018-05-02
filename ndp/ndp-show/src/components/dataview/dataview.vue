@@ -169,7 +169,7 @@
         //获取
         util.ajax.post('/manage/dataView/getConditionMap',{}).then(function (resp) {
           self.catograyList=resp.data.data.categoryTypeList;
-          self.formItem.catograyId=self.$route.params.categoryId;
+          self.formItem.catograyId=self.$route.query.categoryId;
           self.periodTypeList=resp.data.data.timeTypeList;
           self.organTypeList=resp.data.data.organTypeList;
           self.tagList=resp.data.data.indexTypeList;

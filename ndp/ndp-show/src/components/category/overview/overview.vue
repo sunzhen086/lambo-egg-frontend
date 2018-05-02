@@ -63,7 +63,7 @@
     },
     computed:{
       categoryId: function () {
-        return this.$route.params.categoryId
+        return this.$route.query.categoryId
       },
     },
     methods:{

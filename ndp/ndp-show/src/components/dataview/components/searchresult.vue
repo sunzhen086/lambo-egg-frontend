@@ -131,15 +131,15 @@
           if(dataType==1){
             this.$router.push({
               name: "数据明细",
-              params:{
-                categoryId:subjectId
+              query:{
+                subjectId:subjectId
               }
             })
           }else{
             this.$router.push({
               name: "文件明细",
-              params:{
-                categoryId:subjectId
+              query:{
+                subjectId:subjectId
               }
             })
           }
