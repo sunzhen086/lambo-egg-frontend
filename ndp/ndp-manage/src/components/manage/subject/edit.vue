@@ -454,7 +454,6 @@
         //初始化数据
         util.ajax.get("/manage/subjectData/getInitData" ).then(function(resp) {
           var results = resp.data.data;
-
           self.timeList=results[0];
           self.organList=results[1];
 
