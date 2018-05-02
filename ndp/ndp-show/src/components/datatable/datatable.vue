@@ -1,10 +1,12 @@
 <template>
     <div>
-      <div class="title">
-        <div class="content">
-          <Icon type="ios-list-outline" size="30" color="#fff" class="icon"></Icon>
-          <h2 class="text">数据目录</h2>
+      <div>
+        <div class="title-back">
+          <div class="title">
+            <h2 class="cat-head">数据目录</h2>
+          </div>
         </div>
+        <router-view></router-view>
       </div>
       <div class="body">
           <dataview></dataview>
@@ -25,7 +27,6 @@
 <style lang="less" scoped>
   .title{
     height:50px;
-    background:#25A9E5;
     .content{
       width:1080px;
       margin:0 auto;
@@ -41,7 +42,40 @@
       }
     }
   }
-  .body{
-    margin-top:10px;
+</style>
+<style lang="less" scoped>
+  .title-back{
+    margin-top: 5px;
+    height:34px;
+    background:#f5f5f5;
+    .title{
+      width: 1080px;
+      margin: 0px auto;
+      .cat-head{
+        width:98px;
+        height: 44px;
+        margin-top: -5px;
+        margin-right: 58px;
+        line-height:44px;
+        float:left;
+        background-color: #4199e5;
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .nav{
+        height:34px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  }
+</style>
+<style lang="less">
+  .title-back{
+    .ivu-tabs-bar{
+      border-bottom:none;
+    }
   }
 </style>

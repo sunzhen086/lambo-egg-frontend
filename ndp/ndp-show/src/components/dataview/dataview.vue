@@ -191,6 +191,7 @@
       width:1080px;
       margin:0px auto;
       margin-top: 10px;
+      padding-bottom: 20px;
       .left{
         background:#fff;
         margin-right:20px;
