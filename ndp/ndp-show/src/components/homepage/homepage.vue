@@ -1,7 +1,7 @@
 <template>
   <div class="page home">
     <div class="banner">
-      <h1 class="pic-topic">营销开放数据&nbsp;&nbsp;&nbsp;释放智慧能量</h1>
+      <h1 class="pic-topic"><!--营销开放数据&nbsp;&nbsp;&nbsp;释放智慧能量--></h1>
       <div class="search-box">
         <Input v-model="searchValue" size="large" placeholder="单箱销售收入">
           <Button slot="append" type="primary" icon="ios-search" @click="goDataView"></Button>
@@ -76,7 +76,7 @@
           <div v-for="item in hotSubject">
             <Row class="data-list">
               <Col span="18">
-                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
+                <p @click="goSubjectView(item.subject_id,item.subject_type)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 <span class="num">{{ item.record_num }}</span>次查看
@@ -89,7 +89,7 @@
           <div v-for="item in newSubject">
             <Row class="data-list">
               <Col span="18">
-                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
+                <p @click="goSubjectView(item.subject_id,item.subject_type)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 {{ item.create_time }}
@@ -153,13 +153,18 @@
           }
         });
       },
-      goSubjectView:function(subjectId){
-        this.$router.push({
-          name:"数据明细",
+      goSubjectView:function(subjectId,subjectType){
+        var name = "数据明细";
+        if (subjectType == "2"){
+          name = "文件明细";
+        }
+        const {href} = this.$router.resolve({
+          name:name,
           query:{
             subjectId:subjectId
           }
         });
+        window.open(href, '_blank');
       }
     },
     created(){
@@ -211,9 +216,12 @@
         text-align: center;
         margin:160px auto;
         font-size: 68px;
+        height: 130px;
+        line-height: 130px;
         font-family: "Microsoft YaHei";
         font-weight: bold;
         color: white;
+        background: url("./images/xuanchuanyu.png") center no-repeat;
       }
       .search-box {
         width: 880px;

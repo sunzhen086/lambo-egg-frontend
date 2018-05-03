@@ -26,13 +26,9 @@
       <div class="title"><div class="text">近期更新</div></div>
       <div class="list" v-for="item in newSubject">
         <div class="item">
-          <div class="name">{{item.subject_name}}</div>
-          <div class="tags">
-            <Tag color="#eff6fc">品牌</Tag>
-            <Tag color="#eff6fc">数量</Tag>
-            <Tag color="#eff6fc">占比</Tag>
-            <Tag color="#eff6fc">销量</Tag>
-            <Tag color="#eff6fc">上柜率</Tag>
+          <div class="name" @click="goSubjectView(item.subject_id,item.subject_type)">{{item.subject_name}}</div>
+          <div class="tags" v-for="tag in item.tags">
+            <Tag color="#eff6fc">{{tag.tag_name}}</Tag>
           </div>
           <Row>
             <Col span="20" class="description">
@@ -79,7 +75,28 @@
         });
         util.ajax.get('/main/homepage/getNewSubject?categoryId=' + self.categoryId,{}).then(function (resp) {
           self.newSubject = resp.data.data;
+          var length = self.newSubject.length;
+          for (var i=0; i < length; i++) {
+            (function (k){
+              util.ajax.get('/main/overview/getSubjectTag?subjectId=' + self.newSubject[k].subject_id,{}).then(function (resp) {
+                self.newSubject[k].tags = resp.data.data;
+              });
+            }(i));
+          }
         });
+      },
+      goSubjectView:function(subjectId,subjectType){
+        var name = "数据明细";
+        if (subjectType == "2"){
+          name = "文件明细";
+        }
+        const {href} = this.$router.resolve({
+          name:name,
+          query:{
+            subjectId:subjectId
+          }
+        });
+        window.open(href, '_blank');
       }
     },
     watch: {
@@ -188,6 +205,10 @@
           .name{
             font-size:18px;
             color: #525252;
+            cursor:pointer;
+            &:hover,&.active{
+              color: #4199e5;
+            }
           }
           .tags{
             margin-top:5px;

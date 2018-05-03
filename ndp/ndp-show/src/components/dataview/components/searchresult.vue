@@ -128,21 +128,17 @@
           })
         },
         showDetail:function (dataType,subjectId) {
-          if(dataType==1){
-            this.$router.push({
-              name: "数据明细",
-              query:{
-                subjectId:subjectId
-              }
-            })
-          }else{
-            this.$router.push({
-              name: "文件明细",
-              query:{
-                subjectId:subjectId
-              }
-            })
+          var name = "数据明细";
+          if (dataType == "2"){
+            name = "文件明细";
           }
+          const {href} = this.$router.resolve({
+            name:name,
+            query:{
+              subjectId:subjectId
+            }
+          });
+          window.open(href, '_blank');
         }
         /*,
       created(){
