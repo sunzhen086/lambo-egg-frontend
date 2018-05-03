@@ -107,9 +107,9 @@
           activeTags:[],
           activeStars:"",
           activeOrder:"1",
-          searchText:"",
+          searchText:this.$route.query.searchValue,
         },
-        queryText:"",
+        queryText:this.$route.query.searchValue,
         searchResultNumber:0,
         catograyList:[],
         periodTypeList:[],
@@ -168,8 +168,14 @@
         var self = this;
         //获取
         util.ajax.post('/manage/dataView/getConditionMap',{}).then(function (resp) {
+          let catId=0;
+          if(typeof self.$route.query.categoryId =="string"){
+            catId = parseInt(self.$route.query.categoryId);
+          }else{
+            catId = self.$route.query.categoryId;
+          };
           self.catograyList=resp.data.data.categoryTypeList;
-          self.formItem.catograyId=self.$route.query.categoryId;
+          self.formItem.catograyId=catId;
           self.periodTypeList=resp.data.data.timeTypeList;
           self.organTypeList=resp.data.data.organTypeList;
           self.tagList=resp.data.data.indexTypeList;

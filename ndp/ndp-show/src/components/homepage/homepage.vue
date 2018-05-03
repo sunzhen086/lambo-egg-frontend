@@ -146,7 +146,12 @@
         });
       },
       goDataView:function(){
-        this.$router.push({name:"数据目录"});
+        this.$router.push({
+          name:"数据目录",
+          query:{
+            searchValue:this.searchValue
+          }
+        });
       },
       goSubjectView:function(subjectId){
         this.$router.push({
