@@ -11,7 +11,7 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/ndp/',
+    assetsPublicPath: '/ndp-manage/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -30,7 +30,7 @@ module.exports = {
     port: process.env.PORT || 8527,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/ndp-manage/',
+    assetsPublicPath: '',
     proxyTable: {
       '/ndp-manage-server': {
         target: 'http://127.0.0.1:9527/ndp-manage-server',
