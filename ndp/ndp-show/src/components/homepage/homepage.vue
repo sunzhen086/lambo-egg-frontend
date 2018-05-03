@@ -76,7 +76,7 @@
           <div v-for="item in hotSubject">
             <Row class="data-list">
               <Col span="18">
-                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
+                <p @click="goSubjectView(item.subject_id,item.subject_type)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 <span class="num">{{ item.record_num }}</span>次查看
@@ -89,7 +89,7 @@
           <div v-for="item in newSubject">
             <Row class="data-list">
               <Col span="18">
-                <p @click="goSubjectView(item.subject_id)">【{{ item.category_name }}】{{ item.subject_name }}</p>
+                <p @click="goSubjectView(item.subject_id,item.subject_type)">【{{ item.category_name }}】{{ item.subject_name }}</p>
               </Col>
               <Col span="6" class="data-desc">
                 {{ item.create_time }}
@@ -148,13 +148,18 @@
       goDataView:function(){
         this.$router.push({name:"数据目录"});
       },
-      goSubjectView:function(subjectId){
-        this.$router.push({
-          name:"数据明细",
+      goSubjectView:function(subjectId,subjectType){
+        var name = "数据明细";
+        if (subjectType == "2"){
+          name = "文件明细";
+        }
+        const {href} = this.$router.resolve({
+          name:name,
           query:{
             subjectId:subjectId
           }
         });
+        window.open(href, '_blank');
       }
     },
     created(){
