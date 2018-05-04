@@ -4,7 +4,7 @@
     <div class="result">
 
         <div class="result-item" v-for="result in resultList" >
-            <div class="title">{{result.SUBJECT_NAME}}</div>
+            <div class="title" @click="showDetail(result.SUBJECT_TYPE,result.SUBJECT_ID)" >{{result.SUBJECT_NAME}}</div>
             <Rate disabled v-model="result.RATE_COUNT" class="rate"></Rate>
             <div class="attr-container">
               <div class="attr-item">
@@ -17,9 +17,9 @@
                 所属分类：{{result.catograyName}}
               </div>
             </div>
-            <div class="desciption" @click="showDetail(result.SUBJECT_TYPE,result.SUBJECT_ID)"  >
+            <div class="desciption"  >
               {{result.SUBJECT_DESC}}
-              <span class="link">查看数据>></span>
+              <span class="link" @click="showDetail(result.SUBJECT_TYPE,result.SUBJECT_ID)" >查看数据>></span>
             </div>
             <Row>
               <Col span="16">
@@ -159,6 +159,11 @@
         font-size:16px;
         font-weight: bold;
         display: inline-block;
+        cursor:pointer;
+        margin-left:5px;
+        &:hover{
+          text-decoration: underline;
+        }
       }
       .rate{
         display: inline-block;

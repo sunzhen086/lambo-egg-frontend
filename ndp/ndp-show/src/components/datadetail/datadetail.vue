@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <div >
     <div class="title">
       <div class="content">
         <Icon type="pricetags" size="30" color="#fff" class="icon"></Icon>
         <h2 class="text">商品月度销售</h2>
       </div>
     </div>
-    <div class="page">
-      <rightPart :subjectId="subjectId"></rightPart>
+
+    <div class="backcolor">
+      <div class="page">
+        <rightPart :subjectId="subjectId"></rightPart>
+      </div>
     </div>
     </div>
 </template>
@@ -15,29 +18,45 @@
 <script>
   import leftPart from './components/leftPart';
   import rightPart from './components/rightPart';
+  import util from '@/libs/util';
   export default {
     name: "searchTable",
     data(){
       return{
-        subjectId:this.$route.query.subjectId,
+        subjectId:parseInt(this.$route.query.subjectId),
       }
     },
     components: {
-      leftPart,
+      /*leftPart,*/
       rightPart
     },
     methods:{
       changeSubject:function (data) {
         this.subjectId = data;
+      },
+      recordAction:function () {
+          var self = this;
+          util.ajax.post('/manage/subjectRecord/create',{
+            subjectId:self.subjectId
+          }).then(function (resp) {
+
+          });
       }
-    }
+    },
+    created(){
+      this.recordAction();
+    },
   }
 </script>+
 
 <style lang="less" scoped>
+  .backcolor{
+    background:#fafafa;
+  }
   .page{
     width:1080px;
-    margin:20px auto;
+    margin:0px auto;
+    padding-top:20px;
   }
   .title{
     height:50px;
