@@ -18,7 +18,7 @@
             <Input v-model="form.dictName" placeholder="请输入名称"></Input>
           </FormItem>
           <FormItem label="标识" prop="dictId">
-            <Input  v-model="form.dictId" placeholder="请输入中文名"></Input>
+            <Input  v-model="form.dictId" placeholder="请输入标识id"></Input>
           </FormItem>
           <FormItem label="描述" prop="dictDesc">
             <Input  v-model="form.dictDesc" placeholder="请输入描述"></Input>
