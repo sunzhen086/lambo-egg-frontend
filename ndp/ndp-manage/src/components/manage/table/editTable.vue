@@ -14,6 +14,9 @@
       <Row>
         <Col span="12" offset="6">
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
+          <FormItem label="模式名" prop="dataschema">
+            <Input  v-model="dataschema" placeholder="请输入模式名"></Input>
+          </FormItem>
           <FormItem label="表名称" prop="tablecode">
             <Input v-model="form.tablecode" placeholder="请输入表名称" readonly @on-focus="showHelpBox" icon="ios-search" ></Input>
             <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
@@ -41,7 +44,7 @@
           </p>
           <div slot="extra">
             <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
-            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
+            <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
           </div>
           <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
         </Card>
@@ -107,8 +110,9 @@
     // },
     data () {
       return {
+        dataschema:"yxgk",
         helpBoxShow:false,
-        helpBoxUrl:"/manage/tableData/listDbTable",
+       // helpBoxUrl:"/manage/tableData/listDbTable?"+"dataSchema="+ this.dataschema,
         helpBoxColumnsStr: JSON.stringify(helpBoxColumns),
         muliSelect:false,
         helpBoxTitle:"表帮助框",
@@ -116,21 +120,25 @@
         datas: [],
         datacolumn:[],
         form: {
+
           tablecode:"",
           tablename:"",
           tabledesc:""
         },
         ruleValidate: {
-          // tablecode: [
-          //   {required: true,message: '名称不能为空',trigger: 'blur'},
+          //dataschema: [
+            // {required: true,message: '模式名不能为空',trigger: 'blur'},
           //   {type: 'string', max: 20, message: '名称不能超过20个字', trigger: 'blur'}
-          // ]
+           //]
         }
       };
     },
     computed: {
       tableId: function() {
         return this.$route.query.tableId;
+      },
+      helpBoxUrl:function(){
+        return "/manage/tableData/listDbTable?"+"dataSchema="+ this.dataschema ;
       },
       title: function() {
         return this.$route.meta.title;
@@ -150,14 +158,14 @@
           {
             title: '标识',
             align: 'center',
-            key: 'cellCode',
+            key: 'cellcode',
             editor:{
               type:"helpbox",
               url:"/manage/tableData/listDbTableColumns?"+"tableName="+ this.form.tablecode+"&selectColumns="+JSON.stringify(this.datacolumn),
               columns:[
                 {
                   title: '表名',
-                  key: 'COLUMN_NAME',
+                  key: 'column_name',
                   sortable: "custom"
                 }
 
@@ -281,7 +289,7 @@
       newTableData:function(){
         this.datas.push({
           cellId: '',
-          cellCode: '',
+          cellcode: '',
           cellName: '',
           dictId: '',
           dataUnit:'',
@@ -301,20 +309,20 @@
       },
       onTableChanged:function(selectData,rowIndex,columnKey){
         if(selectData){
-          let COLUMN_NAME = selectData.COLUMN_NAME;
+          let column_name = selectData.column_name;
           //let dictName = selectData.dictName;
 
           //this.datacolumn.push(COLUMN_NAME);
           for(var i=0;i<this.datacolumn.length;i++){
-            if(COLUMN_NAME==this.datacolumn[i]){
+            if(column_name==this.datacolumn[i]){
               this.datacolumn.splice(i, 1);
               break;
             }
           }
-          this.$set(this.datas[rowIndex],'cellCode',COLUMN_NAME);
+          this.$set(this.datas[rowIndex],'cellcode',column_name);
           //this.$set(this.datas[rowIndex],'dictName',dictName);
         }else{
-          this.$set(this.datas[rowIndex],'cellCode',"");
+          this.$set(this.datas[rowIndex],'cellcode',"");
           //this.$set(this.datas[rowIndex],'dictName',"");
         }
       },
@@ -322,13 +330,11 @@
         this.helpBoxShow = true;
       },
       onOk:function(result){
-        //this.form.tablecode = JSON.stringify(result);
-        //console.log(result.table_name);
         this.result=result.table_name;
         this.form.tablecode=result.table_name;
-        //console.log(this.datacolumns);
         var self = this;
-        util.ajax.get("/manage/tableData/getColumn/" + self.form.tablecode).then(function(resp) {
+        //
+        util.ajax.get("/manage/tableData/getColumn?" +"tableName="+ self.form.tablecode+"&dataSchema="+self.dataschema).then(function(resp) {
           var result = resp.data.data;
           for(var i=0;i<result.length;i++){
 
@@ -378,8 +384,8 @@
         }
       },
       doDelete: function(currentRow,index) {
-        if(currentRow.cellCode!=null && currentRow.cellCode.length>0){
-          this.datacolumn.push(currentRow.cellCode);
+        if(currentRow.cellcode!=null && currentRow.cellcode.length>0){
+          this.datacolumn.push(currentRow.cellcode);
         }
 
          var self = this;
