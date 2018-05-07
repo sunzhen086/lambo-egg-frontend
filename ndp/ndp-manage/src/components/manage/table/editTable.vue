@@ -14,9 +14,6 @@
       <Row>
         <Col span="12" offset="6">
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
-          <FormItem label="模式名" prop="dataschema">
-            <Input  v-model="dataschema" placeholder="请输入模式名"></Input>
-          </FormItem>
           <FormItem label="表名称" prop="tablecode">
             <Input v-model="form.tablecode" placeholder="请输入表名称" readonly @on-focus="showHelpBox" icon="ios-search" ></Input>
             <lambo-help-box v-model="helpBoxShow" :url="helpBoxUrl" :columns="helpBoxColumns" :title="helpBoxTitle" :muliSelect="muliSelect" @onOk="onOk" @onClear="onClear">
@@ -44,7 +41,7 @@
           </p>
           <div slot="extra">
             <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增数据元</i-button>
-            <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
+            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>-->
           </div>
           <lambo-edit-table ref="table1"  v-model="datas"  :columns="columns" @on-organ-changed="onOrganChanged" @on-table-changed="onTableChanged"></lambo-edit-table>
         </Card>
@@ -110,9 +107,8 @@
     // },
     data () {
       return {
-        dataschema:"yxgk",
         helpBoxShow:false,
-       // helpBoxUrl:"/manage/tableData/listDbTable?"+"dataSchema="+ this.dataschema,
+       helpBoxUrl:"/manage/tableData/listDbTable",
         helpBoxColumnsStr: JSON.stringify(helpBoxColumns),
         muliSelect:false,
         helpBoxTitle:"表帮助框",
@@ -136,9 +132,6 @@
     computed: {
       tableId: function() {
         return this.$route.query.tableId;
-      },
-      helpBoxUrl:function(){
-        return "/manage/tableData/listDbTable?"+"dataSchema="+ this.dataschema ;
       },
       title: function() {
         return this.$route.meta.title;
@@ -309,7 +302,7 @@
         this.result=result.table_name;
         this.form.tablecode=result.table_name;
         var self = this;
-        util.ajax.get("/manage/tableData/getColumn?" +"tableName="+ self.form.tablecode+"&dataSchema="+self.dataschema).then(function(resp) {
+        util.ajax.get("/manage/tableData/getColumn?" +"tableName="+ self.form.tablecode).then(function(resp) {
           var result = resp.data.data;
           for(var i=0;i<result.length;i++){
 
