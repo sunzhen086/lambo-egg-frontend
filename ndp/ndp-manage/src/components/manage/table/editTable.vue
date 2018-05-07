@@ -174,25 +174,6 @@
               callbackEvent:"on-table-changed"
             }
           }
-          // {
-          //   title: '标识',
-          //   align: 'center',
-          //   key: 'cellCode',
-          //   width: 300,
-          //   editor: {
-          //     type: "text",
-          //     //校验函数,参数分别为：新值、旧值、行数据、行号
-          //     validate: function (newVal, oldVal, row, index) {
-          //       if (newVal.trim() == "") {
-          //         return {
-          //           valid: false,
-          //           msg: "输入不能为空！"
-          //         }
-          //       }
-          //       return {valid: true}
-          //     }
-          //   }
-          // }
         );
 
         columns.push(   {
@@ -310,9 +291,6 @@
       onTableChanged:function(selectData,rowIndex,columnKey){
         if(selectData){
           let column_name = selectData.column_name;
-          //let dictName = selectData.dictName;
-
-          //this.datacolumn.push(COLUMN_NAME);
           for(var i=0;i<this.datacolumn.length;i++){
             if(column_name==this.datacolumn[i]){
               this.datacolumn.splice(i, 1);
@@ -320,10 +298,8 @@
             }
           }
           this.$set(this.datas[rowIndex],'cellcode',column_name);
-          //this.$set(this.datas[rowIndex],'dictName',dictName);
         }else{
           this.$set(this.datas[rowIndex],'cellcode',"");
-          //this.$set(this.datas[rowIndex],'dictName',"");
         }
       },
       showHelpBox:function(){
@@ -333,7 +309,6 @@
         this.result=result.table_name;
         this.form.tablecode=result.table_name;
         var self = this;
-        //
         util.ajax.get("/manage/tableData/getColumn?" +"tableName="+ self.form.tablecode+"&dataSchema="+self.dataschema).then(function(resp) {
           var result = resp.data.data;
           for(var i=0;i<result.length;i++){
@@ -364,23 +339,6 @@
               }
             }
           });
-          // util.ajax.get("/manage/tableData/get/" + self.tableId).then(function(resp) {
-          //   var result = resp.data.data;
-          //   self.form.tablecode = result.tableCode;
-          //   self.form.tablename = result.tableName;
-          //   self.form.tabledesc = result.tableDesc;
-          //
-          // });
-          // var params = {
-          //   tableId: self.tableId
-          // }
-          // util.ajax.post("/manage/tableData/listTableCell/",params).then(function(resp) {
-          //
-          //   var data = resp.data.data;
-          //   for(var i=0;i<data.length;i++){
-          //     self.datas.push(data[i]);
-          //   }
-          // })
         }
       },
       doDelete: function(currentRow,index) {
@@ -389,13 +347,6 @@
         }
 
          var self = this;
-        // for(var i=0;i<self.datacolumn.length;i++){
-        //   if(currentRow.cellCode==self.datacolumn[i]){
-        //     //self.datacolumn.splice(index, 1);
-        //     self.datacolumn.push(currentRow.cellCode);
-        //     break;
-        //   }
-        // }
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
