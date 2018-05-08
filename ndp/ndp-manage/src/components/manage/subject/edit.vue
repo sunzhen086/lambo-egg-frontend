@@ -204,7 +204,7 @@
         formDoc: {
           sub:""
         },
-        uploadUrl:"/"+config.serverContext+"/manage/file/put",
+        uploadUrl:"/"+config.fileServerContext+"/manage/file/put",
         formData: {
           categoryName:"",
           categoryId:"",
