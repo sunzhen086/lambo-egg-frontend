@@ -16,7 +16,11 @@
         searchType:"helpbox",
         helpBoxUrl:'/manage/dataSubject/getConditionData?dimensionType=city',
         helpBoxColumns: [{
-          title:'公司名称',
+          title:'省公司名称',
+          key:"pcom_name",
+          sortable:true
+        },{
+          title:'市公司名称',
           key:"com_name",
           sortable:true
         }],

@@ -16,6 +16,10 @@
         searchType:"helpbox",
         helpBoxUrl:'/manage/dataSubject/getConditionData?dimensionType=item',
         helpBoxColumns: [{
+          title:'品牌',
+          key:"brdowner_name",
+          sortable:true
+        },{
           title:'商品名称',
           key:"item_name",
           sortable:true
