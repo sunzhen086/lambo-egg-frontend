@@ -306,7 +306,6 @@
           self.datas.splice(0,self.datas.length);//清除之前的数据
           var result = resp.data.data;
           for(var i=0;i<result.length;i++){
-
               self.datas.push(result[i]);
 
           }

@@ -175,7 +175,6 @@
         helpCateGoryBoxUrl:"/manage/category/list",
         helpCateGoryBoxColumns: helpCateGoryBoxColumns,
         helpCateGoryBoxTitle:"分类帮助框",
-
         helpBoxTable:false,
         helpTableBoxUrl:"/manage/tableData/list",
         helpTableBoxColumns: helpTableBoxColumns,
