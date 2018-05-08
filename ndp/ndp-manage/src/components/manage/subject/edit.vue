@@ -273,7 +273,7 @@
           columns.push( {
             title: '字段名称',
             align: 'center',
-            key: 'cellCode',
+            key: 'cellcode',
           });
           columns.push(
             {
@@ -300,6 +300,7 @@
             title: '排序',
             align: 'center',
             key: 'columnOrder',
+           // sortable:'custom',
             editor: {
               type: "text",
             }

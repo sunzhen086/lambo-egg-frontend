@@ -114,7 +114,7 @@
         helpBoxTitle:"表帮助框",
         result:"",
         datas: [],
-        datacolumn:[],
+       // datacolumn:[],
         form: {
 
           tablecode:"",
@@ -154,7 +154,7 @@
             key: 'cellcode',
             editor:{
               type:"helpbox",
-              url:"/manage/tableData/listDbTableColumns?"+"tableName="+ this.form.tablecode+"&selectColumns="+JSON.stringify(this.datacolumn),
+              url:"/manage/tableData/listDbTableColumns?"+"tableName="+ this.form.tablecode,//+"&selectColumns="+JSON.stringify(this.datacolumn),
               columns:[
                 {
                   title: '表名',
@@ -284,12 +284,12 @@
       onTableChanged:function(selectData,rowIndex,columnKey){
         if(selectData){
           let column_name = selectData.column_name;
-          for(var i=0;i<this.datacolumn.length;i++){
-            if(column_name==this.datacolumn[i]){
-              this.datacolumn.splice(i, 1);
-              break;
-            }
-          }
+          // for(var i=0;i<this.datacolumn.length;i++){
+          //   if(column_name==this.datacolumn[i]){
+          //     this.datacolumn.splice(i, 1);
+          //     break;
+          //   }
+          // }
           this.$set(this.datas[rowIndex],'cellcode',column_name);
         }else{
           this.$set(this.datas[rowIndex],'cellcode',"");
@@ -303,6 +303,7 @@
         this.form.tablecode=result.table_name;
         var self = this;
         util.ajax.get("/manage/tableData/getColumn?" +"tableName="+ self.form.tablecode).then(function(resp) {
+          self.datas.splice(0,self.datas.length);//清除之前的数据
           var result = resp.data.data;
           for(var i=0;i<result.length;i++){
 
@@ -335,9 +336,9 @@
         }
       },
       doDelete: function(currentRow,index) {
-        if(currentRow.cellcode!=null && currentRow.cellcode.length>0){
-          this.datacolumn.push(currentRow.cellcode);
-        }
+        // if(currentRow.cellcode!=null && currentRow.cellcode.length>0){
+        //   this.datacolumn.push(currentRow.cellcode);
+        // }
 
          var self = this;
         this.$Modal.confirm({

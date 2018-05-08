@@ -27,8 +27,6 @@
         </Col>
       </Row>
 
-
-
     <Row>
       <Col span="24">
         <Card :bordered="false" :dis-hover="true">
