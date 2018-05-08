@@ -299,7 +299,7 @@
             title: '排序',
             align: 'center',
             key: 'columnOrder',
-           // sortable:'custom',
+            sortable: true,
             editor: {
               type: "text",
             }
