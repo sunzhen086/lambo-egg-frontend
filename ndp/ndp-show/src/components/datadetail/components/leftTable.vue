@@ -25,6 +25,7 @@
 <script>
   import queryCondition from '@/components/datadetail/tools/query/query';
   import codeModal from '@/components/datadetail/tools/codeModal/codeModal';
+  import moment from 'moment';
   export default {
     name: "left-table",
     data(){
@@ -102,14 +103,11 @@
           finalParam += data.cellCode+ "='" + data.value +"',";
         }else if(data.searchType){
           if(data.searchCondition && data.searchCondition == "year"){
-            finalParam += data.cellCode+ ">='" + data.value +"-01-01 00:00:00',";
-            finalParam += data.cellCode+ "<='" + data.value +"-12-31 23:59:59',";
+            finalParam += moment(data.value).format('YYYY') + "='" + data.value +"',";
           }else if(data.searchCondition && data.searchCondition == "month"){
-            finalParam += data.cellCode+ ">='" + data.value +"-01 00:00:00',";
-            finalParam += data.cellCode+ "<='" + data.value +"-31 23:59:59',";
+            finalParam += data.cellCode+ "='" + moment(data.value).format('YYYYMM') +"',";
           }else if(data.searchCondition && data.searchCondition == "date"){
-            finalParam += data.cellCode+ ">='" + data.value +" 00:00:00',";
-            finalParam += data.cellCode+ "<='" + data.value +" 23:59:59',";
+            finalParam += data.cellCode+ "='" + moment(data.value).format('YYYYMMDD') +"',";
           }else{
             finalParam += data.cellCode+ data.searchType +"'" + data.value +"',";
           }

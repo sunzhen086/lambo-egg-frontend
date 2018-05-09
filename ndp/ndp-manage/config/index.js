@@ -38,7 +38,7 @@ module.exports = {
         changeOrigin: false
       },
       '/file-server': {
-        target: 'http://127.0.0.1:1115/file-server',
+        target: 'http://127.0.0.1:9529/ndp-file-server',
         pathRewrite: {'^/file-server' : ''},
         changeOrigin: false
       },
