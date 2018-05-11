@@ -21,7 +21,7 @@
               {
                 title: '字典',
                 align: 'center',
-                key: 'dict_name'
+                key: 'dict_detail'
               },
               {
                 title: '描述',
@@ -45,6 +45,7 @@
               tmp.data_unit = obj.data_unit;
               tmp.dict_name = obj.dict_name;
               tmp.data_desc = obj.data_desc;
+              tmp.dict_detail = obj.dict_detail;
               result.push(tmp);
             }
             this.tableDatas = result;
