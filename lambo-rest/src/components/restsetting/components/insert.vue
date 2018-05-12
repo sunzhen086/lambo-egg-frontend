@@ -91,14 +91,7 @@
           restSql:'',
           mockData:''
         },
-        paramsData: [
-          {
-            paramKey: '',
-            paramName: '',
-            necessary: '1',
-            defaultValue: ''
-          }
-        ],
+        paramsData: [],
         columns: [
           {
             title: '序号',
