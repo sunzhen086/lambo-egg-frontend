@@ -2,9 +2,9 @@
   <Layout>
     <Header>
       <Menu mode="horizontal" theme="dark" active-name="1">
-        <MenuItem name="服务定义">
+        <MenuItem name="服务管理">
           <Icon type="ios-paper"></Icon>
-          服务定义
+          服务管理
         </MenuItem>
         <MenuItem name="2">
           <Icon type="ios-people"></Icon>

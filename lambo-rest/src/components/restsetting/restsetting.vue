@@ -1,117 +1,125 @@
 <template>
   <Layout>
     <Sider hide-trigger :style="{background: '#fff'}" width="300">
-      <Tree :data="data1"></Tree>
+      <Tree :data="treeData" :load-data="loadTree"  @on-select-change="treeClick"></Tree>
     </Sider>
     <Content>
-      <lambo-edit-table ref="table1"  v-model="datas" :columns="columns"></lambo-edit-table>
+      <div :class="isShown" class="btn-box">
+        <Button class="addStru" @click="showPage('insert')">增加</Button>
+        <Button class="delete" >删除</Button>
+      </div>
+
+      <div v-if="pageType==='insert'" class="stru-box">
+        <Insert :parent-id="curStru.struId" :parent-name="curStru.struName" ></Insert>
+      </div>
+      <div v-if="pageType==='update'" class="stru-box">
+        <Update :stru-id="curStru.struId" :stru-name="curStru.struName"></Update>
+      </div>
+
     </Content>
   </Layout>
 </template>
 
 <script>
+  import util from '@/libs/util';
+  import Insert from "./components/insert";
+  import Update from "./components/update";
   export default {
     data () {
       return {
-        data1: [
+        isShown:'hidden',
+        pageType:'insert',
+        curStru:{
+          struId:"",
+          struName:""
+        },
+        treeData: [
           {
-            title: 'parent 1',
-            expand: true,
-            children: [
-              {
-                title: 'parent 1-1',
-                expand: true,
-                children: [
-                  {
-                    title: 'leaf 1-1-1'
-                  },
-                  {
-                    title: 'leaf 1-1-2'
-                  }
-                ]
-              },
-              {
-                title: 'parent 1-2',
-                expand: true,
-                children: [
-                  {
-                    title: 'leaf 1-2-1'
-                  },
-                  {
-                    title: 'leaf 1-2-1'
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        columns: [
-          {
-            title: '序号',
-            type: 'index',
-            width: 180,
-            align: 'center'
-          },
-          {
-            title: '姓名',
-            align: 'center',
-            key: 'name',
-            width: 190,
-            editor:{
-              type:"text",
-              //校验函数,参数分别为：新值、旧值、行数据、行号
-              validate:function(newVal,oldVal,row,index){
-                if(newVal.trim() == ""){
-                  return{
-                    valid:false,
-                    msg:"输入不能为空！"
-                  }
-                }
-                return{valid:true}
-              }
-            }
-          },
-          {
-            title: '性别',
-            align: 'center',
-            width: 150,
-            key: 'sex',
-            editor:{
-              type:"select",
-              enums:[{"value":"1","label":"男"},{"value":"0","label":"女"}]
-            }
-          },
-          {
-            title: '组织',
-            align: 'center',
-            key: 'organName'
-          }
-        ],
-        datas: [
-          {
-            name: 'Aresn',
-            sex: '1',
-            organId: '4',
-            organName: '河北分部'
-          },
-          {
-            name: 'Lison',
-            sex: '1',
-            organId: '5',
-            organName: '河南分部'
-          },
-          {
-            name: 'lisa',
-            sex: '0',
-            organId: '5',
-            organName: '河南分部'
+            key:'0',
+            title: '数据服务',
+            loading: false,
+            children: []
           }
         ]
       }
+    },
+    components:{
+      Insert,
+      Update
+    },
+    methods:{
+      getTreeData(){
+        this.getChildren(0)
+      },
+      loadTree(item, callback){
+        this.getChildren(item.key,callback)
+      },
+      getChildren(parentId,callback){
+        var self = this;
+        util.ajax.get('/manage/rest/stru/query?parentId='+parentId).then(function(resp){
+          var result = resp.data;
+          const nodes = [];
+          if(result.code == '1'){
+            var nodeDatas = result.data;
+            if(nodeDatas.length>0) {
+              nodeDatas.forEach(node => {
+                let obj = {};
+                obj.key = node.struId;
+                obj.title = node.struName;
+                if (node.isLeaf == "0") {
+                  obj.loading = false;
+                  obj.children = [];
+                }
+                nodes.push(obj);
+              });
+            }
+          }
+          if(callback){
+            callback(nodes);
+          }else if(parentId==0){
+            self.$set(self.treeData[0], "expand", true);
+            self.$set(self.treeData[0], "children", nodes);
+          }
+        });
+      },
+      treeClick(data, index, event){
+        var self = this;
+        if(data.length>0){
+          self.isShown = "shown";
+          self.pageType = "update";
+
+          self.curStru.struId = data[0].key;
+          self.curStru.struName = data[0].title;
+        }else{
+          self.isShown = "hidden";
+          self.pageType = "";
+
+          self.curStru.struName = "";
+          self.curStru.struId = "";
+        }
+      },
+      showPage(pageType){
+        this.pageType = pageType;
+      }
+    },
+    mounted:function(){
+      this.getTreeData();
     }
   }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+  .shown{
+    display:block;
+  }
+  .hidden{
+    display:none;
+  }
+  .btn-box{
+    padding:20px;
+    border-bottom:1px solid #e9eaec;
+  }
+  .stru-box{
+    padding:20px;
+  }
 </style>
