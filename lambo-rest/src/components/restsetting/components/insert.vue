@@ -183,6 +183,7 @@
     methods:{
       struSubmit() {
         var self = this;
+        var restUrl = "/manage/rest";
         var params = {
           struName:self.stru.struName,
           isLeaf:self.stru.isLeaf,
@@ -199,9 +200,12 @@
 
           //sql参数
           params.settingParams = self.paramsData;
+          restUrl += "/setting/insert";
+        }else{
+          restUrl += "/stru/insert";
         }
 
-        util.ajax.post('/manage/rest/stru/insert', params);
+        util.ajax.post(restUrl, params);
       },
       //重置节点信息
       struReset(){

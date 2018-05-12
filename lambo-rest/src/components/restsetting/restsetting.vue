@@ -28,7 +28,7 @@
     data () {
       return {
         isShown:'hidden',
-        pageType:'insert',
+        pageType:'',
         curStru:{
           struId:"",
           struName:""
