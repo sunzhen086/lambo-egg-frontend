@@ -10,16 +10,25 @@
         <FormItem label="节点名称：">
           <Input v-model="stru.struName" type="text" required="true" style="width:200px"/>
         </FormItem>
+        <FormItem label="节点URL：">
+          <Input v-model="stru.struUrl" type="text" required="true" style="width:200px"/>
+        </FormItem>
         <FormItem label="节点类型：">
           <RadioGroup v-model="stru.isLeaf" required="true">
             <Radio label="0">文件目录</Radio>
             <Radio label="1">数据服务</Radio>
           </RadioGroup>
         </FormItem>
+        <FormItem label="显示顺序：">
+          <Input v-model="stru.orderSeq" type="text" required="true" style="width:200px"/>
+        </FormItem>
       </div>
 
       <div class="part" v-if="stru.isLeaf==='1'">
         <div class="sub-title">服务配置</div>
+        <FormItem label="服务URL：">
+          {{struPath}}{{stru.struUrl}}
+        </FormItem>
         <FormItem label="数据源：">
           <RadioGroup v-model="setting.datasource" required="true">
             <Radio label="0">分析库</Radio>
@@ -46,15 +55,15 @@
         <FormItem label="关键SQL：">
           <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
         </FormItem>
-        <FormItem label="数据格式：">
+        <FormItem label="MOCK数据：">
           <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
         </FormItem>
       </div>
 
       <div class="part">
         <FormItem>
-          <Button type="primary" @click="struSubmit()">保存</Button>
-          <Button type="ghost" @click="struReset()" style="margin-left: 8px">重置</Button>
+          <Button type="primary" @click="restSubmit()">保存</Button>
+          <Button type="ghost" @click="restReset()" style="margin-left: 8px">重置</Button>
         </FormItem>
       </div>
     </Form>
@@ -72,18 +81,25 @@
       parentName: {
         type:String,
         default:''
+      },
+      struPath:{
+        type:String,
+        default:''
       }
     },
     data () {
       return {
         stru: {
           struName: '',
+          struUrl:'',
           isLeaf: '0',
           parentId: this.parentId,
           restId:'',
           isUse: '1',
+          orderSeq:0,
         },
         setting:{
+          url:'',
           datasource:'0',
           operationType:'selectList',
           url:'',
@@ -181,34 +197,32 @@
       }
     },
     methods:{
-      struSubmit() {
+      restSubmit() {
         var self = this;
-        var restUrl = "/manage/rest";
         var params = {
           struName:self.stru.struName,
+          struUrl:self.stru.struUrl,
           isLeaf:self.stru.isLeaf,
           parentId:self.stru.parentId,
-          isUse:self.stru.isUse
+          isUse:self.stru.isUse,
+          orderSeq:self.stru.orderSeq
         };
         if(self.stru.isLeaf == '1'){
           params.datasource = self.setting.datasource;
           params.operationType = self.setting.operationType;
-          params.url = self.setting.url;
+          params.url = self.struPath+self.stru.struUrl;
           params.note = self.setting.note;
           params.restSql = self.setting.restSql;
           params.mockData = self.setting.mockData;
 
           //sql参数
-          params.settingParams = self.paramsData;
-          restUrl += "/setting/insert";
-        }else{
-          restUrl += "/stru/insert";
+          params.settingParams = JSON.stringify(self.$refs.paramsTable.getTableData());
         }
 
-        util.ajax.post(restUrl, params);
+        util.ajax.post("/manage/rest/manage/insert", params);
       },
       //重置节点信息
-      struReset(){
+      restReset(){
         var self = this;
         self.struName='';
       },

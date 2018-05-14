@@ -10,7 +10,7 @@
       </div>
 
       <div v-if="pageType==='insert'" class="stru-box">
-        <Insert :parent-id="curStru.struId" :parent-name="curStru.struName" ></Insert>
+        <Insert :parent-id="curStru.struId" :parent-name="curStru.struName"  :stru-path="curStru.struPath"></Insert>
       </div>
       <div v-if="pageType==='update'" class="stru-box">
         <Update :stru-id="curStru.struId" :stru-name="curStru.struName"></Update>
@@ -31,12 +31,14 @@
         pageType:'',
         curStru:{
           struId:"",
-          struName:""
+          struName:"",
+          struPath:""
         },
         treeData: [
           {
             key:'0',
             title: '数据服务',
+            path:'',
             loading: false,
             children: []
           }
@@ -49,12 +51,12 @@
     },
     methods:{
       getTreeData(){
-        this.getChildren(0)
+        this.getChildren(0,'')
       },
       loadTree(item, callback){
-        this.getChildren(item.key,callback)
+        this.getChildren(item.key,item.path,callback)
       },
-      getChildren(parentId,callback){
+      getChildren(parentId,path,callback){
         var self = this;
         util.ajax.get('/manage/rest/stru/query?parentId='+parentId).then(function(resp){
           var result = resp.data;
@@ -66,6 +68,7 @@
                 let obj = {};
                 obj.key = node.struId;
                 obj.title = node.struName;
+                obj.path = path+node.struUrl;
                 if (node.isLeaf == "0") {
                   obj.loading = false;
                   obj.children = [];
@@ -90,12 +93,14 @@
 
           self.curStru.struId = data[0].key;
           self.curStru.struName = data[0].title;
+          self.curStru.struPath = data[0].path;
         }else{
           self.isShown = "hidden";
           self.pageType = "";
 
           self.curStru.struName = "";
           self.curStru.struId = "";
+          self.curStru.struPath = "";
         }
       },
       showPage(pageType){
