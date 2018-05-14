@@ -21,6 +21,9 @@
 
       <div class="part" v-if="stru.isLeaf==='1'">
         <div class="sub-title">服务配置</div>
+        <FormItem label="服务URL：">
+          {{setting.url}}
+        </FormItem>
         <FormItem label="数据源：">
           <RadioGroup v-model="setting.datasource" required="true">
             <Radio label="0">分析库</Radio>
@@ -228,6 +231,7 @@
                 self.setting.create_user = restSetting.create_user;
               }
 
+              self.paramsData.splice(0,self.paramsData.length);
               var paramsList = result.data.restSettingParamsList;
               if(paramsList && paramsList.length>0){
                 paramsList.forEach(params => {
