@@ -1,13 +1,17 @@
 <template>
   <Layout>
     <Header>
-      <Menu mode="horizontal" theme="dark" active-name="1">
+      <div class="logo">
+        <Icon type="social-reddit-outline" size="40"></Icon>
+        <span class="text">服务管理平台</span>
+      </div>
+      <Menu mode="horizontal" theme="dark" active-name="1" class="menu">
         <MenuItem name="服务管理">
-          <Icon type="ios-paper"></Icon>
+          <Icon type="social-dribbble-outline"></Icon>
           服务管理
         </MenuItem>
         <MenuItem name="2">
-          <Icon type="ios-people"></Icon>
+          <Icon type="search"></Icon>
           服务搜索
         </MenuItem>
         <Submenu name="3">
@@ -39,7 +43,27 @@
 </script>
 
 <style lang="less" scoped>
+  .logo{
+    float:left;
+    color:rgba(255,255,255,.7);
+    font-size:18px;
+    .ivu-icon{
+      float:left;
+      margin-top:10px;
+    }
+    .text{
+      float:left;
+      margin-left:5px;
+    }
+  }
+  .menu{
+    float:left;
+    margin-left:20px;
+  }
   .content{
     padding-bottom:20px;
+  }
+  .ivu-menu-horizontal{
+    line-height:67px;
   }
 </style>
