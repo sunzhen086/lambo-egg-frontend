@@ -8,22 +8,16 @@
         </MenuItem>
         <MenuItem name="2">
           <Icon type="ios-people"></Icon>
-          用户管理
+          服务搜索
         </MenuItem>
         <Submenu name="3">
           <template slot="title">
             <Icon type="stats-bars"></Icon>
             统计分析
           </template>
-          <MenuGroup title="使用">
-            <MenuItem name="3-1">新增和启动</MenuItem>
-            <MenuItem name="3-2">活跃分析</MenuItem>
-            <MenuItem name="3-3">时段分析</MenuItem>
-          </MenuGroup>
-          <MenuGroup title="留存">
-            <MenuItem name="3-4">用户留存</MenuItem>
-            <MenuItem name="3-5">流失用户</MenuItem>
-          </MenuGroup>
+          <MenuItem name="3-1">调用次数</MenuItem>
+          <MenuItem name="3-2">执行耗时</MenuItem>
+          <MenuItem name="3-3">错误日志</MenuItem>
         </Submenu>
         <MenuItem name="4">
           <Icon type="settings"></Icon>
