@@ -1,7 +1,8 @@
 <template>
   <div class="insert-box">
     <Form :label-width="100">
-
+      <Alert type="success" show-icon>A success prompt</Alert>
+      <Alert type="error" show-icon>An error prompt</Alert>
       <div class="part">
         <div class="sub-title">节点信息</div>
         <FormItem label="上级节点：">
@@ -219,7 +220,12 @@
           params.settingParams = JSON.stringify(self.$refs.paramsTable.getTableData());
         }
 
-        util.ajax.post("/manage/rest/manage/insert", params);
+        util.ajax.post("/manage/rest/insert", params).then(function(resp){
+          var result = resp.data;
+          if(result.code == '1') {
+            console.log("uuid="+result.data);
+          }
+        });
       },
       //重置节点信息
       restReset(){

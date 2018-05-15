@@ -53,6 +53,15 @@
         <FormItem label="MOCK数据：">
           <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
         </FormItem>
+        <FormItem label="创建时间：">
+          {{setting.createTime}}
+        </FormItem>
+        <FormItem label="修改时间：" v-if="setting.createTime != setting.updateTime">
+          {{setting.updateTime}}
+        </FormItem>
+        <FormItem label="操作人：">
+          {{setting.createUser}}
+        </FormItem>
       </div>
 
       <div class="part">
@@ -101,7 +110,7 @@
           note:'',
           createTime:'',
           updateTime:'',
-          create_user:''
+          createUser:''
         },
         paramsData: [],
         columns: [
@@ -200,7 +209,7 @@
           self.stru.struName = self.struName;
           self.stru.isLeaf = '0';
         }else{
-          util.ajax.get('/manage/rest/manage/query?struId='+self.struId).then(function(resp){
+          util.ajax.get('/manage/rest/query?struId='+self.struId).then(function(resp){
             var result = resp.data;
             if(result.code == '1'){
 
@@ -219,7 +228,7 @@
               var restSetting = result.data.restSetting;
               if(restSetting){
                 self.setting.restId = restSetting.restId;
-                self.setting.restName = restSetting.restName;
+                self.setting.restName = restStru.struName;
                 self.setting.url = restSetting.url;
                 self.setting.operationType = restSetting.operationType;
                 self.setting.datasource = restSetting.datasource;
@@ -227,8 +236,8 @@
                 self.setting.mockData = restSetting.mockData;
                 self.setting.note = restSetting.note;
                 self.setting.createTime = restSetting.createTime;
-                self.setting. updateTime = restSetting.updateTime;
-                self.setting.create_user = restSetting.create_user;
+                self.setting.updateTime = restSetting.updateTime;
+                self.setting.createUser = restSetting.createUser;
               }
 
               self.paramsData.splice(0,self.paramsData.length);
@@ -256,23 +265,29 @@
         var self = this;
         var params = {
           struName:self.stru.struName,
+          struUrl:self.stru.struUrl,
           isLeaf:self.stru.isLeaf,
+          restId:self.stru.restId,
           parentId:self.stru.parentId,
-          isUse:self.stru.isUse
+          isUse:self.stru.isUse,
+          orderSeq:self.stru.orderSeq
         };
         if(self.stru.isLeaf == '1'){
+          params.restName = self.setting.datasource;
           params.datasource = self.setting.datasource;
           params.operationType = self.setting.operationType;
           params.url = self.setting.url;
           params.note = self.setting.note;
           params.restSql = self.setting.restSql;
           params.mockData = self.setting.mockData;
+          params.createTime = self.setting.createTime;
 
           //sql参数
           params.settingParams = JSON.stringify(self.$refs.paramsTable.getTableData());
         }
 
-        util.ajax.post("/manage/rest/update", params);
+
+        util.ajax.post("/manage/rest/update/"+self.stru.struId, params);
       },
       //重置节点信息
       restReset(){
@@ -293,7 +308,6 @@
     },
     watch: {
       struId(){
-        console.log("struId="+this.struId);
         this.getRest();
       }
     },
