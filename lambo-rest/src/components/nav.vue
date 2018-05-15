@@ -1,29 +1,27 @@
 <template>
   <Layout>
     <Header>
-      <Menu mode="horizontal" theme="dark" active-name="1">
+      <div class="logo">
+        <Icon type="social-reddit-outline" size="40"></Icon>
+        <span class="text">服务管理平台</span>
+      </div>
+      <Menu mode="horizontal" theme="dark" active-name="1" class="menu">
         <MenuItem name="服务管理">
-          <Icon type="ios-paper"></Icon>
+          <Icon type="social-dribbble-outline"></Icon>
           服务管理
         </MenuItem>
         <MenuItem name="2">
-          <Icon type="ios-people"></Icon>
-          用户管理
+          <Icon type="search"></Icon>
+          服务搜索
         </MenuItem>
         <Submenu name="3">
           <template slot="title">
             <Icon type="stats-bars"></Icon>
             统计分析
           </template>
-          <MenuGroup title="使用">
-            <MenuItem name="3-1">新增和启动</MenuItem>
-            <MenuItem name="3-2">活跃分析</MenuItem>
-            <MenuItem name="3-3">时段分析</MenuItem>
-          </MenuGroup>
-          <MenuGroup title="留存">
-            <MenuItem name="3-4">用户留存</MenuItem>
-            <MenuItem name="3-5">流失用户</MenuItem>
-          </MenuGroup>
+          <MenuItem name="3-1">调用次数</MenuItem>
+          <MenuItem name="3-2">执行耗时</MenuItem>
+          <MenuItem name="3-3">错误日志</MenuItem>
         </Submenu>
         <MenuItem name="4">
           <Icon type="settings"></Icon>
@@ -45,7 +43,27 @@
 </script>
 
 <style lang="less" scoped>
+  .logo{
+    float:left;
+    color:rgba(255,255,255,.7);
+    font-size:18px;
+    .ivu-icon{
+      float:left;
+      margin-top:10px;
+    }
+    .text{
+      float:left;
+      margin-left:5px;
+    }
+  }
+  .menu{
+    float:left;
+    margin-left:20px;
+  }
   .content{
     padding-bottom:20px;
+  }
+  .ivu-menu-horizontal{
+    line-height:67px;
   }
 </style>
