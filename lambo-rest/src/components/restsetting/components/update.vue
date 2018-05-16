@@ -1,8 +1,17 @@
 <template>
   <div class="insert-box">
+    <div class="msg">
+      <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
+      <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
+    </div>
     <Form :label-width="100">
 
-      <div class="part">
+      <div class="part" v-if="stru.struId==0">
+        <div class="sub-title">节点信息</div>
+        <FormItem label="节点名称：">{{stru.struName}}</FormItem>
+      </div>
+
+      <div class="part" v-if="stru.struId!=0">
         <div class="sub-title">节点信息</div>
         <FormItem label="节点名称：">
           <Input v-model="stru.struName" type="text" required="true" style="width:200px"/>
@@ -64,10 +73,9 @@
         </FormItem>
       </div>
 
-      <div class="part">
+      <div class="part" v-if="stru.struId!=0">
         <FormItem>
-          <Button type="primary" @click="restUpdate()">保存</Button>
-          <Button type="ghost" @click="restReset()" style="margin-left: 8px">重置</Button>
+          <Button type="primary" @click="restUpdate()" :loading='isloading'>保存</Button>
         </FormItem>
       </div>
     </Form>
@@ -78,27 +86,27 @@
   import util from '@/libs/util';
   export default {
     props: {
-      struId: {
-        type:String,
-        default:''
-      },
-      struName: {
-        type:String,
-        default:''
+      curStru:Object
+    },
+    computed:{
+      stru:function(){
+        var obj = {
+          struId:this.curStru.struId,
+          struName: this.curStru.struName,
+          struUrl:this.curStru.struUrl,
+          isLeaf: this.curStru.isLeaf,
+          parentId: this.curStru.parentId,
+          restId:this.curStru.restId,
+          isUse: this.curStru.isUse,
+          orderSeq:this.curStru.orderSeq,
+        };
+        return obj;
       }
     },
     data () {
       return {
-        stru: {
-          struId:this.struId,
-          struName: this.struName,
-          struUrl:'',
-          isLeaf: '',
-          parentId: '',
-          restId:'',
-          isUse: '',
-          orderSeq:0
-        },
+        isloading:false,
+        doSaved:0,
         setting:{
           restId:'',
           restName:'',
@@ -204,31 +212,15 @@
     methods:{
       getRest(){
         var self = this;
-        if(self.struId == '0'){
-          self.stru.struId = self.struId;
-          self.stru.struName = self.struName;
-          self.stru.isLeaf = '0';
-        }else{
-          util.ajax.get('/manage/rest/query?struId='+self.struId).then(function(resp){
+        if(self.stru.isLeaf == '1'){
+          util.ajax.get('/manage/rest/setting/query?restId='+self.stru.restId).then(function(resp){
             var result = resp.data;
             if(result.code == '1'){
-
-              var restStru = result.data.restStru;
-              if(restStru){
-                self.stru.struId = restStru.struId;
-                self.stru.struName = restStru.struName;
-                self.stru.struUrl = restStru.struUrl;
-                self.stru.isLeaf = restStru.isLeaf;
-                self.stru.parentId = restStru.parentId;
-                self.stru.restId = restStru.restId;
-                self.stru.isUse = restStru.isUse;
-                self.stru.orderSeq = restStru.orderSeq;
-              }
 
               var restSetting = result.data.restSetting;
               if(restSetting){
                 self.setting.restId = restSetting.restId;
-                self.setting.restName = restStru.struName;
+                self.setting.restName = restSetting.restName;
                 self.setting.url = restSetting.url;
                 self.setting.operationType = restSetting.operationType;
                 self.setting.datasource = restSetting.datasource;
@@ -263,7 +255,11 @@
       },
       restUpdate() {
         var self = this;
-        var params = {
+
+        self.isloading = true;
+        self.doSaved = 0;
+
+        var struParams = {
           struName:self.stru.struName,
           struUrl:self.stru.struUrl,
           isLeaf:self.stru.isLeaf,
@@ -272,26 +268,48 @@
           isUse:self.stru.isUse,
           orderSeq:self.stru.orderSeq
         };
-        if(self.stru.isLeaf == '1'){
-          params.restName = self.setting.datasource;
-          params.datasource = self.setting.datasource;
-          params.operationType = self.setting.operationType;
-          params.url = self.setting.url;
-          params.note = self.setting.note;
-          params.restSql = self.setting.restSql;
-          params.mockData = self.setting.mockData;
-          params.createTime = self.setting.createTime;
 
-          //sql参数
-          params.settingParams = JSON.stringify(self.$refs.paramsTable.getTableData());
-        }
+        //修改目录
+        util.ajax.post("/manage/rest/stru/update/"+self.stru.struId, struParams).then(function(resp){
+          var result = resp.data;
+          if(result.code == '1') {
 
+            //更新树
+            // self.$emit("update-tree-node", params);
 
-        util.ajax.post("/manage/rest/update/"+self.stru.struId, params);
-      },
-      //重置节点信息
-      restReset(){
+            //修改服务
+            if(self.stru.isLeaf == '1'){
+              var restParams = {
+                restName:self.stru.struName,
+                datasource:self.setting.datasource,
+                operationType:self.setting.operationType,
+                url:self.setting.url,
+                note:self.setting.note,
+                restSql:self.setting.restSql,
+                mockData:self.setting.mockData,
+                createTime:self.setting.createTime,
+                settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
+              }
 
+              util.ajax.post("/manage/rest/setting/update/"+self.setting.restId, restParams).then(function(resp){
+                var result = resp.data;
+                if(result.code == '1') {
+                  self.isloading = false;
+                  self.doSaved = 1;
+                }else{
+                  self.isloading = false;
+                  self.doSaved = -1;
+                }
+              });
+            }else{
+              self.isloading = false;
+              self.doSaved = 1;
+            }
+          }else{
+            self.isloading = false;
+            self.doSaved = -1;
+          }
+        });
       },
       addNewRow:function(){
         let row = {
@@ -307,7 +325,7 @@
       }
     },
     watch: {
-      struId(){
+      curStru(){
         this.getRest();
       }
     },
