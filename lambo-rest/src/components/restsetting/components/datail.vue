@@ -1,25 +1,22 @@
 <template>
   <div class="insert-box">
-    <div class="msg">
-      <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
-      <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
-    </div>
+
     <Form :label-width="100">
 
-      <div class="part">
+      <div class="part" >
         <div class="sub-title">节点信息</div>
         <FormItem label="节点名称：">
-          <Input v-model="stru.struName" type="text" required="true" style="width:200px"/>
+          {{stru.struName}}
         </FormItem>
-        <FormItem label="节点URL：">
+        <FormItem label="节点URL：" v-if="stru.struId!=0">
           {{stru.struUrl}}
         </FormItem>
-        <FormItem label="节点类型：">
+        <FormItem label="节点类型：" v-if="stru.struId!=0">
           <span v-if="stru.isLeaf==0">文件目录</span>
           <span v-else>数据服务</span>
         </FormItem>
-        <FormItem label="显示顺序：">
-          <Input v-model="stru.orderSeq" type="text" required="true" style="width:200px"/>
+        <FormItem label="显示顺序：" v-if="stru.struId!=0">
+          {{stru.orderSeq}}
         </FormItem>
       </div>
 
@@ -34,27 +31,22 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="操作类型：">
-          <RadioGroup v-model="setting.operationType" required="true">
-            <Radio label="selectList">selectList</Radio>
-            <Radio label="selectOne">selectOne</Radio>
-          </RadioGroup>
+          <span v-if="setting.operationType==selectList">selectList</span>
+          <span v-else>selectOne</span>
         </FormItem>
         <FormItem label="服务描述：">
-          <Input v-model="setting.note" type="text"  />
+          {{setting.note}}
         </FormItem>
         <FormItem label="参数：">
           <div class="line-table">
-            <div class="table-btn">
-              <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
-            </div>
             <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
           </div>
         </FormItem>
         <FormItem label="关键SQL：">
-          <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
+          <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
         </FormItem>
         <FormItem label="MOCK数据：">
-          <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
+          <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
         </FormItem>
         <FormItem label="创建时间：">
           {{setting.createTime}}
@@ -67,11 +59,6 @@
         </FormItem>
       </div>
 
-      <div class="part" v-if="stru.struId!=0">
-        <FormItem>
-          <Button type="primary" @click="restUpdate()" :loading='isloading'>保存</Button>
-        </FormItem>
-      </div>
     </Form>
   </div>
 </template>
@@ -99,8 +86,6 @@
     },
     data () {
       return {
-        isloading:false,
-        doSaved:0,
         dsObj:[],
         setting:{
           restId:'',
@@ -266,76 +251,6 @@
 
           });
         }
-      },
-      restUpdate() {
-        var self = this;
-
-        self.isloading = true;
-        self.doSaved = 0;
-
-        var struParams = {
-          struName:self.stru.struName,
-          struUrl:self.stru.struUrl,
-          isLeaf:self.stru.isLeaf,
-          restId:self.stru.restId,
-          parentId:self.stru.parentId,
-          isUse:self.stru.isUse,
-          orderSeq:self.stru.orderSeq
-        };
-
-        //修改目录
-        util.ajax.post("/manage/rest/stru/update/"+self.stru.struId, struParams).then(function(resp){
-          var result = resp.data;
-          if(result.code == '1') {
-
-            //更新树
-            // self.$emit("update-tree-node", params);
-
-            //修改服务
-            if(self.stru.isLeaf == '1'){
-              var restParams = {
-                restName:self.stru.struName,
-                datasource:self.setting.datasource,
-                operationType:self.setting.operationType,
-                url:self.setting.url,
-                note:self.setting.note,
-                restSql:self.setting.restSql,
-                mockData:self.setting.mockData,
-                createTime:self.setting.createTime,
-                settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
-              }
-
-              util.ajax.post("/manage/rest/setting/update/"+self.setting.restId, restParams).then(function(resp){
-                var result = resp.data;
-                if(result.code == '1') {
-                  self.isloading = false;
-                  self.doSaved = 1;
-                }else{
-                  self.isloading = false;
-                  self.doSaved = -1;
-                }
-              });
-            }else{
-              self.isloading = false;
-              self.doSaved = 1;
-            }
-          }else{
-            self.isloading = false;
-            self.doSaved = -1;
-          }
-        });
-      },
-      addNewRow:function(){
-        let row = {
-          paramKey: '',
-          paramName: '',
-          necessary: '1',
-          defaultValue: ''
-        }
-        this.paramsData.push(row);
-      },
-      deleteRow(index) {
-        this.paramsData.splice(index, 1);
       }
     },
     watch: {

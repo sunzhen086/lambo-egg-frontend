@@ -4,9 +4,11 @@
       <Tree :data="treeData" :load-data="loadTree"  @on-select-change="treeClick"></Tree>
     </Sider>
     <Content>
-      <div :class="isShown" class="btn-box">
-        <Button class="addStru" @click="showPage('insert')">增加</Button>
-        <Button class="delete" @click="doDelete" v-if="curStru.struId!=0">删除</Button>
+      <div v-if="curStru.struId!=0" class="btn-box" >
+        <Button class="datailStru" @click="showPage('datail')" v-if="pageType=='insert' || pageType=='update'">返回</Button>
+        <Button class="addStru" @click="showPage('insert')" v-if="pageType=='datail' && curStru.isLeaf=='0'">增加</Button>
+        <Button class="updateStru" @click="showPage('update')" v-if="pageType=='datail' && curStru.struId!=0">修改</Button>
+        <Button class="delete" @click="doDelete" v-if="pageType=='datail' && curStru.struId!=0">删除</Button>
       </div>
 
       <div v-if="pageType==='insert'" class="stru-box">
@@ -14,6 +16,9 @@
       </div>
       <div v-if="pageType==='update'" class="stru-box">
         <Update :curStru="curStru" @update-tree-node="updateTreeNode"></Update>
+      </div>
+      <div v-if="pageType==='datail'" class="stru-box">
+        <Datail :curStru="curStru"></Datail>
       </div>
 
     </Content>
@@ -24,10 +29,10 @@
   import util from '@/libs/util';
   import Insert from "./components/insert";
   import Update from "./components/update";
+  import Datail from "./components/datail";
   export default {
     data () {
       return {
-        isShown:'hidden',
         pageType:'',
         curStru:{},
         treeData: [
@@ -47,7 +52,8 @@
     },
     components:{
       Insert,
-      Update
+      Update,
+      Datail
     },
     methods:{
       getTreeData(){
@@ -89,14 +95,12 @@
       treeClick(data, index, event){
         var self = this;
         if(data.length>0){
-          self.isShown = "shown";
-          self.pageType = "update";
+          self.pageType = "datail";
 
           self.curStru = data[0].struData;
           self.curStru.struPath = data[0].path;
 
         }else{
-          self.isShown = "hidden";
           self.pageType = "";
 
           self.curStru = {};
