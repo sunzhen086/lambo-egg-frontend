@@ -1,8 +1,10 @@
 <template>
   <div class="insert-box">
+    <div class="msg">
+      <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
+      <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
+    </div>
     <Form :label-width="100">
-      <Alert type="success" show-icon>A success prompt</Alert>
-      <Alert type="error" show-icon>An error prompt</Alert>
       <div class="part">
         <div class="sub-title">节点信息</div>
         <FormItem label="上级节点：">
@@ -32,8 +34,7 @@
         </FormItem>
         <FormItem label="数据源：">
           <RadioGroup v-model="setting.datasource" required="true">
-            <Radio label="0">分析库</Radio>
-            <Radio label="1">业务库</Radio>
+            <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="操作类型：">
@@ -63,8 +64,7 @@
 
       <div class="part">
         <FormItem>
-          <Button type="primary" @click="restSubmit()">保存</Button>
-          <Button type="ghost" @click="restReset()" style="margin-left: 8px">重置</Button>
+          <Button type="primary" @click="restSubmit()" :loading='isloading'>保存</Button>
         </FormItem>
       </div>
     </Form>
@@ -90,6 +90,9 @@
     },
     data () {
       return {
+        isloading:false,
+        doSaved:0,
+        dsObj:[],
         stru: {
           struName: '',
           struUrl:'',
@@ -101,7 +104,7 @@
         },
         setting:{
           url:'',
-          datasource:'0',
+          datasource:'',
           operationType:'selectList',
           url:'',
           note:'',
@@ -198,9 +201,33 @@
       }
     },
     methods:{
+      setDsObj(){
+        var self = this;
+        util.ajax.get("/manage/rest/datasource/queryAll").then(function(resp) {
+          var result = resp.data;
+          if (result.code == '1') {
+            var objs = result.data;
+            if(objs && objs.length>0){
+              objs.forEach(item => {
+                let ds = {
+                  dsId: item.dsId,
+                  dsName: item.dsName,
+                  dsType: item.dsType
+                };
+                self.dsObj.push(ds);
+              });
+            }
+            self.setting.datasource = self.dsObj[0].dsId;
+          }
+        });
+      },
       restSubmit() {
         var self = this;
-        var params = {
+
+        self.isloading = true;
+        self.doSaved = 0;
+
+        var struParams = {
           struName:self.stru.struName,
           struUrl:self.stru.struUrl,
           isLeaf:self.stru.isLeaf,
@@ -208,29 +235,47 @@
           isUse:self.stru.isUse,
           orderSeq:self.stru.orderSeq
         };
-        if(self.stru.isLeaf == '1'){
-          params.datasource = self.setting.datasource;
-          params.operationType = self.setting.operationType;
-          params.url = self.struPath+self.stru.struUrl;
-          params.note = self.setting.note;
-          params.restSql = self.setting.restSql;
-          params.mockData = self.setting.mockData;
 
-          //sql参数
-          params.settingParams = JSON.stringify(self.$refs.paramsTable.getTableData());
-        }
-
-        util.ajax.post("/manage/rest/insert", params).then(function(resp){
+        //新增目录
+        util.ajax.post("/manage/rest/stru/insert", struParams).then(function(resp){
           var result = resp.data;
           if(result.code == '1') {
-            console.log("uuid="+result.data);
+            var restId = result.data.restId;
+            //更新树
+
+            //新增服务
+            if(self.stru.isLeaf == '1'){
+              var restParams = {
+                restId:restId,
+                restName:self.stru.struName,
+                datasource:self.setting.datasource,
+                operationType:self.setting.operationType,
+                url:self.struPath+self.stru.struUrl,
+                note:self.setting.note,
+                restSql:self.setting.restSql,
+                mockData:self.setting.mockData,
+                settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
+              }
+
+              util.ajax.post("/manage/rest/setting/insert", restParams).then(function(resp){
+                var result = resp.data;
+                if(result.code == '1') {
+                  self.isloading = false;
+                  self.doSaved = 1;
+                }else{
+                  self.isloading = false;
+                  self.doSaved = -1;
+                }
+              });
+            }else{
+              self.isloading = false;
+              self.doSaved = 1;
+            }
+          }else{
+            self.isloading = false;
+            self.doSaved = -1;
           }
         });
-      },
-      //重置节点信息
-      restReset(){
-        var self = this;
-        self.struName='';
       },
       addNewRow:function(){
         let row = {
@@ -246,7 +291,7 @@
       }
     },
     mounted:function(){
-
+      this.setDsObj();
     }
   }
 </script>
@@ -264,5 +309,18 @@
         }
       }
     }
+  }
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }
+  @keyframes ani-demo-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+  }
+  .demo-spin-col{
+    height: 100px;
+    position: relative;
+    border: 1px solid #eee;
   }
 </style>
