@@ -58,7 +58,7 @@
       },
       getChildren(parentId,path,callback){
         var self = this;
-        util.ajax.get('/manage/rest/stru/getChildren?parentId='+parentId).then(function(resp){
+        util.ajax.get('/manage/rest/stru/queryChildren?parentId='+parentId).then(function(resp){
           var result = resp.data;
           const nodes = [];
           if(result.code == '1'){
@@ -108,7 +108,7 @@
       doDelete(){
         var self = this;
         var struId = self.curStru.struId
-        util.ajax.get('/manage/rest/stru/getChildren?parentId='+struId).then(function(resp){
+        util.ajax.get('/manage/rest/stru/queryChildren?parentId='+struId).then(function(resp){
           var result = resp.data;
           if(result.code == '1'){
             if(result.data && result.data.length>0){

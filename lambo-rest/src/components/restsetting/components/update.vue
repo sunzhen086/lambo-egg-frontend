@@ -35,8 +35,7 @@
         </FormItem>
         <FormItem label="数据源：">
           <RadioGroup v-model="setting.datasource" required="true">
-            <Radio label="0">分析库</Radio>
-            <Radio label="1">业务库</Radio>
+            <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="操作类型：">
@@ -107,6 +106,7 @@
       return {
         isloading:false,
         doSaved:0,
+        dsObj:[],
         setting:{
           restId:'',
           restName:'',
@@ -210,6 +210,25 @@
       }
     },
     methods:{
+      setDsObj(){
+        var self = this;
+        util.ajax.get("/manage/rest/datasource/queryAll").then(function(resp) {
+          var result = resp.data;
+          if (result.code == '1') {
+            var objs = result.data;
+            if(objs && objs.length>0){
+              objs.forEach(item => {
+                let ds = {
+                  dsId: item.dsId,
+                  dsName: item.dsName,
+                  dsType: item.dsType
+                };
+                self.dsObj.push(ds);
+              });
+            }
+          }
+        });
+      },
       getRest(){
         var self = this;
         if(self.stru.isLeaf == '1'){
@@ -330,6 +349,7 @@
       }
     },
     mounted:function(){
+      this.setDsObj();
       this.getRest();
     }
   }
