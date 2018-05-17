@@ -242,13 +242,16 @@
         util.ajax.post("/manage/rest/stru/insert", struParams).then(function(resp){
           var result = resp.data;
           if(result.code == '1') {
-            var restId = result.data.restId;
+
             //更新树
+            self.stru.struId = result.data.struId;
+            struParams.struId = result.data.struId;
+            self.$emit("add-tree-node", struParams);
 
             //新增服务
             if(self.stru.isLeaf == '1'){
               var restParams = {
-                restId:restId,
+                restId:result.data.restId,
                 restName:self.stru.struName,
                 datasource:self.setting.datasource,
                 operationType:self.setting.operationType,

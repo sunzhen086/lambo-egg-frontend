@@ -12,7 +12,7 @@
       </div>
 
       <div v-if="pageType==='insert'" class="stru-box">
-        <Insert :parent-id="curStruId" :parent-name="curStruName"  :stru-path="curStruPath"></Insert>
+        <Insert :parent-id="curStruId" :parent-name="curStruName" :stru-path="curStruPath" @add-tree-node="addTreeNode"></Insert>
       </div>
       <div v-if="pageType==='update'" class="stru-box">
         <Update :stru-id="curStruId" :stru-name="curStruName" @update-tree-node="updateTreeNode"></Update>
@@ -76,6 +76,7 @@
                 obj.title = node.struName;
                 obj.isLeaf = node.isLeaf;
                 obj.path = parentNode.path+node.struUrl;
+                obj.orderSeq = node.orderSeq;
                 if (node.isLeaf == "0") {
                   obj.loading = false;
                   obj.children = [];
@@ -142,6 +143,47 @@
             }
           }
         });
+      },
+      addTreeNode(node){
+        var self = this;
+        if(self.treeData[0].children && self.treeData[0].children.length>0){
+          self.addChildrenNode(node,self.treeData[0].children);
+        }
+      },
+      addChildrenNode(node,treeNodes){
+        var self = this;
+        for(var i=0;i<treeNodes.length;i++){
+          if(node.parentId == treeNodes[i].key){
+            treeNodes[i].selected = false;
+            var num = 0;
+            if(treeNodes[i].children && treeNodes[i].children.length>0) {
+              for(var j=0;j<treeNodes[i].children.length;j++) {
+                if(node.orderSeq && treeNodes[i].children[j].orderSeq && node.orderSeq>treeNodes[i].children[j].orderSeq) {
+                  num = j+1;
+                }
+              }
+            }else {
+              self.$set(treeNodes[i], "children", []);
+            }
+
+            let obj = {};
+            obj.key = node.struId;
+            obj.title = node.struName;
+            obj.isLeaf = node.isLeaf;
+            obj.path = self.curStruPath+node.struUrl;
+            obj.selected = true;
+            if (node.isLeaf == "0") {
+              obj.loading = false;
+              obj.children = [];
+            }
+            treeNodes[i].children.splice(num,0,obj)
+
+            break;
+          }
+          if(treeNodes[i].children && treeNodes[i].children.length>0){
+            self.addChildrenNode(node,treeNodes[i].children);
+          }
+        }
       },
       updateTreeNode(node){
         var self = this;
