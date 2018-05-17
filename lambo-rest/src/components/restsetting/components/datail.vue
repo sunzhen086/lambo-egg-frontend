@@ -71,26 +71,28 @@
   import util from '@/libs/util';
   export default {
     props: {
-      curStru:Object
-    },
-    computed:{
-      stru:function(){
-        var obj = {
-          struId:this.curStru.struId,
-          struName: this.curStru.struName,
-          struUrl:this.curStru.struUrl,
-          isLeaf: this.curStru.isLeaf,
-          parentId: this.curStru.parentId,
-          restId:this.curStru.restId,
-          isUse: this.curStru.isUse,
-          orderSeq:this.curStru.orderSeq,
-        };
-        return obj;
+      struId:{
+        type:String,
+        default:''
+      },
+      struName:{
+        type:String,
+        default:''
       }
     },
     data () {
       return {
         dsObj:[],
+        stru:{
+          struId:this.struId,
+          struName:this.struName,
+          struUrl:'',
+          isLeaf:'',
+          parentId:'',
+          restId:'',
+          isUse:'',
+          orderSeq:''
+        },
         setting:{
           restId:'',
           restName:'',
@@ -164,51 +166,76 @@
       },
       getRest(){
         var self = this;
-        if(self.stru.isLeaf == '1'){
-          util.ajax.get('/manage/rest/setting/query?restId='+self.stru.restId).then(function(resp){
+        if(self.struId == '0'){
+          self.stru.struId = self.struId;
+          self.stru.struName = self.struName;
+          self.stru.struUrl = '';
+          self.stru.isLeaf = '0';
+          self.stru.parentId = '';
+          self.stru.restId = '';
+          self.stru.isUse = '1';
+          self.stru.orderSeq = '';
+        }else{
+          util.ajax.get('/manage/rest/stru/query?struId='+self.struId).then(function(resp) {
             var result = resp.data;
-            if(result.code == '1'){
+            if (result.code == '1') {
+              self.stru.struId = result.data.struId;
+              self.stru.struName = result.data.struName;
+              self.stru.struUrl = result.data.struUrl;
+              self.stru.isLeaf = result.data.isLeaf;
+              self.stru.parentId = result.data.parentId;
+              self.stru.restId = result.data.restId;
+              self.stru.isUse = result.data.isUse;
+              self.stru.orderSeq = result.data.orderSeq;
 
-              var restSetting = result.data.restSetting;
-              if(restSetting){
-                self.setting.restId = restSetting.restId;
-                self.setting.restName = restSetting.restName;
-                self.setting.url = restSetting.url;
-                self.setting.operationType = restSetting.operationType;
-                self.setting.datasource = restSetting.datasource;
-                self.setting.restSql = restSetting.restSql;
-                self.setting.mockData = restSetting.mockData;
-                self.setting.note = restSetting.note;
-                self.setting.createTime = restSetting.createTime;
-                self.setting.updateTime = restSetting.updateTime;
-                self.setting.createUser = restSetting.createUser;
-              }
+              if(self.stru.isLeaf == '1'){
+                util.ajax.get('/manage/rest/setting/query?restId='+self.stru.restId).then(function(resp){
+                  var result2 = resp.data;
+                  if(result2.code == '1'){
 
-              self.paramsData.splice(0,self.paramsData.length);
-              var paramsList = result.data.restSettingParamsList;
-              if(paramsList && paramsList.length>0){
-                paramsList.forEach(params => {
-                  let row = {
-                    restId: params.restId,
-                    paramKey: params.paramKey,
-                    paramName: params.paramName,
-                    necessary: params.necessary,
-                    necessaryName:params.necessary==0?'否':'是',
-                    defaultValue: params.defaultValue
-                  };
+                    var restSetting = result2.data.restSetting;
+                    if(restSetting){
+                      self.setting.restId = restSetting.restId;
+                      self.setting.restName = restSetting.restName;
+                      self.setting.url = restSetting.url;
+                      self.setting.operationType = restSetting.operationType;
+                      self.setting.datasource = restSetting.datasource;
+                      self.setting.restSql = restSetting.restSql;
+                      self.setting.mockData = restSetting.mockData;
+                      self.setting.note = restSetting.note;
+                      self.setting.createTime = restSetting.createTime;
+                      self.setting.updateTime = restSetting.updateTime;
+                      self.setting.createUser = restSetting.createUser;
+                    }
 
-                  self.paramsData.push(row);
+                    self.paramsData.splice(0,self.paramsData.length);
+                    var paramsList = result2.data.restSettingParamsList;
+                    if(paramsList && paramsList.length>0){
+                      paramsList.forEach(params => {
+                        let row = {
+                          restId: params.restId,
+                          paramKey: params.paramKey,
+                          paramName: params.paramName,
+                          necessary: params.necessary,
+                          necessaryName:params.necessary==0?'否':'是',
+                          defaultValue: params.defaultValue
+                        };
+
+                        self.paramsData.push(row);
+
+                      });
+                    }
+                  }
 
                 });
               }
             }
-
           });
         }
       }
     },
     watch: {
-      curStru(){
+      struId(){
         this.getRest();
       }
     },
