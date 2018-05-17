@@ -5,14 +5,14 @@
         <Icon type="social-reddit-outline" size="40"></Icon>
         <span class="text">服务管理平台</span>
       </div>
-      <Menu mode="horizontal" theme="dark" active-name="1" class="menu">
-        <MenuItem name="服务管理">
+      <Menu mode="horizontal" theme="dark" active-name="1" class="menu" @on-select="onSelect">
+        <MenuItem name="服务定义">
           <Icon type="social-dribbble-outline"></Icon>
           服务管理
         </MenuItem>
-        <MenuItem name="2">
+        <MenuItem name="服务测试">
           <Icon type="search"></Icon>
-          服务搜索
+          服务测试
         </MenuItem>
         <Submenu name="3">
           <template slot="title">
@@ -33,12 +33,16 @@
       <router-view></router-view>
     </Content>
   </Layout>
-
 </template>
 
 <script>
     export default {
-        name: "nav"
+      name: "main-nav",
+      methods:{
+        onSelect:function(name){
+          this.$router.push({name});
+        }
+      }
     }
 </script>
 

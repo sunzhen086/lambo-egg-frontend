@@ -3,8 +3,9 @@ import iView from 'iview';
 Vue.use(iView);
 import Router from 'vue-router'
 import login from '@/components/login/login';
-import nav from '@/components/nav';
+import mainnav from '@/components/main-nav';
 import restsetting from '@/components/restsetting/restsetting';
+import resttest from '@/components/resttest/resttest';
 
 Vue.use(Router)
 const router = new Router({
@@ -24,12 +25,17 @@ const router = new Router({
     {
       path: '/nav',
       name: '导航',
-      component: nav,
+      component: mainnav,
       children:[
         {
           path: '/rest-setting',
           name: '服务定义',
           component: restsetting
+        },
+        {
+          path: '/rest-test',
+          name: '服务测试',
+          component: resttest
         }
       ]
     }
