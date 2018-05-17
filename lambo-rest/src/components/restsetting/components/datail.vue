@@ -26,28 +26,32 @@
           {{setting.url}}
         </FormItem>
         <FormItem label="数据源：">
-          <RadioGroup v-model="setting.datasource" required="true">
-            <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
+          <RadioGroup v-model="setting.datasource" >
+            <Radio v-for="item in dsObj" :label="item.dsId" disabled>{{item.dsName}}</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="操作类型：">
-          <span v-if="setting.operationType==selectList">selectList</span>
-          <span v-else>selectOne</span>
+          <RadioGroup v-model="setting.operationType">
+            <Radio label="selectList" disabled>selectList</Radio>
+            <Radio label="selectOne" disabled>selectOne</Radio>
+          </RadioGroup>
         </FormItem>
         <FormItem label="服务描述：">
           {{setting.note}}
         </FormItem>
         <FormItem label="参数：">
           <div class="line-table">
-            <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
+            <Table :data="paramsData" :columns="columns" ></Table>
           </div>
         </FormItem>
-        <FormItem label="关键SQL：">
-          <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
-        </FormItem>
-        <FormItem label="MOCK数据：">
-          <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
-        </FormItem>
+        <Tabs class="tabs" size="small">
+          <TabPane label="关键SQL" >
+            <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+          </TabPane>
+          <TabPane label="MOCK数据" >
+            <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+          </TabPane>
+        </Tabs>
         <FormItem label="创建时间：">
           {{setting.createTime}}
         </FormItem>
@@ -112,49 +116,19 @@
             title: '参数编码',
             align: 'center',
             key: 'paramKey',
-            width: 200,
-            editor:{
-              type:"text",
-              //校验函数,参数分别为：新值、旧值、行数据、行号
-              validate:function(newVal,oldVal,row,index){
-                if(newVal.trim() == ""){
-                  return{
-                    valid:false,
-                    msg:"输入不能为空！"
-                  }
-                }
-                return{valid:true}
-              }
-            }
+            width: 200
           },
           {
             title: '参数名称',
             align: 'center',
             key: 'paramName',
-            width: 200,
-            editor:{
-              type:"text",
-              //校验函数,参数分别为：新值、旧值、行数据、行号
-              validate:function(newVal,oldVal,row,index){
-                if(newVal.trim() == ""){
-                  return{
-                    valid:false,
-                    msg:"输入不能为空！"
-                  }
-                }
-                return{valid:true}
-              }
-            }
+            width: 200
           },
           {
             title: '是否必须',
             align: 'center',
             width: 200,
-            key: 'necessary',
-            editor:{
-              type:"select",
-              enums:[{"value":"1","label":"是"},{"value":"0","label":"否"}]
-            }
+            key: 'necessaryName'
           },
           {
             title: '默认值',
@@ -163,27 +137,6 @@
             width: 200,
             editor:{
               type:"text"
-            }
-          },
-          {
-            title: '操作',
-            key: 'action',
-            width: 200,
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.deleteRow(params.index)
-                    }
-                  }
-                }, '删除')
-              ]);
             }
           }
         ]
@@ -240,6 +193,7 @@
                     paramKey: params.paramKey,
                     paramName: params.paramName,
                     necessary: params.necessary,
+                    necessaryName:params.necessary==0?'否':'是',
                     defaultValue: params.defaultValue
                   };
 
@@ -276,6 +230,9 @@
         .table-btn{
           margin-bottom:10px;
         }
+      }
+      .tabs{
+        margin-bottom:10px !important;
       }
     }
   }

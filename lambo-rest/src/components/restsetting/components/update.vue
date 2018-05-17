@@ -50,12 +50,14 @@
             <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
           </div>
         </FormItem>
-        <FormItem label="关键SQL：">
-          <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
-        </FormItem>
-        <FormItem label="MOCK数据：">
-          <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
-        </FormItem>
+        <Tabs class="tabs" size="small">
+          <TabPane label="关键SQL" >
+            <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
+          </TabPane>
+          <TabPane label="MOCK数据" >
+            <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
+          </TabPane>
+        </Tabs>
         <FormItem label="创建时间：">
           {{setting.createTime}}
         </FormItem>
@@ -361,6 +363,9 @@
         .table-btn{
           margin-bottom:10px;
         }
+      }
+      .tabs{
+        margin-bottom:10px !important;
       }
     }
   }

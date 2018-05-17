@@ -117,12 +117,12 @@
           if(result.code == '1'){
             if(result.data && result.data.length>0){
               self.$Modal.confirm({
-                title: '提示',
+                title: '',
                 content: '<p>含有下级节点，不能删除！</p>'
               });
             }else{
               self.$Modal.confirm({
-                title: '提示',
+                title: '',
                 content: '<p>确定要删除吗?</p>',
                 onOk: () => {
                   util.ajax.post("/manage/rest/stru/delete/" + self.curStru.struId).then(function(resp) {
