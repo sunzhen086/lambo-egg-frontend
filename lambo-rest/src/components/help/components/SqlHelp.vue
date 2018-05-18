@@ -28,11 +28,11 @@
     <Card dis-hover :bordered="false">
       <p slot="title">参数判空</p>
       <code>参数==> com_id = 123</code>
-      <code>模板==> select a from b <where> <if test = 'com_id != null'> a=#{com_id} </if> </where></code>
+      <code>模板==> select a from b &lt;where&gt; &lt;if test = 'com_id != null'&gt; a=#{com_id} &lt;/if&gt; &lt;/where&gt;</code>
       <code>生成<== select a from b  WHERE a= '123'</code>
       <br/>
       <p>参数判空在使用非必须参数时非常有效</p>
-      <p>尖括号where的作用是让com_id为空时SQL不至于报错</p>
+      <p>&lt;where&gt;的作用是让com_id为空时SQL不至于报错</p>
     </Card>
 
     <Card dis-hover :bordered="false">
@@ -47,7 +47,7 @@
     <Card dis-hover :bordered="false">
       <p slot="title">循环的写法</p>
       <code>参数==> list = 1,2,3,4,5,6,7</code>
-      <code>模板==> select  * from user <where> <if test='list != null'> id in <foreach item='item' index='index' collection='list'    open='(' separator=',' close=')'>   '${item}' </foreach> </if> </where></code>
+      <code>模板==> select  * from user &lt;where&gt &lt;if test='list != null'&gt; id in &lt;foreach item='item' index='index' collection='list'    open='(' separator=',' close=')'&gt;   '${item}' &lt;/foreach&gt; &lt;/if&gt; &lt;/where&gt;</code>
       <code>生成<== select  * from user  WHERE id in  ('1','2','3','4','5','6','7')</code>
       <br/>
       <p>循环在处理sql的in语句时非常有效。如果传入参数的格式是用逗号分隔的一组数据，即可使用循环对每一项进行处理。当然你可以直接在前端拼写好('xx','xx'),然后再sql的in语句里直接使用，但是从程序的可维护行和可读性上看，使用循环较好一些</p>
