@@ -135,6 +135,7 @@
                 onOk: () => {
                   util.ajax.post("/manage/rest/stru/delete/" + self.curStruId).then(function(resp) {
                     self.$Message.success('删除成功');
+                    self.deleteNode(self.curStruId,self.treeData[0].children);
                   }).catch(function(err) {
                     self.$Message.error('删除失败,请联系系统管理员');
                   });
@@ -202,6 +203,31 @@
             self.setCheckedNode(node,treeNodes[i].children);
           }
         }
+      },
+      deleteNode(id,treeNodes){
+        var self = this;
+        if(treeNodes && treeNodes.length>0){
+          for(var i=0;i<treeNodes.length;i++){
+            if(id == treeNodes[i].key){
+              treeNodes.splice(i,1);
+              self.clearCurStru();
+              break;
+            }
+            if(treeNodes[i].children && treeNodes[i].children.length>0){
+              self.deleteNode(id,treeNodes[i].children);
+            }
+          }
+        }
+      },
+      addCurStru(){
+
+      },
+      clearCurStru(){
+        this.pageType = "";
+        this.curStruId = "";
+        this.curStruName = "";
+        this.curStruIsLeaf = "";
+        this.curStruPath = "";
       }
     },
     mounted:function(){
