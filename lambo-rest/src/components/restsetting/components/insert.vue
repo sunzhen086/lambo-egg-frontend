@@ -4,9 +4,13 @@
       <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
       <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
     </div>
+
     <Form :label-width="100">
-      <div class="part">
-        <div class="sub-title">节点信息</div>
+      <Card>
+        <p slot="title">
+          <Icon type="network"></Icon>
+          节点信息
+        </p>
         <FormItem label="上级节点：">
           {{parentName}}
         </FormItem>
@@ -25,43 +29,50 @@
         <FormItem label="显示顺序：">
           <Input v-model="stru.orderSeq" type="text" required="true" style="width:200px"/>
         </FormItem>
-      </div>
+      </Card>
 
       <div class="part" v-if="stru.isLeaf==='1'">
-        <div class="sub-title">服务配置</div>
-        <FormItem label="服务URL：">
-          {{struPath}}{{stru.struUrl}}
-        </FormItem>
-        <FormItem label="数据源：">
-          <RadioGroup v-model="setting.datasource" required="true">
-            <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="操作类型：">
-          <RadioGroup v-model="setting.operationType" required="true">
-            <Radio label="selectList">selectList</Radio>
-            <Radio label="selectOne">selectOne</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="服务描述：">
-          <Input v-model="setting.note" type="text"  />
-        </FormItem>
-        <FormItem label="参数：">
-          <div class="line-table">
-            <div class="table-btn">
-              <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
+        <Card>
+          <p slot="title">
+            <Icon type="gear-a"></Icon>
+            服务
+          </p>
+          <FormItem label="服务URL：">
+            {{struPath}}{{stru.struUrl}}
+          </FormItem>
+          <FormItem label="数据源：">
+            <RadioGroup v-model="setting.datasource" required="true">
+              <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="操作类型：">
+            <RadioGroup v-model="setting.operationType" required="true">
+              <Radio label="selectList">selectList</Radio>
+              <Radio label="selectOne">selectOne</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="服务描述：">
+            <Input v-model="setting.note" type="text"  />
+          </FormItem>
+          <FormItem label="参数：">
+            <div class="line-table">
+              <div class="table-btn">
+                <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
+              </div>
+              <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
             </div>
-            <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
-          </div>
-        </FormItem>
-        <Tabs class="tabs" size="small">
-          <TabPane label="关键SQL" >
-            <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
-          </TabPane>
-          <TabPane label="MOCK数据" >
-            <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
-          </TabPane>
-        </Tabs>
+          </FormItem>
+          <FormItem label="取数逻辑：">
+            <Tabs class="tabs" size="small">
+              <TabPane label="关键SQL" >
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
+              </TabPane>
+              <TabPane label="MOCK数据" >
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
+              </TabPane>
+            </Tabs>
+          </FormItem>
+        </Card>
       </div>
 
       <div class="part">
@@ -304,10 +315,7 @@
 <style lang="less" scoped>
   .insert-box{
     .part {
-      .sub-title {
-        padding: 10px 0;
-        border-bottom: 1px solid #e9eaec;
-      }
+      margin-top:20px;
       .line-table{
         .table-btn{
           margin-bottom:10px;
@@ -317,18 +325,5 @@
         margin-bottom:10px !important;
       }
     }
-  }
-  .demo-spin-icon-load{
-    animation: ani-demo-spin 1s linear infinite;
-  }
-  @keyframes ani-demo-spin {
-    from { transform: rotate(0deg);}
-    50%  { transform: rotate(180deg);}
-    to   { transform: rotate(360deg);}
-  }
-  .demo-spin-col{
-    height: 100px;
-    position: relative;
-    border: 1px solid #eee;
   }
 </style>
