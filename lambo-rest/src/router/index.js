@@ -8,6 +8,7 @@ import restsetting from '@/components/restsetting/restsetting';
 import resttest from '@/components/resttest/resttest';
 import help from '@/components/help/help';
 import SettingHelp from '@/components/help/components/SettingHelp';
+import SqlHelp from '@/components/help/components/SqlHelp';
 
 Vue.use(Router)
 const router = new Router({
@@ -49,6 +50,11 @@ const router = new Router({
               path: 'setting',
               name: '服务配置帮助',
               component: SettingHelp,
+            },
+            {
+              path: 'sql',
+              name: 'SQL模板帮助',
+              component: SqlHelp,
             }
           ]
         }

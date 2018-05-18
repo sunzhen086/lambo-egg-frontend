@@ -11,7 +11,7 @@
                     帮助
                   </template>
                   <MenuItem name="服务配置帮助">服务配置</MenuItem>
-                  <MenuItem name="2-2">SQL模板</MenuItem>
+                  <MenuItem name="SQL模板帮助">SQL模板</MenuItem>
                 </Submenu>
                 <Submenu name="2">
                   <template slot="title">
