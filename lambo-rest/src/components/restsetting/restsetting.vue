@@ -85,7 +85,8 @@
               });
             }
           }
-
+          self.addCurStru(parentNode);
+          self.$set(parentNode, "selected", true);
           if(callback){
             callback(nodes);
           }else{
@@ -97,22 +98,11 @@
       treeClick(data, index, event){
         var self = this;
         if(data.length>0){
-          self.pageType = "datail";
-
           self.getChildren(data[0]);
-
-          self.curStruId = data[0].key;
-          self.curStruName = data[0].title;
-          self.curStruIsLeaf = data[0].isLeaf;
-          self.curStruPath = data[0].path;
+          self.addCurStru(data[0]);
 
         }else{
-          self.pageType = "";
-
-          self.curStruId = "";
-          self.curStruName = "";
-          self.curStruIsLeaf = "";
-          self.curStruPath = "";
+          self.clearCurStru();
         }
       },
       showPage(pageType){
@@ -219,8 +209,12 @@
           }
         }
       },
-      addCurStru(){
-
+      addCurStru(node){
+        this.pageType = "datail";
+        this.curStruId = node.key;
+        this.curStruName = node.title;
+        this.curStruIsLeaf = node.isLeaf;
+        this.curStruPath = node.path;
       },
       clearCurStru(){
         this.pageType = "";
