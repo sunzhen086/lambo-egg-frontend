@@ -6,13 +6,13 @@
     <Content>
 
       <div v-if="pageType==='insert'" >
-        <Insert :parent-id="curStruId" :parent-name="curStruName" :stru-path="curStruPath" @add-tree-node="addTreeNode" @check-rest="doCheck" @show-page="showPage"></Insert>
+        <Insert :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" @add-tree-node="addTreeNode" @check-rest="doCheck" @show-page="showPage"></Insert>
       </div>
       <div v-if="pageType==='update'" >
-        <Update :stru-id="curStruId" :stru-name="curStruName" @update-tree-node="updateTreeNode" @check-rest="doCheck" @show-page="showPage"></Update>
+        <Update :stru-id="curStru.key" :stru-name="curStru.title" @update-tree-node="updateTreeNode" @check-rest="doCheck" @show-page="showPage"></Update>
       </div>
       <div v-if="pageType==='datail'" >
-        <Datail :stru-id="curStruId" :stru-name="curStruName" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" @show-page="showPage"></Datail>
+        <Datail :stru-id="curStru.key" :stru-name="curStru.title" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" @show-page="showPage"></Datail>
       </div>
 
     </Content>
@@ -30,11 +30,7 @@
     data () {
       return {
         pageType:'',
-        curStruId:'',
-        curStruName:'',
-        curStruIsLeaf:'',
-        curStruPath:'',
-        curRestId:'',
+        curStru:{},
         treeData: [
           {
             key:'0',
@@ -112,11 +108,11 @@
         if(!data.children || data.children.length === 0){
           this.getChildren(data);
         }
-
         this.addCurStru(data);
+        this.$set(data, "selected", true);
         let expand = data.expand;
         this.$set(data, "expand", !expand);
-        this.$set(data, "selected", true);
+
       },
       showPage(pageType){
         this.pageType = pageType;
@@ -144,7 +140,7 @@
         obj.key = node.struId;
         obj.title = node.struName;
         obj.isLeaf = node.isLeaf;
-        obj.path = self.curStruPath+node.struUrl;
+        obj.path = self.curStru.path+node.struUrl;
         obj.selected = true;
         if (node.isLeaf == "0") {
           obj.loading = false;
@@ -203,19 +199,14 @@
       },
       addCurStru(node){
         this.pageType = "datail";
-        this.curStruId = node.key;
-        this.curStruName = node.title;
-        this.curStruIsLeaf = node.isLeaf;
-        this.curStruPath = node.path;
-        this.curRestId = node.restId;
+        if(this.curStru.selected){
+          this.curStru.selected = false;
+        }
+        this.curStru = node;
       },
       clearCurStru(){
         this.pageType = "";
-        this.curStruId = "";
-        this.curStruName = "";
-        this.curStruIsLeaf = "";
-        this.curStruPath = "";
-        this.curRestId = "";
+        this.curStru = {};
       }
     },
     mounted:function(){
