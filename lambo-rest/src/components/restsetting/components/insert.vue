@@ -25,11 +25,11 @@
         <FormItem label="上级节点：">
           {{parentName}}
         </FormItem>
-        <FormItem label="节点名称：">
-          <Input v-model="stru.struName" type="text" required="true" style="width:200px"/>
+        <FormItem label="节点名称：" required>
+          <Input v-model="stru.struName" type="text"  style="width:200px"/>
         </FormItem>
         <FormItem label="节点URL：">
-          <Input v-model="stru.struUrl" type="text" required="true" style="width:200px"/>
+          <Input v-model="stru.struUrl" type="text" required style="width:200px"/>
         </FormItem>
         <FormItem label="节点类型：">
           <RadioGroup v-model="stru.isLeaf" required="true">
@@ -38,7 +38,7 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="显示顺序：">
-          <Input v-model="stru.orderSeq" type="text" required="true" style="width:200px"/>
+          <Input v-model="stru.orderSeq" type="text" required style="width:200px"/>
         </FormItem>
       </Card>
 
@@ -52,12 +52,12 @@
             {{struPath}}{{stru.struUrl}}
           </FormItem>
           <FormItem label="数据源：">
-            <RadioGroup v-model="setting.datasource" required="true">
+            <RadioGroup v-model="setting.datasource" required>
               <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="操作类型：">
-            <RadioGroup v-model="setting.operationType" required="true">
+            <RadioGroup v-model="setting.operationType" required>
               <Radio label="selectList">selectList</Radio>
               <Radio label="selectOne">selectOne</Radio>
             </RadioGroup>

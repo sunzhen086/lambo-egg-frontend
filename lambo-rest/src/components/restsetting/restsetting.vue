@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Sider hide-trigger :style="{background: '#fff'}" width="300" class="left-sider">
-      <Tree :data="treeData" :load-data="loadTree" ref="tree" @on-select-change="treeClick"></Tree>
+      <Tree :data="treeData" :load-data="loadTree" ref="tree"></Tree>
     </Sider>
     <Content>
 
@@ -25,6 +25,7 @@
   import Insert from "./components/insert";
   import Update from "./components/update";
   import Datail from "./components/datail";
+  import TreeNode from "./components/TreeNode";
   export default {
     data () {
       return {
@@ -78,6 +79,20 @@
                   obj.loading = false;
                   obj.children = [];
                 }
+                obj.render=(h, { root, node, data }) => {
+                  return  h(TreeNode,{
+                    props:{
+                      title:data.title,
+                      selected:data.selected,
+                      isLeaf:data.isLeaf
+                    },
+                    on:{
+                      "nodeOnClick":function(){
+                        self.onTreeSelectChange(data);
+                      }
+                    }
+                  })
+                };
                 nodes.push(obj);
               });
             }
@@ -93,15 +108,15 @@
           }
         });
       },
-      treeClick(data, index, event){
-        var self = this;
-        if(data.length>0){
-          self.getChildren(data[0]);
-          self.addCurStru(data[0]);
-        }else{
-          var node = self.getNodeByKey(self.curStruId,self.treeData[0].children);
-          self.$set(node, "selected", true);
+      onTreeSelectChange(data){
+        if(!data.children || data.children.length === 0){
+          this.getChildren(data);
         }
+
+        this.addCurStru(data);
+        let expand = data.expand;
+        this.$set(data, "expand", !expand);
+        this.$set(data, "selected", true);
       },
       showPage(pageType){
         this.pageType = pageType;
