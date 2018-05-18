@@ -3,8 +3,11 @@
 
     <Form :label-width="100">
 
-      <div class="part" >
-        <div class="sub-title">节点信息</div>
+      <Card>
+        <p slot="title">
+          <Icon type="network"></Icon>
+          节点信息
+        </p>
         <FormItem label="节点名称：">
           {{stru.struName}}
         </FormItem>
@@ -18,49 +21,60 @@
         <FormItem label="显示顺序：" v-if="stru.struId!=0">
           {{stru.orderSeq}}
         </FormItem>
-      </div>
+      </Card>
+
 
       <div class="part" v-if="stru.isLeaf==='1'">
-        <div class="sub-title">服务配置</div>
-        <FormItem label="服务URL：">
-          {{setting.url}}
-        </FormItem>
-        <FormItem label="数据源：">
-          <RadioGroup v-model="setting.datasource" >
-            <Radio v-for="item in dsObj" :label="item.dsId" disabled>{{item.dsName}}</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="操作类型：">
-          <RadioGroup v-model="setting.operationType">
-            <Radio label="selectList" disabled>selectList</Radio>
-            <Radio label="selectOne" disabled>selectOne</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="服务描述：">
-          {{setting.note}}
-        </FormItem>
-        <FormItem label="参数：">
-          <div class="line-table">
-            <Table :data="paramsData" :columns="columns" ></Table>
-          </div>
-        </FormItem>
-        <Tabs class="tabs" size="small">
-          <TabPane label="关键SQL" >
-            <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
-          </TabPane>
-          <TabPane label="MOCK数据" >
-            <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
-          </TabPane>
-        </Tabs>
-        <FormItem label="创建时间：">
-          {{setting.createTime}}
-        </FormItem>
-        <FormItem label="修改时间：" v-if="setting.createTime != setting.updateTime">
-          {{setting.updateTime}}
-        </FormItem>
-        <FormItem label="操作人：">
-          {{setting.createUser}}
-        </FormItem>
+        <Card>
+          <p slot="title">
+            <Icon type="gear-a"></Icon>
+            服务配置
+          </p>
+          <FormItem label="服务URL：">
+            {{setting.url}}
+          </FormItem>
+          <FormItem label="数据源：">
+            <RadioGroup v-model="setting.datasource" >
+              <Radio v-for="item in dsObj" :label="item.dsId" disabled>{{item.dsName}}</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="操作类型：">
+            <RadioGroup v-model="setting.operationType">
+              <Radio label="selectList" disabled>selectList</Radio>
+              <Radio label="selectOne" disabled>selectOne</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="服务描述：">
+            {{setting.note}}
+          </FormItem>
+          <FormItem label="参数：">
+            <div class="line-table">
+              <Table :data="paramsData" :columns="columns" ></Table>
+            </div>
+          </FormItem>
+          <FormItem label="取数逻辑：">
+            <Tabs class="tabs" size="small">
+              <TabPane label="关键SQL" >
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+              </TabPane>
+              <TabPane label="MOCK数据" >
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+              </TabPane>
+            </Tabs>
+          </FormItem>
+
+          <FormItem label="创建时间：">
+            {{setting.createTime}}
+          </FormItem>
+          <FormItem label="修改时间：" v-if="setting.createTime != setting.updateTime">
+            {{setting.updateTime}}
+          </FormItem>
+          <FormItem label="操作人：">
+            {{setting.createUser}}
+          </FormItem>
+
+        </Card>
+
       </div>
 
     </Form>
@@ -249,6 +263,7 @@
 <style lang="less" scoped>
   .insert-box{
     .part {
+      margin-top:20px;
       .sub-title {
         padding: 10px 0;
         border-bottom: 1px solid #e9eaec;
