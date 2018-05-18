@@ -1,5 +1,15 @@
 <template>
   <div class="insert-box">
+    <div class="header" >
+      <div class="title">服务修改</div>
+      <div class="btn-box">
+        <Button type="success" icon="checkmark" @click="doCheck" v-if="setting.restId!=''">测试</Button>
+        <Button type="primary" icon="archive" @click="restUpdate()" :loading='isloading'>保存</Button>
+        <Button type="ghost" icon="ios-undo" @click="showPage('datail')" >返回</Button>
+        <div style="clear:both;"></div>
+      </div>
+    </div>
+
     <div class="msg">
       <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
       <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
@@ -59,7 +69,7 @@
           </FormItem>
           <FormItem label="取数逻辑：">
             <Tabs class="tabs" size="small">
-              <TabPane label="关键SQL" >
+              <TabPane label="SQL模板" >
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
               </TabPane>
               <TabPane label="MOCK数据" >
@@ -77,12 +87,6 @@
             {{setting.createUser}}
           </FormItem>
         </Card>
-      </div>
-
-      <div class="part" v-if="stru.struId!=0">
-        <FormItem>
-          <Button type="primary" icon="archive" @click="restUpdate()" :loading='isloading'>保存</Button>
-        </FormItem>
       </div>
     </Form>
   </div>
@@ -219,6 +223,12 @@
       }
     },
     methods:{
+      doCheck(){
+        this.$emit("check-rest",this.setting.restId);
+      },
+      showPage(pageType){
+        this.$emit("show-page",pageType);
+      },
       setDsObj(){
         var self = this;
         util.ajax.get("/manage/rest/datasource/queryAll").then(function(resp) {
@@ -392,15 +402,42 @@
 
 <style lang="less" scoped>
   .insert-box{
-    .part {
-      margin-top:20px;
-      .line-table{
-        .table-btn{
-          margin-bottom:10px;
+    .header{
+      padding:20px;
+      margin-bottom:20px;
+      border-bottom:1px solid #e9eaec;
+      .title{
+        font-size:16px;
+        line-height:1;
+        font-weight:bold;
+        border-left:4px solid #333333;
+        text-indent:10px;
+        margin-top:8px;
+        float:left;
+      }
+      .btn-box{
+        margin-left:200px;
+        Button{
+          float:right;
+          margin-left:5px;
         }
       }
-      .tabs{
-        margin-bottom:10px !important;
+    }
+    .msg{
+      padding: 0 20px;
+    }
+    Form {
+      padding: 0 20px;
+      .part {
+        margin-top: 20px;
+        .line-table {
+          .table-btn {
+            margin-bottom: 10px;
+          }
+        }
+        .tabs {
+          margin-bottom: 10px !important;
+        }
       }
     }
   }

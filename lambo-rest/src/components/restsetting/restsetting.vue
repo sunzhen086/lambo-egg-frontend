@@ -4,22 +4,15 @@
       <Tree :data="treeData" :load-data="loadTree" ref="tree" @on-select-change="treeClick"></Tree>
     </Sider>
     <Content>
-      <div v-if="pageType!=''" class="btn-box" >
-        <Button type="primary" icon="ios-undo" @click="showPage('datail')" v-if="pageType=='insert' || pageType=='update'">返回</Button>
-        <Button type="primary" icon="plus" @click="showPage('insert')" v-if="pageType=='datail' && curStruIsLeaf=='0'">增加</Button>
-        <Button type="primary" icon="edit" @click="showPage('update')" v-if="pageType=='datail' && curStruId!=0">修改</Button>
-        <Button type="primary" icon="trash-a" @click="doDelete" v-if="pageType=='datail' && curStruId!=0">删除</Button>
-        <Button type="primary" icon="checkmark" @click="doCheck" v-if="curStruIsLeaf=='1'">测试</Button>
-      </div>
 
-      <div v-if="pageType==='insert'" class="stru-box">
-        <Insert :parent-id="curStruId" :parent-name="curStruName" :stru-path="curStruPath" @add-tree-node="addTreeNode"></Insert>
+      <div v-if="pageType==='insert'" >
+        <Insert :parent-id="curStruId" :parent-name="curStruName" :stru-path="curStruPath" @add-tree-node="addTreeNode" @check-rest="doCheck" @show-page="showPage"></Insert>
       </div>
-      <div v-if="pageType==='update'" class="stru-box">
-        <Update :stru-id="curStruId" :stru-name="curStruName" @update-tree-node="updateTreeNode"></Update>
+      <div v-if="pageType==='update'" >
+        <Update :stru-id="curStruId" :stru-name="curStruName" @update-tree-node="updateTreeNode" @check-rest="doCheck" @show-page="showPage"></Update>
       </div>
-      <div v-if="pageType==='datail'" class="stru-box">
-        <Datail :stru-id="curStruId" :stru-name="curStruName" ></Datail>
+      <div v-if="pageType==='datail'" >
+        <Datail :stru-id="curStruId" :stru-name="curStruName" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" @show-page="showPage"></Datail>
       </div>
 
     </Content>
@@ -90,7 +83,8 @@
             }
           }
           self.addCurStru(parentNode);
-          self.$set(parentNode, "selected", true);
+          self.setTreeSelected(parentNode);
+
           if(callback){
             callback(nodes);
           }else{
@@ -104,117 +98,93 @@
         if(data.length>0){
           self.getChildren(data[0]);
           self.addCurStru(data[0]);
-
         }else{
-          self.clearCurStru();
+          var node = self.getNodeByKey(self.curStruId,self.treeData[0].children);
+          self.$set(node, "selected", true);
         }
       },
       showPage(pageType){
         this.pageType = pageType;
       },
-      doCheck(){
-        window.open(config.appContext+"/#/rest-test?restId="+this.curRestId);
-      },
-      doDelete(){
-        var self = this;
-        util.ajax.get('/manage/rest/stru/queryChildren?parentId='+self.curStruId).then(function(resp){
-          var result = resp.data;
-          if(result.code == '1'){
-            if(result.data && result.data.length>0){
-              self.$Modal.confirm({
-                title: '',
-                content: '<p>含有下级节点，不能删除！</p>'
-              });
-            }else{
-              self.$Modal.confirm({
-                title: '',
-                content: '<p>确定要删除吗?</p>',
-                onOk: () => {
-                  util.ajax.post("/manage/rest/stru/delete/" + self.curStruId).then(function(resp) {
-                    self.$Message.success('删除成功');
-                    self.deleteNode(self.curStruId,self.treeData[0].children);
-                  }).catch(function(err) {
-                    self.$Message.error('删除失败,请联系系统管理员');
-                  });
-                }
-              });
-            }
-          }
-        });
+      doCheck(restId){
+        window.open(config.appContext+"/#/rest-test?restId="+restId);
       },
       addTreeNode(node){
         var self = this;
-        if(self.treeData[0].children && self.treeData[0].children.length>0){
-          self.addChildrenNode(node,self.treeData[0].children);
-        }
-      },
-      addChildrenNode(node,treeNodes){
-        var self = this;
-        for(var i=0;i<treeNodes.length;i++){
-          if(node.parentId == treeNodes[i].key){
-            treeNodes[i].selected = false;
-            var num = 0;
-            if(treeNodes[i].children && treeNodes[i].children.length>0) {
-              for(var j=0;j<treeNodes[i].children.length;j++) {
-                if(node.orderSeq && treeNodes[i].children[j].orderSeq && node.orderSeq>treeNodes[i].children[j].orderSeq) {
-                  num = j+1;
-                }
-              }
-            }else {
-              self.$set(treeNodes[i], "children", []);
+        var last = self.$refs.tree.getSelectedNodes();
+        last[0].selected = false;
+        var children = last[0].children;
+        var addNum = 0;
+        if(children && children.length>0){
+          for(var i=0;i<children.length;i++) {
+            if(node.orderSeq && children[i].orderSeq && node.orderSeq>children[i].orderSeq) {
+              addNum = i+1;
             }
-
-            let obj = {};
-            obj.key = node.struId;
-            obj.title = node.struName;
-            obj.isLeaf = node.isLeaf;
-            obj.path = self.curStruPath+node.struUrl;
-            obj.selected = true;
-            if (node.isLeaf == "0") {
-              obj.loading = false;
-              obj.children = [];
-            }
-            treeNodes[i].children.splice(num,0,obj)
-
-            break;
           }
-          if(treeNodes[i].children && treeNodes[i].children.length>0){
-            self.addChildrenNode(node,treeNodes[i].children);
-          }
+        }else{
+          self.$set(last[0], "children", []);
         }
+
+        let obj = {};
+        obj.key = node.struId;
+        obj.title = node.struName;
+        obj.isLeaf = node.isLeaf;
+        obj.path = self.curStruPath+node.struUrl;
+        obj.selected = true;
+        if (node.isLeaf == "0") {
+          obj.loading = false;
+          obj.children = [];
+        }
+        last[0].children.splice(addNum,0,obj);
+
       },
       updateTreeNode(node){
         var self = this;
-        if(self.treeData[0].children && self.treeData[0].children.length>0){
-          self.setCheckedNode(node,self.treeData[0].children);
-        }
+        var last = self.$refs.tree.getSelectedNodes();
+        last[0].title = node.struName;
+        last[0].orderSeq = node.orderSeq;
+
+        //更新节点排序
+
       },
-      setCheckedNode(node,treeNodes){
+      deleteTreeNode(struId,parentId){
         var self = this;
-        for(var i=0;i<treeNodes.length;i++){
-          if(node.struId == treeNodes[i].key){
-            treeNodes[i].title = node.struName;
-            break;
-          }
-          if(treeNodes[i].children && treeNodes[i].children.length>0){
-            self.setCheckedNode(node,treeNodes[i].children);
-          }
-        }
-      },
-      deleteNode(id,treeNodes){
-        var self = this;
-        if(treeNodes && treeNodes.length>0){
-          for(var i=0;i<treeNodes.length;i++){
-            if(id == treeNodes[i].key){
-              treeNodes.splice(i,1);
+        var parentNode = self.getNodeByKey(parentId,self.treeData[0].children);
+        if(parentNode.children && parentNode.children.length>0){
+          for(var i=0;i<parentNode.children.length;i++){
+            if(struId == parentNode.children[i].key){
+              parentNode.children.splice(i,1);
               self.clearCurStru();
               break;
             }
+          }
+        }
+      },
+      getNodeByKey(key,treeNodes){
+        var self = this;
+        var nodes = [];
+        if(treeNodes && treeNodes.length>0){
+          for(var i=0;i<treeNodes.length;i++){
+            if(key == treeNodes[i].key){
+              nodes = treeNodes[i];
+              break;
+            }
             if(treeNodes[i].children && treeNodes[i].children.length>0){
-              self.deleteNode(id,treeNodes[i].children);
+              nodes = self.getNodeByKey(key,treeNodes[i].children);
             }
           }
         }
+        return nodes;
+      },
+      setTreeSelected(node){
+        var self = this;
+        var last = self.$refs.tree.getSelectedNodes();
+        if(last.length>0){
+          last.forEach(item => {
+            item.selected = false;
+          });
+        }
+        self.$set(node, "selected", true);
       },
       addCurStru(node){
         this.pageType = "datail";
@@ -249,9 +219,6 @@
   .btn-box{
     padding:20px;
     border-bottom:1px solid #e9eaec;
-  }
-  .stru-box{
-    padding:20px;
   }
   .left-sider{
     padding-top:10px;

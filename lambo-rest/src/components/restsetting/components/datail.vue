@@ -1,6 +1,17 @@
 <template>
   <div class="insert-box">
 
+    <div class="header" >
+      <div class="title">服务明细</div>
+      <div class="btn-box">
+        <Button type="error" icon="trash-a" @click="doDelete" v-if="stru.struId !='0' ">删除</Button>
+        <Button type="success" icon="checkmark" @click="doCheck" v-if="stru.isLeaf==='1'">测试</Button>
+        <Button type="primary" icon="edit" @click="showPage('update')" v-if="stru.struId !='0' ">修改</Button>
+        <Button type="primary" icon="plus" @click="showPage('insert')" v-if="stru.isLeaf==='0'">新增</Button>
+        <div style="clear:both;"></div>
+      </div>
+    </div>
+
     <Form :label-width="100">
 
       <Card>
@@ -54,7 +65,7 @@
           </FormItem>
           <FormItem label="取数逻辑：">
             <Tabs class="tabs" size="small">
-              <TabPane label="关键SQL" >
+              <TabPane label="SQL模板" >
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
               </TabPane>
               <TabPane label="MOCK数据" >
@@ -159,6 +170,42 @@
       }
     },
     methods:{
+      doCheck(){
+        this.$emit("check-rest",this.setting.restId);
+      },
+      showPage(pageType){
+        this.$emit("show-page",pageType);
+      },
+      doDelete(){
+        var self = this;
+        var struId = self.stru.struId;
+        util.ajax.get('/manage/rest/stru/queryChildren?parentId='+struId).then(function(resp){
+          var result = resp.data;
+          if(result.code == '1'){
+            if(result.data && result.data.length>0){
+              self.$Modal.confirm({
+                title: '',
+                content: '<p>含有下级节点，不能删除！</p>'
+              });
+            }else{
+              self.$Modal.confirm({
+                title: '',
+                content: '<p>确定要删除吗?</p>',
+                onOk: () => {
+                  util.ajax.post("/manage/rest/stru/delete/" + struId).then(function(resp) {
+                    self.$Message.success('删除成功');
+                    //删除树的节点
+                    self.$emit("delete-tree-node",struId,self.stru.parentId);
+                  }).catch(function(err) {
+                    self.$Message.error('删除失败,请联系系统管理员');
+                  });
+                }
+              });
+            }
+          }
+        });
+
+      },
       setDsObj(){
         var self = this;
         util.ajax.get("/manage/rest/datasource/queryAll").then(function(resp) {
@@ -262,15 +309,39 @@
 
 <style lang="less" scoped>
   .insert-box{
-    .part {
-      margin-top:20px;
-      .line-table{
-        .table-btn{
-          margin-bottom:10px;
+    .header{
+      padding:20px;
+      margin-bottom:20px;
+      border-bottom:1px solid #e9eaec;
+      .title{
+        font-size:16px;
+        line-height:1;
+        font-weight:bold;
+        border-left:4px solid #333333;
+        text-indent:10px;
+        margin-top:8px;
+        float:left;
+      }
+      .btn-box{
+        margin-left:200px;
+        Button{
+          float:right;
+          margin-left:5px;
         }
       }
-      .tabs{
-        margin-bottom:10px !important;
+    }
+    Form{
+      padding:0 20px;
+      .part {
+        margin-top:20px;
+        .line-table{
+          .table-btn{
+            margin-bottom:10px;
+          }
+        }
+        .tabs{
+          margin-bottom:10px !important;
+        }
       }
     }
   }
