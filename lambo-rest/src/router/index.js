@@ -6,6 +6,8 @@ import login from '@/components/login/login';
 import mainnav from '@/components/main-nav';
 import restsetting from '@/components/restsetting/restsetting';
 import resttest from '@/components/resttest/resttest';
+import help from '@/components/help/help';
+import SettingHelp from '@/components/help/components/SettingHelp';
 
 Vue.use(Router)
 const router = new Router({
@@ -36,6 +38,19 @@ const router = new Router({
           path: '/rest-test',
           name: '服务测试',
           component: resttest
+        },
+        {
+          path: '/help',
+          name: '帮助与设置',
+          component: help,
+          redirect: {name:'服务配置帮助'},
+          children:[
+            {
+              path: 'setting',
+              name: '服务配置帮助',
+              component: SettingHelp,
+            }
+          ]
         }
       ]
     }
