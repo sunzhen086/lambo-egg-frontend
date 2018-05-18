@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Sider hide-trigger :style="{background: '#fff'}" width="300">
+    <Sider hide-trigger :style="{background: '#fff'}" width="300" class="left-sider">
       <Tree :data="treeData" :load-data="loadTree" ref="tree" @on-select-change="treeClick"></Tree>
     </Sider>
     <Content>
@@ -243,5 +243,9 @@
   }
   .stru-box{
     padding:20px;
+  }
+  .left-sider{
+    padding-top:10px;
+    padding-left:20px;
   }
 </style>
