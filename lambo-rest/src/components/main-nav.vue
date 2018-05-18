@@ -11,7 +11,7 @@
           服务管理
         </MenuItem>
         <MenuItem name="服务测试">
-          <Icon type="search"></Icon>
+          <Icon type="social-designernews-outline"></Icon>
           服务测试
         </MenuItem>
         <Submenu name="3">
@@ -23,9 +23,9 @@
           <MenuItem name="3-2">执行耗时</MenuItem>
           <MenuItem name="3-3">错误日志</MenuItem>
         </Submenu>
-        <MenuItem name="4">
+        <MenuItem name="帮助与设置">
           <Icon type="settings"></Icon>
-          综合设置
+          设置&帮助
         </MenuItem>
       </Menu>
     </Header>
