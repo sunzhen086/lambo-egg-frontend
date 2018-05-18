@@ -264,10 +264,6 @@
   .insert-box{
     .part {
       margin-top:20px;
-      .sub-title {
-        padding: 10px 0;
-        border-bottom: 1px solid #e9eaec;
-      }
       .line-table{
         .table-btn{
           margin-bottom:10px;

@@ -129,14 +129,14 @@
           {
             title: '序号',
             type: 'index',
-            width: 100,
+            minWidth: 100,
             align: 'center'
           },
           {
             title: '参数编码',
             align: 'center',
             key: 'paramKey',
-            width: 200,
+            minWidth: 200,
             editor:{
               type:"text",
               //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -155,7 +155,7 @@
             title: '参数名称',
             align: 'center',
             key: 'paramName',
-            width: 200,
+            minWidth: 200,
             editor:{
               type:"text",
               //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -173,7 +173,7 @@
           {
             title: '是否必须',
             align: 'center',
-            width: 200,
+            minWidth: 200,
             key: 'necessary',
             editor:{
               type:"select",
@@ -184,7 +184,7 @@
             title: '默认值',
             align: 'center',
             key: 'defaultValue',
-            width: 200,
+            minWidth: 200,
             editor:{
               type:"text"
             }
@@ -192,7 +192,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 200,
+            minWidth: 200,
             align: 'center',
             render: (h, params) => {
               return h('div', [
