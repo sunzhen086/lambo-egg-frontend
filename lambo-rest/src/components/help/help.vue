@@ -12,6 +12,8 @@
                   </template>
                   <MenuItem name="服务配置帮助">服务配置</MenuItem>
                   <MenuItem name="SQL模板帮助">SQL模板</MenuItem>
+                  <MenuItem name="预处理函数">预处理函数</MenuItem>
+                  <MenuItem name="内置变量">内置变量</MenuItem>
                 </Submenu>
                 <Submenu name="2">
                   <template slot="title">

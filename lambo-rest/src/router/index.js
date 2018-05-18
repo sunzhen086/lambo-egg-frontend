@@ -9,6 +9,8 @@ import resttest from '@/components/resttest/resttest';
 import help from '@/components/help/help';
 import SettingHelp from '@/components/help/components/SettingHelp';
 import SqlHelp from '@/components/help/components/SqlHelp';
+import PreFunction from '@/components/help/components/PreFunction';
+import BuiltInVariable from '@/components/help/components/BuiltInVariable';
 
 Vue.use(Router)
 const router = new Router({
@@ -55,6 +57,16 @@ const router = new Router({
               path: 'sql',
               name: 'SQL模板帮助',
               component: SqlHelp,
+            },
+            {
+              path: 'function',
+              name: '预处理函数',
+              component: PreFunction,
+            },
+            {
+              path: 'variable',
+              name: '内置变量',
+              component: BuiltInVariable,
             }
           ]
         }
