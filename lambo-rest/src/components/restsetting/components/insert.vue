@@ -28,17 +28,17 @@
         <FormItem label="节点名称：" required>
           <Input v-model="stru.struName" type="text"  style="width:200px"/>
         </FormItem>
-        <FormItem label="节点URL：">
-          <Input v-model="stru.struUrl" type="text" required style="width:200px"/>
+        <FormItem label="节点URL：" required>
+          <Input v-model="stru.struUrl" type="text"  style="width:200px"/>
         </FormItem>
-        <FormItem label="节点类型：">
-          <RadioGroup v-model="stru.isLeaf" required="true">
+        <FormItem label="节点类型：" required>
+          <RadioGroup v-model="stru.isLeaf" >
             <Radio label="0">文件目录</Radio>
             <Radio label="1">数据服务</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="显示顺序：">
-          <Input v-model="stru.orderSeq" type="text" required style="width:200px"/>
+          <Input v-model="stru.orderSeq" type="text" style="width:200px"/>
         </FormItem>
       </Card>
 
@@ -48,16 +48,16 @@
             <Icon type="gear-a"></Icon>
             服务
           </p>
-          <FormItem label="服务URL：">
+          <FormItem label="服务URL：" required>
             {{struPath}}{{stru.struUrl}}
           </FormItem>
-          <FormItem label="数据源：">
-            <RadioGroup v-model="setting.datasource" required>
+          <FormItem label="数据源：" required>
+            <RadioGroup v-model="setting.datasource" >
               <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="操作类型：">
-            <RadioGroup v-model="setting.operationType" required>
+          <FormItem label="操作类型：" required>
+            <RadioGroup v-model="setting.operationType" >
               <Radio label="selectList">selectList</Radio>
               <Radio label="selectOne">selectOne</Radio>
             </RadioGroup>
@@ -73,7 +73,7 @@
               <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
             </div>
           </FormItem>
-          <FormItem label="取数逻辑：">
+          <FormItem label="取数逻辑：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />

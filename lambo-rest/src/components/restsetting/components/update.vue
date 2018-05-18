@@ -21,18 +21,18 @@
           <Icon type="network"></Icon>
           节点信息
         </p>
-        <FormItem label="节点名称：">
-          <Input v-model="stru.struName" type="text" required="true" style="width:200px"/>
+        <FormItem label="节点名称：" required>
+          <Input v-model="stru.struName" type="text" style="width:200px"/>
         </FormItem>
-        <FormItem label="节点URL：">
+        <FormItem label="节点URL：" required>
           {{stru.struUrl}}
         </FormItem>
-        <FormItem label="节点类型：">
+        <FormItem label="节点类型：" required>
           <span v-if="stru.isLeaf==0">文件目录</span>
           <span v-else>数据服务</span>
         </FormItem>
         <FormItem label="显示顺序：">
-          <Input v-model="stru.orderSeq" type="text" required="true" style="width:200px"/>
+          <Input v-model="stru.orderSeq" type="text" style="width:200px"/>
         </FormItem>
       </Card>
 
@@ -42,16 +42,16 @@
             <Icon type="gear-a"></Icon>
             服务
           </p>
-          <FormItem label="服务URL：">
+          <FormItem label="服务URL：" required>
             {{setting.url}}
           </FormItem>
-          <FormItem label="数据源：">
-            <RadioGroup v-model="setting.datasource" required="true">
+          <FormItem label="数据源：" required>
+            <RadioGroup v-model="setting.datasource">
               <Radio v-for="item in dsObj" :label="item.dsId">{{item.dsName}}</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="操作类型：">
-            <RadioGroup v-model="setting.operationType" required="true">
+          <FormItem label="操作类型：" required>
+            <RadioGroup v-model="setting.operationType" >
               <Radio label="selectList">selectList</Radio>
               <Radio label="selectOne">selectOne</Radio>
             </RadioGroup>
@@ -59,7 +59,7 @@
           <FormItem label="服务描述：">
             <Input v-model="setting.note" type="text"  />
           </FormItem>
-          <FormItem label="参数：">
+          <FormItem label="参数：" >
             <div class="line-table">
               <div class="table-btn">
                 <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
@@ -67,7 +67,7 @@
               <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
             </div>
           </FormItem>
-          <FormItem label="取数逻辑：">
+          <FormItem label="取数逻辑：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
