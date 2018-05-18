@@ -81,7 +81,7 @@
 
       <div class="part" v-if="stru.struId!=0">
         <FormItem>
-          <Button type="primary" @click="restUpdate()" :loading='isloading'>保存</Button>
+          <Button type="primary" icon="archive" @click="restUpdate()" :loading='isloading'>保存</Button>
         </FormItem>
       </div>
     </Form>

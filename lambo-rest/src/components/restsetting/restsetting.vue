@@ -5,10 +5,11 @@
     </Sider>
     <Content>
       <div v-if="pageType!=''" class="btn-box" >
-        <Button class="datailStru" @click="showPage('datail')" v-if="pageType=='insert' || pageType=='update'">返回</Button>
-        <Button class="addStru" @click="showPage('insert')" v-if="pageType=='datail' && curStruIsLeaf=='0'">增加</Button>
-        <Button class="updateStru" @click="showPage('update')" v-if="pageType=='datail' && curStruId!=0">修改</Button>
-        <Button class="delete" @click="doDelete" v-if="pageType=='datail' && curStruId!=0">删除</Button>
+        <Button type="primary" icon="ios-undo" @click="showPage('datail')" v-if="pageType=='insert' || pageType=='update'">返回</Button>
+        <Button type="primary" icon="plus" @click="showPage('insert')" v-if="pageType=='datail' && curStruIsLeaf=='0'">增加</Button>
+        <Button type="primary" icon="edit" @click="showPage('update')" v-if="pageType=='datail' && curStruId!=0">修改</Button>
+        <Button type="primary" icon="trash-a" @click="doDelete" v-if="pageType=='datail' && curStruId!=0">删除</Button>
+        <Button type="primary" icon="checkmark" @click="doCheck" v-if="curStruIsLeaf=='1'">测试</Button>
       </div>
 
       <div v-if="pageType==='insert'" class="stru-box">
@@ -27,6 +28,7 @@
 
 <script>
   import util from '@/libs/util';
+  import config from '@/config/config';
   import Insert from "./components/insert";
   import Update from "./components/update";
   import Datail from "./components/datail";
@@ -38,6 +40,7 @@
         curStruName:'',
         curStruIsLeaf:'',
         curStruPath:'',
+        curRestId:'',
         treeData: [
           {
             key:'0',
@@ -77,6 +80,7 @@
                 obj.isLeaf = node.isLeaf;
                 obj.path = parentNode.path+node.struUrl;
                 obj.orderSeq = node.orderSeq;
+                obj.restId = node.restId;
                 if (node.isLeaf == "0") {
                   obj.loading = false;
                   obj.children = [];
@@ -107,6 +111,9 @@
       },
       showPage(pageType){
         this.pageType = pageType;
+      },
+      doCheck(){
+        window.open(config.appContext+"/#/rest-test?restId="+this.curRestId);
       },
       doDelete(){
         var self = this;
@@ -215,6 +222,7 @@
         this.curStruName = node.title;
         this.curStruIsLeaf = node.isLeaf;
         this.curStruPath = node.path;
+        this.curRestId = node.restId;
       },
       clearCurStru(){
         this.pageType = "";
@@ -222,6 +230,7 @@
         this.curStruName = "";
         this.curStruIsLeaf = "";
         this.curStruPath = "";
+        this.curRestId = "";
       }
     },
     mounted:function(){

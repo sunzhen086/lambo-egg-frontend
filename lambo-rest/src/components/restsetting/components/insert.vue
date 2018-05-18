@@ -77,7 +77,7 @@
 
       <div class="part">
         <FormItem>
-          <Button type="primary" @click="restSubmit()" :loading='isloading'>保存</Button>
+          <Button type="primary" icon="archive" @click="restSubmit()" :loading='isloading'>保存</Button>
         </FormItem>
       </div>
     </Form>
