@@ -6,13 +6,13 @@
     <Content>
 
       <div v-if="pageType==='insert'" >
-        <Insert :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" @add-tree-node="addTreeNode" @check-rest="doCheck" @show-page="showPage"></Insert>
+        <Insert @show-page="showPage" @add-tree-node="addTreeNode" @check-rest="doCheck" :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" ></Insert>
       </div>
       <div v-if="pageType==='update'" >
-        <Update :stru-id="curStru.key" :stru-name="curStru.title" @update-tree-node="updateTreeNode" @check-rest="doCheck" @show-page="showPage"></Update>
+        <Update @show-page="showPage" @update-tree-node="updateTreeNode" @check-rest="doCheck" :stru-id="curStru.key" :stru-name="curStru.title"></Update>
       </div>
       <div v-if="pageType==='datail'" >
-        <Datail :stru-id="curStru.key" :stru-name="curStru.title" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" @show-page="showPage"></Datail>
+        <Datail @show-page="showPage" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" :stru-id="curStru.key" :stru-name="curStru.title"></Datail>
       </div>
 
     </Content>
@@ -108,8 +108,10 @@
         if(!data.children || data.children.length === 0){
           this.getChildren(data);
         }
+
         this.addCurStru(data);
         this.$set(data, "selected", true);
+
         let expand = data.expand;
         this.$set(data, "expand", !expand);
 
@@ -123,7 +125,6 @@
       addTreeNode(node){
         var self = this;
         var last = self.$refs.tree.getSelectedNodes();
-        last[0].selected = false;
         var children = last[0].children;
         var addNum = 0;
         if(children && children.length>0){
@@ -146,10 +147,27 @@
           obj.loading = false;
           obj.children = [];
         }
+        obj.render=(h, { root, node, data }) => {
+          return  h(TreeNode,{
+            props:{
+              title:data.title,
+              selected:data.selected,
+              isLeaf:data.isLeaf
+            },
+            on:{
+              "nodeOnClick":function(){
+                self.onTreeSelectChange(data);
+              }
+            }
+          })
+        };
         last[0].children.splice(addNum,0,obj);
 
+        //设置当前选中节点
+        self.addCurStru(obj);
       },
       updateTreeNode(node){
+        console.log(node);
         var self = this;
         var last = self.$refs.tree.getSelectedNodes();
         last[0].title = node.struName;
@@ -157,6 +175,9 @@
 
         //更新节点排序
 
+        //设置当前选中节点
+
+        self.addCurStru(last[0]);
       },
       deleteTreeNode(struId,parentId){
         var self = this;
@@ -199,9 +220,12 @@
       },
       addCurStru(node){
         this.pageType = "datail";
+
         if(this.curStru.selected){
           this.curStru.selected = false;
         }
+
+        this.$set(node, "selected", true);
         this.curStru = node;
       },
       clearCurStru(){

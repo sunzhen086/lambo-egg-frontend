@@ -3,16 +3,11 @@
     <div class="header" >
       <div class="title">服务修改</div>
       <div class="btn-box">
-        <Button type="success" icon="checkmark" @click="doCheck" v-if="setting.restId!=''">测试</Button>
-        <Button type="primary" icon="archive" @click="restUpdate()" :loading='isloading'>保存</Button>
         <Button type="ghost" icon="ios-undo" @click="showPage('datail')" >返回</Button>
+        <Button type="primary" icon="archive" @click="restUpdate()" :loading='isloading'>保存</Button>
+        <Button type="success" icon="checkmark" @click="doCheck" v-if="setting.restId!=''">测试</Button>
         <div style="clear:both;"></div>
       </div>
-    </div>
-
-    <div class="msg">
-      <Alert type="success" show-icon v-if="doSaved==1">保存成功！</Alert>
-      <Alert type="error" show-icon v-if="doSaved==-1">保存失败！</Alert>
     </div>
 
     <Form :label-width="100">
@@ -22,7 +17,7 @@
           节点信息
         </p>
         <FormItem label="节点名称：" required>
-          <Input v-model="stru.struName" type="text" style="width:200px"/>
+          <Input v-model="stru.struName" type="text" style="width:200px" placeholder="同目录下节点名称唯一"/>
         </FormItem>
         <FormItem label="节点URL：" required>
           {{stru.struUrl}}
@@ -57,7 +52,7 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="服务描述：">
-            <Input v-model="setting.note" type="text"  />
+            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途及当前服务是否有效..."/>
           </FormItem>
           <FormItem label="参数：" >
             <div class="line-table">
@@ -73,7 +68,7 @@
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据示例..." />
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据样例..." />
               </TabPane>
             </Tabs>
           </FormItem>
@@ -108,7 +103,6 @@
     data () {
       return {
         isloading:false,
-        doSaved:0,
         dsObj:[],
         stru:{
           struId:this.struId,
@@ -359,19 +353,19 @@
                 var result = resp.data;
                 if(result.code == '1') {
                   self.isloading = false;
-                  self.doSaved = 1;
+                  self.$Message.success('修改成功');
                 }else{
                   self.isloading = false;
-                  self.doSaved = -1;
+                  self.$Message.success('修改失败');
                 }
               });
             }else{
               self.isloading = false;
-              self.doSaved = 1;
+              self.$Message.success('修改成功');
             }
           }else{
             self.isloading = false;
-            self.doSaved = -1;
+            self.$Message.success('修改失败');
           }
         });
       },
@@ -403,28 +397,29 @@
 <style lang="less" scoped>
   .insert-box{
     .header{
-      padding:20px;
+      height:70px;
+      padding:0 20px;
       margin-bottom:20px;
       border-bottom:1px solid #e9eaec;
+      position:relative;
       .title{
         font-size:16px;
         line-height:1;
         font-weight:bold;
-        border-left:4px solid #333333;
+        border-left:4px solid #495060;
         text-indent:10px;
-        margin-top:8px;
-        float:left;
+        position:absolute;
+        top:28px;
       }
       .btn-box{
-        margin-left:200px;
+        position:absolute;
+        right:20px;
+        top:20px;
         Button{
-          float:right;
+          float:left;
           margin-left:5px;
         }
       }
-    }
-    .msg{
-      padding: 0 20px;
     }
     Form {
       padding: 0 20px;

@@ -4,10 +4,10 @@
     <div class="header" >
       <div class="title">服务明细</div>
       <div class="btn-box">
-        <Button type="error" icon="trash-a" @click="doDelete" v-if="stru.struId !='0' ">删除</Button>
-        <Button type="success" icon="checkmark" @click="doCheck" v-if="stru.isLeaf==='1'">测试</Button>
-        <Button type="primary" icon="edit" @click="showPage('update')" v-if="stru.struId !='0' ">修改</Button>
         <Button type="primary" icon="plus" @click="showPage('insert')" v-if="stru.isLeaf==='0'">新增</Button>
+        <Button type="primary" icon="edit" @click="showPage('update')" v-if="stru.struId !='0' ">修改</Button>
+        <Button type="success" icon="checkmark" @click="doCheck" v-if="stru.isLeaf==='1'">测试</Button>
+        <Button type="error" icon="trash-a" @click="doDelete" v-if="stru.struId !='0' ">删除</Button>
         <div style="clear:both;"></div>
       </div>
     </div>
@@ -310,22 +310,26 @@
 <style lang="less" scoped>
   .insert-box{
     .header{
-      padding:20px;
+      height:70px;
+      padding:0 20px;
       margin-bottom:20px;
       border-bottom:1px solid #e9eaec;
+      position:relative;
       .title{
         font-size:16px;
         line-height:1;
         font-weight:bold;
-        border-left:4px solid #333333;
+        border-left:4px solid #495060;
         text-indent:10px;
-        margin-top:8px;
-        float:left;
+        position:absolute;
+        top:28px;
       }
       .btn-box{
-        margin-left:200px;
+        position:absolute;
+        right:20px;
+        top:20px;
         Button{
-          float:right;
+          float:left;
           margin-left:5px;
         }
       }
