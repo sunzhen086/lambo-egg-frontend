@@ -17,7 +17,7 @@
           节点信息
         </p>
         <FormItem label="节点名称：" required>
-          <Input v-model="stru.struName" type="text" style="width:200px" placeholder="同目录下节点名称唯一"/>
+          <Input v-model="stru.struName" type="text" style="width:200px" placeholder="同目录下节点名称唯一"/> <span class="errmsg" v-html="checked.struName"></span>
         </FormItem>
         <FormItem label="节点URL：" required>
           {{stru.struUrl}}
@@ -71,6 +71,7 @@
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据样例..." />
               </TabPane>
             </Tabs>
+            <span class="errmsg" v-html="checked.restSql"></span>
           </FormItem>
           <FormItem label="创建时间：">
             {{setting.createTime}}
@@ -98,7 +99,8 @@
       struName:{
         type:String,
         default:''
-      }
+      },
+      siblings:Array
     },
     data () {
       return {
@@ -213,7 +215,11 @@
               ]);
             }
           }
-        ]
+        ],
+        checked:{
+          struName:'',
+          restSql:''
+        }
       }
     },
     methods:{
@@ -314,60 +320,99 @@
       restUpdate() {
         var self = this;
         self.isloading = true;
-        self.doSaved = 0;
 
-        var struParams = {
-          struId:self.stru.struId,
-          struName:self.stru.struName,
-          struUrl:self.stru.struUrl,
-          isLeaf:self.stru.isLeaf,
-          restId:self.stru.restId,
-          parentId:self.stru.parentId,
-          isUse:self.stru.isUse,
-          orderSeq:self.stru.orderSeq
-        };
+        if(self.isValidate()) {
+          var struParams = {
+            struId: self.stru.struId,
+            struName: self.stru.struName,
+            struUrl: self.stru.struUrl,
+            isLeaf: self.stru.isLeaf,
+            restId: self.stru.restId,
+            parentId: self.stru.parentId,
+            isUse: self.stru.isUse,
+            orderSeq: self.stru.orderSeq
+          };
 
-        //修改目录
-        util.ajax.post("/manage/rest/stru/update/"+self.stru.struId, struParams).then(function(resp){
-          var result = resp.data;
-          if(result.code == '1') {
+          //修改目录
+          util.ajax.post("/manage/rest/stru/update/" + self.stru.struId, struParams).then(function (resp) {
+            var result = resp.data;
+            if (result.code == '1') {
 
-            //更新树
-            self.$emit("update-tree-node", struParams);
+              //更新树
+              self.$emit("update-tree-node", struParams);
 
-            //修改服务
-            if(self.stru.isLeaf == '1'){
-              var restParams = {
-                restName:self.stru.struName,
-                datasource:self.setting.datasource,
-                operationType:self.setting.operationType,
-                url:self.setting.url,
-                note:self.setting.note,
-                restSql:self.setting.restSql,
-                mockData:self.setting.mockData,
-                createTime:self.setting.createTime,
-                settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
-              }
-
-              util.ajax.post("/manage/rest/setting/update/"+self.setting.restId, restParams).then(function(resp){
-                var result = resp.data;
-                if(result.code == '1') {
-                  self.isloading = false;
-                  self.$Message.success('修改成功');
-                }else{
-                  self.isloading = false;
-                  self.$Message.success('修改失败');
+              //修改服务
+              if (self.stru.isLeaf == '1') {
+                var restParams = {
+                  restName: self.stru.struName,
+                  datasource: self.setting.datasource,
+                  operationType: self.setting.operationType,
+                  url: self.setting.url,
+                  note: self.setting.note,
+                  restSql: self.setting.restSql,
+                  mockData: self.setting.mockData,
+                  createTime: self.setting.createTime,
+                  settingParams: JSON.stringify(self.$refs.paramsTable.getTableData())
                 }
-              });
-            }else{
+
+                util.ajax.post("/manage/rest/setting/update/" + self.setting.restId, restParams).then(function (resp) {
+                  var result = resp.data;
+                  if (result.code == '1') {
+                    self.isloading = false;
+                    self.$Message.success('修改成功');
+                  } else {
+                    self.isloading = false;
+                    self.$Message.success('修改失败');
+                  }
+                });
+              } else {
+                self.isloading = false;
+                self.$Message.success('修改成功');
+              }
+            } else {
               self.isloading = false;
-              self.$Message.success('修改成功');
+              self.$Message.success('修改失败');
             }
-          }else{
-            self.isloading = false;
-            self.$Message.success('修改失败');
+          });
+        }else{
+          self.isloading = false;
+        }
+      },
+      isValidate:function(){
+        var self = this;
+        var flag = true;
+
+        console.log("struName="+self.struName);
+        console.log("stru.struName="+self.stru.struName);
+        console.log(self.siblings);
+        self.checked.struName = "";
+        if(self.stru.struName == ''){
+          self.checked.struName = "节点名称不能为空";
+          flag = false;
+        }else{
+          if(self.siblings && self.siblings.length>0){
+            for(var i=0;i<self.siblings.length;i++){
+              if(self.stru.struName!=self.struName && self.stru.struName == self.siblings[i].title){
+                self.checked.struName = "节点名称已存在";
+                flag = false;
+              }
+            }
           }
-        });
+        }
+
+        self.checked.restSql = "";
+        if(self.stru.isLeaf == '1'){
+          if(self.setting.restSql == ''){
+            self.checked.restSql = "SQL模板不能为空";
+            flag = false;
+          }
+          if(self.setting.mockData == ''){
+            self.checked.restSql += " MOCK数据不能为空";
+            flag = false;
+          }
+        }
+
+        return flag;
       },
       addNewRow:function(){
         let row = {
@@ -433,6 +478,10 @@
         .tabs {
           margin-bottom: 10px !important;
         }
+      }
+      .errmsg{
+        color:#ff0000;
+        margin-left:10px;
       }
     }
   }

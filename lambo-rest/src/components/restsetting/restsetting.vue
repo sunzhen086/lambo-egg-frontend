@@ -6,10 +6,10 @@
     <Content>
 
       <div v-if="pageType==='insert'" >
-        <Insert @show-page="showPage" @add-tree-node="addTreeNode" @check-rest="doCheck" :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" ></Insert>
+        <Insert @show-page="showPage" @add-tree-node="addTreeNode" @check-rest="doCheck" :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" :siblings="curStru.children"></Insert>
       </div>
       <div v-if="pageType==='update'" >
-        <Update @show-page="showPage" @update-tree-node="updateTreeNode" @check-rest="doCheck" :stru-id="curStru.key" :stru-name="curStru.title"></Update>
+        <Update @show-page="showPage" @update-tree-node="updateTreeNode" @check-rest="doCheck" :stru-id="curStru.key" :stru-name="curStru.title" :siblings="curSiblings"></Update>
       </div>
       <div v-if="pageType==='datail'" >
         <Datail @show-page="showPage" @delete-tree-node="deleteTreeNode" @check-rest="doCheck" :stru-id="curStru.key" :stru-name="curStru.title"></Datail>
@@ -31,6 +31,7 @@
       return {
         pageType:'',
         curStru:{},
+        curSiblings:[],
         treeData: [
           {
             key:'0',
@@ -71,6 +72,7 @@
                 obj.path = parentNode.path+node.struUrl;
                 obj.orderSeq = node.orderSeq;
                 obj.restId = node.restId;
+                obj.parentId = parentNode.key;
                 if (node.isLeaf == "0") {
                   obj.loading = false;
                   obj.children = [];
@@ -142,6 +144,7 @@
         obj.title = node.struName;
         obj.isLeaf = node.isLeaf;
         obj.path = self.curStru.path+node.struUrl;
+        obj.parentId = self.curStru.key;
         obj.selected = true;
         if (node.isLeaf == "0") {
           obj.loading = false;
@@ -167,7 +170,6 @@
         self.addCurStru(obj);
       },
       updateTreeNode(node){
-        console.log(node);
         var self = this;
         var last = self.$refs.tree.getSelectedNodes();
         last[0].title = node.struName;
@@ -176,7 +178,6 @@
         //更新节点排序
 
         //设置当前选中节点
-
         self.addCurStru(last[0]);
       },
       deleteTreeNode(struId,parentId){
@@ -227,6 +228,12 @@
 
         this.$set(node, "selected", true);
         this.curStru = node;
+
+        if(node.key !=0){
+          this.curSiblings = this.getNodeByKey(node.parentId,this.treeData[0].children).children;
+        }else{
+          this.curSiblings = [];
+        }
       },
       clearCurStru(){
         this.pageType = "";

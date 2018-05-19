@@ -20,10 +20,10 @@
           {{parentName}}
         </FormItem>
         <FormItem label="节点名称：" required>
-          <Input v-model="stru.struName" type="text"  style="width:200px" placeholder="同目录下节点名称唯一" />
+          <Input v-model="stru.struName" type="text"  style="width:300px" placeholder="同目录下节点名称唯一" /> <span class="errmsg" v-html="checked.struName"></span>
         </FormItem>
         <FormItem label="节点URL：" required>
-          <Input v-model="stru.struUrl" type="text"  style="width:200px" placeholder="格式：/*** " />
+          <Input v-model="stru.struUrl" type="text"  style="width:300px" placeholder="格式：/***，以‘/’开头字母数字任意组合 " /> <span class="errmsg" v-html="checked.struUrl"></span>
         </FormItem>
         <FormItem label="节点类型：" required>
           <RadioGroup v-model="stru.isLeaf" >
@@ -32,7 +32,7 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="显示顺序：">
-          <Input v-model="stru.orderSeq" type="text" style="width:200px"/>
+          <Input v-model="stru.orderSeq" type="text" style="width:300px"/>
         </FormItem>
       </Card>
 
@@ -76,6 +76,7 @@
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据样例..." />
               </TabPane>
             </Tabs>
+            <span class="errmsg" v-html="checked.restSql"></span>
           </FormItem>
         </Card>
       </div>
@@ -98,6 +99,10 @@
       struPath:{
         type:String,
         default:''
+      },
+      siblings:{
+        type:Array,
+        default:[]
       }
     },
     data () {
@@ -211,7 +216,12 @@
               ]);
             }
           }
-        ]
+        ],
+        checked:{
+          struName:'',
+          struUrl:'',
+          restSql:''
+        }
       }
     },
     methods:{
@@ -242,63 +252,114 @@
         var self = this;
 
         self.isloading = true;
-        self.doSaved = 0;
 
-        var struParams = {
-          struName:self.stru.struName,
-          struUrl:self.stru.struUrl,
-          isLeaf:self.stru.isLeaf,
-          parentId:self.stru.parentId,
-          isUse:self.stru.isUse,
-          orderSeq:self.stru.orderSeq
-        };
+        if(self.isValidate()){
+          var struParams = {
+            struName:self.stru.struName,
+            struUrl:self.stru.struUrl,
+            isLeaf:self.stru.isLeaf,
+            parentId:self.stru.parentId,
+            isUse:self.stru.isUse,
+            orderSeq:self.stru.orderSeq
+          };
 
-        //新增目录
-        util.ajax.post("/manage/rest/stru/insert", struParams).then(function(resp){
-          var result = resp.data;
-          if(result.code == '1') {
+          //新增目录
+          util.ajax.post("/manage/rest/stru/insert", struParams).then(function(resp){
+            var result = resp.data;
+            if(result.code == '1') {
 
-            //更新树
-            self.stru.struId = result.data.struId;
-            struParams.struId = result.data.struId;
-            self.setting.restId = result.data.restId;
-            self.setting.restName = result.data.struName;
+              //更新树
+              self.stru.struId = result.data.struId;
+              struParams.struId = result.data.struId;
+              self.setting.restId = result.data.restId;
+              self.setting.restName = result.data.struName;
 
-            self.$emit("add-tree-node", struParams);
+              self.$emit("add-tree-node", struParams);
 
-            //新增服务
-            if(self.stru.isLeaf == '1'){
-              var restParams = {
-                restId:self.setting.restId,
-                restName:self.setting.restName,
-                datasource:self.setting.datasource,
-                operationType:self.setting.operationType,
-                url:self.struPath+self.stru.struUrl,
-                note:self.setting.note,
-                restSql:self.setting.restSql,
-                mockData:self.setting.mockData,
-                settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
-              }
-
-              util.ajax.post("/manage/rest/setting/insert", restParams).then(function(resp){
-                var result = resp.data;
-                if(result.code == '1') {
-                  self.isloading = false;
-                  self.$Message.success('新增成功');
-                }else{
-                  self.isloading = false;
-                  self.$Message.success('修改成功');
+              //新增服务
+              if(self.stru.isLeaf == '1'){
+                var restParams = {
+                  restId:self.setting.restId,
+                  restName:self.setting.restName,
+                  datasource:self.setting.datasource,
+                  operationType:self.setting.operationType,
+                  url:self.struPath+self.stru.struUrl,
+                  note:self.setting.note,
+                  restSql:self.setting.restSql,
+                  mockData:self.setting.mockData,
+                  settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
                 }
-              });
+
+                util.ajax.post("/manage/rest/setting/insert", restParams).then(function(resp){
+                  var result = resp.data;
+                  if(result.code == '1') {
+                    self.isloading = false;
+                    self.$Message.success('新增成功');
+                  }else{
+                    self.isloading = false;
+                    self.$Message.success('修改成功');
+                  }
+                });
+              }else{
+                self.isloading = false;
+                self.$Message.success('新增成功');
+              }
             }else{
               self.isloading = false;
-              self.$Message.success('新增成功');
+              self.$Message.success('修改成功');
             }
-          }else{
-            self.isloading = false;
-            self.$Message.success('修改成功');
+          });
+        }else{
+          self.isloading = false;
+        }
+      },
+      isValidate:function(){
+        var self = this;
+        var flag = true;
+
+        self.checked.struName = "";
+        if(self.stru.struName == ''){
+          self.checked.struName = "节点名称不能为空";
+          flag = false;
+        }else{
+          if(self.siblings && self.siblings.length>0){
+            for(var i=0;i<self.siblings.length;i++){
+              if(self.stru.struName == self.siblings[i].title){
+                self.checked.struName = "节点名称已存在";
+                flag = false;
+              }
+            }
           }
-        });
+        }
+
+        self.checked.struUrl = "";
+        if(self.stru.struUrl == ''){
+          self.checked.struUrl = "节点URL不能为空";
+          flag = false;
+        }else if(!self.stru.struUrl.startsWith('/')){
+          self.checked.struUrl = "节点URL必须以‘/’开头";
+          flag = false;
+        }else{
+          var reg = new RegExp(/^\w+$/);
+          if(!reg.test((self.stru.struUrl).substr(1))){
+            self.checked.struUrl = "节点URL格式不正确";
+            flag = false;
+          }
+        }
+
+        self.checked.restSql = "";
+        if(self.stru.isLeaf == '1'){
+          if(self.setting.restSql == ''){
+            self.checked.restSql = "SQL模板不能为空";
+            flag = false;
+          }
+          if(self.setting.mockData == ''){
+            self.checked.restSql += " MOCK数据不能为空";
+            flag = false;
+          }
+        }
+
+        return flag;
       },
       addNewRow:function(){
         let row = {
@@ -358,6 +419,10 @@
         .tabs {
           margin-bottom: 10px !important;
         }
+      }
+      .errmsg{
+        color:#ff0000;
+        margin-left:10px;
       }
     }
   }
