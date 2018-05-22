@@ -91,7 +91,7 @@
                     4、示例：1）年份为文本，但是数值为2018，纯数字，则字段设置为：YEAR_CODE|STRING；2）销量为数字型，则字段设置为QTY<br/>
                   </p>
                 </Card>
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows: 20}" placeholder="返回json数据样例。可手动填写，也可上传excel文件自动生成。" />
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 8,maxRows: 20}" placeholder="返回json数据样例。可手动填写，也可上传excel文件自动生成。" />
               </TabPane>
             </Tabs>
             <span class="errmsg" v-html="checked.restSql"></span>

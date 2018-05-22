@@ -66,10 +66,10 @@
           <FormItem label="取数逻辑：">
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
-                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 10,maxRows: 20}" readonly />
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows: 20}" readonly />
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
             </Tabs>
           </FormItem>
@@ -80,7 +80,10 @@
           <FormItem label="修改时间：" v-if="setting.createTime != setting.updateTime">
             {{setting.updateTime}}
           </FormItem>
-          <FormItem label="操作人：">
+          <FormItem label="创建人：" v-if="setting.createTime == setting.updateTime">
+            {{setting.createUser}}
+          </FormItem>
+          <FormItem label="修改人：" v-if="setting.createTime != setting.updateTime">
             {{setting.createUser}}
           </FormItem>
 

@@ -19,4 +19,7 @@
 		width: 100%;
 		height: 100%;
 	}
+  html,body{
+    background:#f5f7f9;
+  }
 </style>
