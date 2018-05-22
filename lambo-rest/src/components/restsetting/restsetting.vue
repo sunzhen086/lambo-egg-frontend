@@ -258,6 +258,7 @@
     border-bottom:1px solid #e9eaec;
   }
   .left-sider{
+    min-height:550px;
     padding-top:10px;
     padding-left:20px;
   }
