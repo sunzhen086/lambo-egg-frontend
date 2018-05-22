@@ -57,7 +57,7 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="服务描述：">
-            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途及当前服务是否有效..." />
+            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途..." />
           </FormItem>
           <FormItem label="参数：">
             <div class="line-table">
@@ -70,10 +70,28 @@
           <FormItem label="取数逻辑：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
-                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 20,maxRows:40}" placeholder="数据服务取数sql..." />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据样例..." />
+                <Upload ref="upload"
+                        :action="uploadUrl"
+                        :format="['xls','xlsx']"
+                        :on-format-error="formatError"
+                        :before-upload="beforeUpload"
+                        :on-success="uploadSuccess"
+                        :on-error="uploadError">
+                  <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
+                </Upload>
+                <Card class="msg-box">
+                  <p slot="title">EXCEL文件说明</p>
+                  <p>
+                    1、支持xls、xlsx格式文件，重复上传覆盖已上传文件。<br/>
+                    2、第一行为字段行，其他行为数据行；若数据行仅有1行，则结果集返回MAP，否则返回LIST<br/>
+                    3、字段格式：字段名|字段类型。字段类型有：STRING、NUMBER。若数据行不能正确反映字段类型，则必须添加字段类型<br/>
+                    4、示例：1）年份为文本，但是数值为2018，纯数字，则字段设置为：YEAR_CODE|STRING；2）销量为数字型，则字段设置为QTY<br/>
+                  </p>
+                </Card>
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows: 20}" placeholder="返回json数据样例。可手动填写，也可上传excel文件自动生成。" />
               </TabPane>
             </Tabs>
             <span class="errmsg" v-html="checked.restSql"></span>
@@ -86,6 +104,7 @@
 
 <script>
   import util from '@/libs/util';
+  import config from '@/config/config';
   export default {
     props: {
       parentId: {
@@ -108,6 +127,7 @@
     data () {
       return {
         isloading:false,
+        uploadUrl:"/"+config.serverContext+"/manage/mock/file/put",
         dsObj:[],
         stru: {
           struId:'',
@@ -220,7 +240,8 @@
         checked:{
           struName:'',
           struUrl:'',
-          restSql:''
+          restSql:'',
+          uploadMock:''
         }
       }
     },
@@ -372,6 +393,26 @@
       },
       deleteRow(index) {
         this.paramsData.splice(index, 1);
+      },
+      beforeUpload:function(file){
+        this.checked.uploadMock = "";
+        this.$refs.upload.clearFiles();
+      },
+      uploadSuccess:function(response, file){
+        var self = this;
+
+        if(response.code==1){
+          self.setting.mockData = response.data;
+          file.name += " 上传成功";
+        }else{
+          self.checked.uploadMock = "文件 " + file.name + " 解析失败，请联系管理员。";
+        }
+      },
+      uploadError:function(error, file){
+        this.checked.uploadMock = "文件 " + file.name + " 上传失败，请联系管理员。";
+      },
+      formatError (file) {
+        this.checked.uploadMock = "文件 " + file.name + " 格式不正确，请选择excel文件。";
       }
     },
     mounted:function(){
@@ -422,7 +463,9 @@
       }
       .errmsg{
         color:#ff0000;
-        margin-left:10px;
+      }
+      .msg-box{
+        margin-bottom:10px;
       }
     }
   }

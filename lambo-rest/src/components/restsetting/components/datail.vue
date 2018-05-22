@@ -66,10 +66,10 @@
           <FormItem label="取数逻辑：">
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
-                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 10,maxRows: 20}" readonly />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" readonly />
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows: 20}" readonly />
               </TabPane>
             </Tabs>
           </FormItem>

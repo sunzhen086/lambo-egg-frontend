@@ -52,7 +52,7 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="服务描述：">
-            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途及当前服务是否有效..."/>
+            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途..."/>
           </FormItem>
           <FormItem label="参数：" >
             <div class="line-table">
@@ -65,10 +65,10 @@
           <FormItem label="取数逻辑：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="SQL模板" >
-                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="数据服务取数sql..." />
+                <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 10,maxRows: 20}" placeholder="数据服务取数sql..." />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="返回数据样例..." />
+                <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows: 20}" placeholder="返回数据样例..." />
               </TabPane>
             </Tabs>
             <span class="errmsg" v-html="checked.restSql"></span>
