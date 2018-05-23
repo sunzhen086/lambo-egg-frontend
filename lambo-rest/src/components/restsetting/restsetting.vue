@@ -114,8 +114,8 @@
         this.addCurStru(data);
         this.$set(data, "selected", true);
 
-        let expand = data.expand;
-        this.$set(data, "expand", !expand);
+        // let expand = data.expand;
+        // this.$set(data, "expand", !expand);
 
       },
       showPage(pageType){
