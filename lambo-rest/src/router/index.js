@@ -11,6 +11,8 @@ import SettingHelp from '@/components/help/components/SettingHelp';
 import SqlHelp from '@/components/help/components/SqlHelp';
 import PreFunction from '@/components/help/components/PreFunction';
 import BuiltInVariable from '@/components/help/components/BuiltInVariable';
+import datasource from '@/components/help/datasource/list';
+import datasourceEdit from '@/components/help/datasource/edit';
 
 Vue.use(Router)
 const router = new Router({
@@ -67,6 +69,27 @@ const router = new Router({
               path: 'variable',
               name: '内置变量',
               component: BuiltInVariable,
+            },
+            {
+              path: 'datasource',
+              name: '数据源设置',
+              component: datasource,
+            },
+            {
+              path: 'datasource/new',
+              name: '新增数据源',
+              component: datasourceEdit,
+              meta:{
+                title:"新增数据源"
+              }
+            },
+            {
+              path: 'datasource/update',
+              name: '修改数据源',
+              component: datasourceEdit,
+              meta:{
+                title:"修改数据源"
+              }
             }
           ]
         }

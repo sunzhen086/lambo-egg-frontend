@@ -20,7 +20,7 @@
                     <Icon type="ios-navigate"></Icon>
                     设置
                   </template>
-                  <MenuItem name="1-1">数据源设置</MenuItem>
+                  <MenuItem name="数据源设置">数据源设置</MenuItem>
                   <MenuItem name="1-2">缓存设置</MenuItem>
                   <MenuItem name="1-3">日志设置</MenuItem>
                   <MenuItem name="1-4">预警设置</MenuItem>
