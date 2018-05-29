@@ -69,6 +69,7 @@
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
               <TabPane label="MOCK数据" >
+                <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restName+'?mockData='+setting.mockData " :download=setting.restName>下载MOCK数据</a></Button>
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
             </Tabs>
@@ -97,6 +98,7 @@
 
 <script>
   import util from '@/libs/util';
+  import config from '@/config/config';
   export default {
     props: {
       struId:{
@@ -111,6 +113,7 @@
     data () {
       return {
         dsObj:[],
+        downloadUrl:"/"+config.serverContext+"/manage/mock/file/get",
         stru:{
           struId:this.struId,
           struName:this.struName,
@@ -348,6 +351,12 @@
         }
         .tabs{
           margin-bottom:10px !important;
+        }
+      }
+      .download {
+        margin-bottom:10px;
+        a{
+          color:#495060;
         }
       }
     }

@@ -68,15 +68,18 @@
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 20,maxRows:40}" placeholder="数据服务取数sql..." />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Upload ref="upload"
-                        :action="uploadUrl"
-                        :format="['xls','xlsx']"
-                        :on-format-error="formatError"
-                        :before-upload="beforeUpload"
-                        :on-success="uploadSuccess"
-                        :on-error="uploadError">
-                  <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
-                </Upload>
+                <div class="file-btn">
+                  <Upload ref="upload"
+                          :action="uploadUrl"
+                          :format="['xls','xlsx']"
+                          :on-format-error="formatError"
+                          :before-upload="beforeUpload"
+                          :on-success="uploadSuccess"
+                          :on-error="uploadError">
+                    <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
+                  </Upload>
+                  <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restName+'?mockData='+setting.mockData " :download=setting.restName>下载MOCK数据</a></Button>
+                </div>
                 <Card class="msg-box">
                   <p slot="title">EXCEL文件说明</p>
                   <p>
@@ -128,6 +131,7 @@
       return {
         isloading:false,
         uploadUrl:"/"+config.serverContext+"/manage/mock/file/put",
+        downloadUrl:"/"+config.serverContext+"/manage/mock/file/get",
         dsObj:[],
         stru:{
           struId:this.struId,
@@ -529,6 +533,18 @@
       .msg-box{
         margin-bottom:10px;
       }
+      .file-btn{
+        position:relative;
+        .download {
+          position:absolute;
+          top:1px;
+          left:170px;
+          a{
+            color:#495060;
+          }
+        }
+      }
+
     }
   }
 </style>
