@@ -42,6 +42,7 @@
 
         <FormItem>
           <Button type="primary" @click="formSubmit">保存</Button>
+          <Button v-if="dsId" type="success" @click="testDatasource">测试连接</Button>
         </FormItem>
       </Form>
       </Col>
@@ -56,10 +57,11 @@
   export default {
     data() {
       return {
+        dsId:this.$route.query.dsId,
         form: {
           dsId:"",
           dsName:"",
-          dsType:"mysql",
+          dsType:"",
           dsIp:"",
           dsPort:"",
           dsDatabase:"",
@@ -92,49 +94,23 @@
         },
         dataSourceType:[
           {value:"mysql",label:"MySql"},
-          {value:"greenplum",label:"Greenplum"},
-          {value:"db2",label:"DB2"}
+          {value:"db2",label:"DB2"},
+          {value:"oracle",label:"Oracle"},
+          {value:"greenplum",label:"Greenplum"}
         ]
       }
     },
     computed: {
-      dsId: function() {
-        return this.$route.query.dsId;
-      },
       title: function() {
         return this.$route.meta.title;
       }
     },
+    watch:{
+      $route:function(){
+        this.dsId = this.$route.query.dsId;
+      }
+    },
     methods: {
-      handleView (url) {
-        this.imgUrl = url;
-        this.visible = true;
-      },
-      handleRemove (file) {
-        const fileList = this.$refs.upload.fileList;
-        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-        this.uploadList.splice(this.uploadList.indexOf(file.newName), 1);
-        this.form.categoryImg.splice(this.form.categoryImg.indexOf(file.newName), 1);
-      },
-      handleSuccess (response, file) {
-        file.url = this.downloadUrl + "/"+response.data[0].name;
-        file.newName = response.data[0].name;
-        this.uploadList.push(file);
-        this.form.categoryImg.push(file.newName);
-      },
-      handleFormatError (file) {
-        this.$Message.error("图片的格式只能为:'jpg','jpeg','png'");
-      },
-      handleMaxSize (file) {
-        this.$Message.error("图片的大小不能超过512K");
-      },
-      handleBeforeUpload () {
-        const check = this.uploadList.length != 2;
-        if (!check) {
-          this.$Message.error("请上传2张图片");
-        }
-        return check;
-      },
       formSubmit: function() {
         var self = this;
         self.$refs.form.validate((valid) => {
@@ -151,13 +127,32 @@
               note: self.form.note
 
             };
-            util.ajax.post("/manage/rest/datasource/update/" + self.dsId, params).then(function(resp) {
-              if(resp.data.code === 1) {
-                self.$Message.success('保存成功');
-              }else{
-                self.$Message.success('保存失败，请稍后重试');
-              }
-            });
+            if(self.dsId){
+              util.ajax.post("/manage/rest/datasource/update/" + self.dsId, params).then(function(resp) {
+                if(resp.data.code === 1) {
+                  self.$Message.success('保存成功');
+                }else{
+                  self.$Message.error('保存失败，请稍后重试');
+                }
+              });
+            }else{
+              util.ajax.post("/manage/rest/datasource/insert", params).then(function(resp) {
+                if(resp.data.code === 1) {
+                  self.$Message.success('保存成功');
+                  let dsId = resp.data.data.dsId;
+                  self.$router.push({
+                    name: '修改数据源',
+                    query: {
+                      dsId
+                    }
+                  });
+                }else if(resp.data.code === 9){
+                  self.$Message.error(resp.data.message);
+                }else if(resp.data.code === 0){
+                  self.$Message.error('保存失败，请稍后重试');
+                }
+              });
+            }
           }
         })
       },
@@ -170,25 +165,37 @@
           util.ajax.get("/manage/rest/datasource/query/" + self.dsId).then(function(resp) {
             let result = resp.data;
             if(result.code === 1){
+              self.dsId = result.data.dsId;
               self.form.dsId = result.data.dsId;
               self.form.dsName = result.data.dsName;
               self.form.dsType = result.data.dsType;
               self.form.dsIp = result.data.dsIp;
-              self.form.dsPort = result.data.dsPort;
+              self.form.dsPort = result.data.dsPort+"";
               self.form.dsDatabase = result.data.dsDatabase;
-              self.form.dsPassword = result.data.dsPassword;
+              self.form.dsUser = result.data.dsUser;
               self.form.note = result.data.note;
             }else{
               self.$Message.error("数据获取异常，请稍候再试");
             }
           })
         }
+      },
+      testDatasource:function(){
+        let self = this;
+        util.ajax.get("/manage/rest/datasource/test/" + self.dsId).then(function(resp) {
+          if(resp.data.code === 1 && resp.data.data === true) {
+            self.$Message.success('数据源连接成功');
+          }else{
+            self.$Message.error('数据源连接测试失败，具体原因请查看日志');
+          }
+        });
       }
     },
     created() {
-      this.initData();
+
     },
     mounted(){
+      this.initData();
     }
   }
 </script>
