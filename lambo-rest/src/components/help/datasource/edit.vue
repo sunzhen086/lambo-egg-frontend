@@ -42,6 +42,7 @@
 
         <FormItem>
           <Button type="primary" @click="formSubmit">保存</Button>
+          <Button v-if="dsId" type="success" @click="testDatasource">测试连接</Button>
         </FormItem>
       </Form>
       </Col>
@@ -93,8 +94,9 @@
         },
         dataSourceType:[
           {value:"mysql",label:"MySql"},
-          {value:"greenplum",label:"Greenplum"},
-          {value:"db2",label:"DB2"}
+          {value:"db2",label:"DB2"},
+          {value:"oracle",label:"Oracle"},
+          {value:"greenplum",label:"Greenplum"}
         ]
       }
     },
@@ -171,13 +173,22 @@
               self.form.dsPort = result.data.dsPort+"";
               self.form.dsDatabase = result.data.dsDatabase;
               self.form.dsUser = result.data.dsUser;
-              self.form.dsPassword = result.data.dsPassword;
               self.form.note = result.data.note;
             }else{
               self.$Message.error("数据获取异常，请稍候再试");
             }
           })
         }
+      },
+      testDatasource:function(){
+        let self = this;
+        util.ajax.get("/manage/rest/datasource/test/" + self.dsId).then(function(resp) {
+          if(resp.data.code === 1 && resp.data.data === true) {
+            self.$Message.success('数据源连接成功');
+          }else{
+            self.$Message.error('数据源连接测试失败，具体原因请查看日志');
+          }
+        });
       }
     },
     created() {
