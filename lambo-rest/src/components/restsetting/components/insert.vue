@@ -57,7 +57,7 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="服务描述：">
-            <Input v-model="setting.note" type="text"  placeholder="描述一下服务的用途..." />
+            <Input v-model="setting.note" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder="描述一下服务的用途..." />
           </FormItem>
           <FormItem label="参数：">
             <div class="line-table">
