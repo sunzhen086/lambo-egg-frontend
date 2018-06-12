@@ -216,6 +216,15 @@
             }
           },
           {
+            title: '说明',
+            align: 'center',
+            key: 'note',
+            minWidth: 200,
+            editor:{
+              type:"text"
+            }
+          },
+          {
             title: '操作',
             key: 'action',
             minWidth: 200,
@@ -295,8 +304,6 @@
               self.setting.restId = result.data.restId;
               self.setting.restName = result.data.struName;
 
-              self.$emit("add-tree-node", struParams);
-
               //新增服务
               if(self.stru.isLeaf == '1'){
                 var restParams = {
@@ -316,18 +323,21 @@
                   if(result.code == '1') {
                     self.isloading = false;
                     self.$Message.success('新增成功');
+                    self.$emit("add-tree-node", struParams);
                   }else{
                     self.isloading = false;
-                    self.$Message.success('修改成功');
+                    self.$Message.success('新增失败');
                   }
                 });
               }else{
                 self.isloading = false;
                 self.$Message.success('新增成功');
+                self.$emit("add-tree-node", struParams);
               }
+
             }else{
               self.isloading = false;
-              self.$Message.success('修改成功');
+              self.$Message.success('新增失败');
             }
           });
         }else{

@@ -222,6 +222,15 @@
             }
           },
           {
+            title: '说明',
+            align: 'center',
+            key: 'note',
+            minWidth: 200,
+            editor:{
+              type:"text"
+            }
+          },
+          {
             title: '操作',
             key: 'action',
             minWidth: 200,
@@ -330,7 +339,8 @@
                           paramName: params.paramName,
                           necessary: params.necessary,
                           necessaryName:params.necessary==0?'否':'是',
-                          defaultValue: params.defaultValue
+                          defaultValue: params.defaultValue,
+                          note:params.note
                         };
 
                         self.paramsData.push(row);
@@ -366,9 +376,6 @@
             var result = resp.data;
             if (result.code == '1') {
 
-              //更新树
-              self.$emit("update-tree-node", struParams);
-
               //修改服务
               if (self.stru.isLeaf == '1') {
                 var restParams = {
@@ -388,6 +395,8 @@
                   if (result.code == '1') {
                     self.isloading = false;
                     self.$Message.success('修改成功');
+                    //更新树
+                    self.$emit("update-tree-node", struParams);
                   } else {
                     self.isloading = false;
                     self.$Message.success('修改失败');
@@ -396,7 +405,10 @@
               } else {
                 self.isloading = false;
                 self.$Message.success('修改成功');
+                //更新树
+                self.$emit("update-tree-node", struParams);
               }
+
             } else {
               self.isloading = false;
               self.$Message.success('修改失败');

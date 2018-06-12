@@ -171,6 +171,15 @@
             editor:{
               type:"text"
             }
+          },
+          {
+            title: '说明',
+            align: 'center',
+            key: 'note',
+            minWidth: 200,
+            editor:{
+              type:"text"
+            }
           }
         ]
       }
@@ -285,7 +294,8 @@
                           paramName: params.paramName,
                           necessary: params.necessary,
                           necessaryName:params.necessary==0?'否':'是',
-                          defaultValue: params.defaultValue
+                          defaultValue: params.defaultValue,
+                          note:params.note
                         };
 
                         self.paramsData.push(row);
