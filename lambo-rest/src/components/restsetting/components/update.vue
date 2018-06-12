@@ -78,7 +78,7 @@
                           :on-error="uploadError">
                     <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
                   </Upload>
-                  <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restName+'?mockData='+setting.mockData " :download=setting.restName>下载MOCK数据</a></Button>
+                  <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restId " :download=setting.restName>下载MOCK数据</a></Button>
                 </div>
                 <Card class="msg-box">
                   <p slot="title">EXCEL文件说明</p>

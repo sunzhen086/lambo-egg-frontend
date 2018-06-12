@@ -69,7 +69,7 @@
                 <Input v-model="setting.restSql" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
               <TabPane label="MOCK数据" >
-                <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restName+'?mockData='+setting.mockData " :download=setting.restName>下载MOCK数据</a></Button>
+                <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.restId " :download=setting.restName>下载MOCK数据</a></Button>
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 20,maxRows:40}" readonly />
               </TabPane>
             </Tabs>
