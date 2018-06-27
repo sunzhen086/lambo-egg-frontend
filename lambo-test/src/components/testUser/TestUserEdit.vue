@@ -10,9 +10,9 @@
                     <Icon type="android-arrow-back"></Icon> 返回</a>
             </div>
             <Form  ref="formData" :model="formData" :label-width="80" :rules="ruleValidate">
-                                                                                                                                <FormItem label="user_id" prop="userId">
+                           <FormItem label="user_id" prop="userId">
                                 <div v-if="userId">{{formData.userId}}</div>
-                                
+
                                 <Input v-model="formData.userId" placeholder="请输入user_id" v-else></Input>
                             </FormItem>
                                                                                                                                                                             <FormItem label="user_name" prop="userName">
