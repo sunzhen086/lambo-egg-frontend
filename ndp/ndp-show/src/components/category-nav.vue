@@ -21,9 +21,17 @@
     name: "category-nav",
     data () {
       return {
-        categoryId: this.$route.query.categoryId,
-        categoryName: this.$route.query.categoryName
+        //categoryId: this.$route.query.categoryId,
+        //categoryName: this.$route.query.categoryName
       }
+    },
+    computed:{
+      categoryId: function () {
+        return this.$route.query.categoryId
+      },
+      categoryName: function () {
+        return this.$route.query.categoryName
+      },
     },
     methods:{
       tabOnClick:function(name){
