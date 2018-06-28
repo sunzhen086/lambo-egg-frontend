@@ -4,8 +4,8 @@
       <div class="title">
         <h2 class="cat-head">{{categoryName}}</h2>
         <div class="nav">
-          <Tabs value="分类总览" @on-click="tabOnClick">
-            <TabPane label="概览" name="分类总览"></TabPane>
+          <Tabs value="分类数据" @on-click="tabOnClick">
+            <!--<TabPane label="概览" name="分类总览"></TabPane>-->
             <TabPane label="数据" name="分类数据"></TabPane>
             <TabPane label="反馈" name="分类反馈"></TabPane>
           </Tabs>

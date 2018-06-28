@@ -186,6 +186,11 @@
       this.initPage();
     },
     mounted(){
+    },
+    watch: {
+      '$route' (to, from) {
+        this.initPage()
+      }
     }
   }
 </script>

@@ -7,15 +7,15 @@
           <div class="logo-img2"></div>
         </div>
         <div class="nav">
-          <Menu mode="horizontal" theme="light" :active-name="activeName" @on-select="changeMenu">
+          <Menu mode="horizontal" theme="light" :active-name="activeName" @on-select="changeMenu" :open-names="openNames">
             <MenuItem name="首页">
               <Icon type="home"></Icon>
               首页
             </MenuItem>
-            <MenuItem name="烟草指数">
+            <!--<MenuItem name="烟草指数">
               <Icon type="easel"></Icon>
               烟草指数
-            </MenuItem>
+            </MenuItem>-->
             <Submenu name="数据分类">
               <template slot="title">
                 <Icon type="grid"></Icon>
@@ -24,13 +24,15 @@
               <div class="category-list">
                 <Row v-for="n in parseInt(categories.length/6 + 1)">
                   <Col span="4" class="category-box" v-for="(item,index) in categories.slice(n * 6 - 6,n * 6)">
-                    <div class="card" @click="goCategoryView(item.category_id,item.category_name)">
+                    <MenuItem :name="item.category_id+'-'+item.category_name" class="card">
+                    <!--<div class="card" @click="goCategoryView(item.category_id,item.category_name)">-->
                       <div class="icon">
                         <img :src="item.category_img_path" class="icon-default"/>
                         <img :src="item.category_img1_path" class="icon-hover"/>
                       </div>
                       <p>{{item.category_name}}</p>
-                    </div>
+                    <!--</div>-->
+                    </MenuItem>
                   </Col>
                 </Row>
               </div>
@@ -59,6 +61,7 @@
       return {
         searchValue:"",
         activeName:"数据分类",
+        openNames:[],
         frameBtnPermission:'1',
         framePage:config.framePage,
         categories: []
@@ -81,20 +84,25 @@
       },
       changeMenu:function (name) {
         var query = {};
-        if(name == "数据查询"){
-          query = {
-            subjectId:1,
-            categoryId:1
-          }
+        if(name.indexOf("-")>=0){
+          var categoryId = name.split("-")[0];
+          var categoryName = name.split("-")[1];
+          this.$router.push({
+            name:'分类数据',
+            query:{
+              categoryId:categoryId,
+              categoryName:categoryName
+            }
+          });
+        }else{
+          this.$router.push({
+            name: name
+          })
         }
-        this.$router.push({
-          name: name,
-          query:query
-        })
       },
       goCategoryView:function(categoryId,categoryName){
         this.$router.push({
-          name:'分类总览',
+          name:'分类数据',
           query:{
             categoryId:categoryId,
             categoryName:categoryName
@@ -106,6 +114,21 @@
       this.initPage();
     },
     mounted(){
+    },
+    watch: {
+      '$route' (to, from) {
+        var name = to.name;
+        if(name!='分类数据'){
+          this.activeName = name;
+        }else{
+          var categoryId = to.query.categoryId;
+          var categoryName = to.query.categoryName;
+          var activeName = categoryId + "-"+categoryName;
+          this.activeName = activeName;
+          this.openNames = [];
+          this.openedNames.push(name);
+        }
+      }
     }
   }
 </script>
@@ -116,6 +139,9 @@
       .nav{
         .ivu-menu-item,.ivu-menu-submenu-title{
           font-size: 18px;
+        }
+        .ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item-selected{
+          background: #f3f3f3;
         }
       }
     }
