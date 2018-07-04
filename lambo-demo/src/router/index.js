@@ -17,6 +17,9 @@ import helpBox from '@/components/other/helpbox/helpbox'
 import treeTable from '@/components/table/tree-table'
 import permission from '@/components/other/permission/permission'
 
+import RestSettingEdit from '@/components/rest/RestSettingEdit'
+import RestSettingQuery from '@/components/rest/RestSettingQuery'
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -132,6 +135,22 @@ const router = new Router({
           },
           name:'权限测试',
           component: permission
+        },
+        {
+          path: 'rest/query',
+          meta:{
+            title: '测试query',
+          },
+          name:'测试query',
+          component: RestSettingQuery
+        },
+        {
+          path: 'rest/edit',
+          meta:{
+            title: '测试edit',
+          },
+          name:'restSettingEdit',
+          component: RestSettingEdit
         }
 
 

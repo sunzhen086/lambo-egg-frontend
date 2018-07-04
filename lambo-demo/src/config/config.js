@@ -7,6 +7,6 @@ let config = {
   appContext:appContext,
   loginPage:appContext + "/#/login",
   homePage:appContext + "/#/frame/home",
-  serverContext:"demo-server"
+  serverContext:"demo-sample-server"
 };
 export default config;
