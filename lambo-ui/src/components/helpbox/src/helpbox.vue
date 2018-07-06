@@ -1,7 +1,7 @@
 <template>
     <Modal v-model="boxShow" :title="boxTitle"  @on-cancel="onCancel" :mask-closable="false" transfer >
         <div v-if="boxShow">
-            <lambo-table ref="helpBoxTable" :dataUrl="tableUrl" :columns="tableColumnsClone" @on-row-click="onRowClick" @on-selection-change="onSelectionChange" :searchParams="searchParams">
+            <lambo-table ref="helpBoxTable" :dataUrl="tableUrl" :columns="tableColumnsClone" @on-row-click="onRowClick" @on-selection-change="onSelectionChange" :searchParams="searchParams" size="small">
                 <div slot="search">
                     <Input v-model="searchText" placeholder="搜索" style="width: 200px" />
                     <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
@@ -140,6 +140,8 @@
                 if(this.value){
                     this.boxShow = true;
                 }
+                this.searchText="";
+                this.searchParams={};
             },
             muliSelect:function(){
                 this.init();
