@@ -4,16 +4,33 @@
       <Col span="12">
       <Card>
         <p slot="title">
-          <Icon type="help-buoy"></Icon> 可编辑表格
+          <Icon type="help-buoy"></Icon> 可编辑表格(默认场景)
         </p>
         <div slot="extra">
-          <Button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</Button>
+          <Button type="default" style="margin-top: -5px;" @click="getDataOfTable1">获取数据</Button>
           <Button type="default" style="margin-top: -5px;" @click="addNewRow">新增一行</Button>
+          <Button type="default" style="margin-top: -5px;" @click="deleteRow">删除一行</Button>
         </div>
-        <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" @on-organ-changed="onOrganChanged"></lambo-edit-table>
+        <lambo-edit-table ref="table1" mode="normal"  v-model="datas" :columns="columns" @on-organ-changed="onOrganChanged" highlight-row on-row-click="rowClick"></lambo-edit-table>
       </Card>
       </Col>
     </Row>
+    <Row style="margin-top:20px;">
+      <Col span="12">
+      <Card>
+        <p slot="title">
+          <Icon type="help-buoy"></Icon> 可编辑表格(大数据量场景)
+        </p>
+        <div slot="extra">
+          <Button type="default" style="margin-top: -5px;" @click="getDataOfTable2">获取数据</Button>
+          <Button type="default" style="margin-top: -5px;" @click="addNewRow">新增一行</Button>
+          <Button type="default" style="margin-top: -5px;" @click="deleteRow">删除一行</Button>
+        </div>
+        <lambo-edit-table ref="table2" mode="large"  v-model="datas" :columns="columns" @on-organ-changed="onOrganChanged" highlight-row on-row-click="rowClick"></lambo-edit-table>
+      </Card>
+      </Col>
+    </Row>
+
 
   </div>
 </template>
@@ -111,18 +128,12 @@
       };
     },
     methods: {
-      getTableData:function(){
+      getDataOfTable1:function(){
         alert(JSON.stringify(this.$refs.table1.getTableData()));
       },
-      // addNewRow:function(){
-      //   let data = {
-      //     name: 'stomz',
-      //     sex: '1',
-      //     organId: '7',
-      //     organName: '湖南分部'
-      //   };
-      //   this.$refs.table1.addNewRow(data);
-      // },
+      getDataOfTable2:function(){
+        alert(JSON.stringify(this.$refs.table2.getTableData()));
+      },
       onOrganChanged:function(selectData,rowIndex,columnKey){
         if(selectData){
           let organId = selectData.organizationId;
@@ -142,6 +153,12 @@
           organName: ''
         }
         this.datas.push(row);
+      },
+      rowClick:function(rowData,index){
+        this.currentRowIndex = index;
+      },
+      deleteRow:function(){
+        this.datas.splice(this.currentRowIndex,1);
       }
     },
     created () {

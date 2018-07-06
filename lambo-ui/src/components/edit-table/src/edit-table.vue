@@ -46,6 +46,13 @@
     export default {
         name: 'canEditTable',
         props: {
+            mode:{
+                type:String,
+                default:"normal",
+                validator(value) {
+                    return ['normal', 'large'].indexOf(value) !== -1
+                }
+            },
             columns: {
                 type:Array,
                 default:[]
@@ -56,7 +63,7 @@
             },
             size: {
                 validator(value) {
-                    return oneOf(value, ['small', 'large', 'default']);
+                    return ['small', 'large', 'default'].indexOf(value) !== -1
                 }
             },
             width: {
@@ -135,7 +142,8 @@
                                 props: {
                                     row:param.row,
                                     column:param.column,
-                                    index:param.index
+                                    index:param.index,
+                                    mode:self.mode
                                 },
                                 on:{
                                     "cell-on-change":function(param){
