@@ -148,8 +148,9 @@
 				}
 			},
 			size: {
+                type: String,
 				validator(value) {
-					return oneOf(value, ['small', 'large', 'default']);
+				    return ['small', 'large', 'default'].indexOf(value) > -1;
 				}
 			},
 			width: {
