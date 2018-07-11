@@ -107,10 +107,10 @@
 						var value = param.row.type;
 						for(var item of permissionTypeEnum) {
 							if(item.value == value) {
-								return item.label;
+                value=item.label;
 							}
 						}
-						return "-";
+						return  h("span",value);
 					},
 					width: 100
 				});
@@ -150,7 +150,7 @@
 					sortable: "custom",
 					align: "center",
 					render: function(h, param) {
-						return param.row.status ? "正常" : "锁定";
+						return h("span",param.row.status ? "正常" : "锁定");
 					},
 					width: 100
 				});

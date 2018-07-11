@@ -106,7 +106,7 @@
             0:'女'
           },
 					render: function(h, param) {
-						return param.row.sex == 0 ? "女" : "男";
+						return h('span',param.row.sex == 0 ? "女" : "男");
 					}
 				});
 				columns.push({
@@ -118,7 +118,7 @@
             '0':'正常'
           },
 					render: function(h, param) {
-						return !param.row.locked ? "正常" : "锁定";
+						return h('span',!param.row.locked ? "正常" : "锁定");
 					}
 				});
 				columns.push({

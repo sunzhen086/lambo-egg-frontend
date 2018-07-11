@@ -102,7 +102,7 @@
 					sortable: "custom",
 					align: "center",
 					render: function(h, param) {
-						return param.row.status ? "正常" : "锁定";
+						return h('span',param.row.status ? "正常" : "锁定");
 					}
 				});
 				columns.push({

@@ -15,7 +15,11 @@ import permissionIndex from '@/components/permission/index'
 import permissionEdit from '@/components/permission/edit'
 import sessionIndex from '@/components/session/index'
 import logIndex from '@/components/log/index'
-
+import scheduleIndex from '@/components/schedule/index'
+import scheduleLogIndex from '@/components/schedule/indexLog'
+import scheduleEdit from '@/components/schedule/edit'
+import dictIndex from '@/components/dict/index'
+import dictEdit from '@/components/dict/edit'
 Vue.use(Router)
 
 export default new Router({
@@ -170,6 +174,60 @@ export default new Router({
           },
           name:'日志记录',
           component: logIndex
+        },
+        {
+          path: 'manage/schedule/index',
+          meta:{
+            title: '定时任务管理',
+          },
+          name:'定时任务管理',
+          component: scheduleIndex
+        },
+        {
+          path: 'manage/schedule/create',
+          meta:{
+            title: '新增定时任务',
+          },
+          name:'新增定时任务',
+          component: scheduleEdit
+        },
+        {
+          path: 'manage/schedule/update',
+          meta:{
+            title: '修改定时任务',
+          },
+          name:'修改定时任务',
+          component: scheduleEdit
+        },{
+          path: 'manage/schedule/scheduleLog',
+          meta:{
+            title: '查看定时任务记录',
+          },
+          name:'查看定时任务记录',
+          component: scheduleLogIndex
+        },
+        {
+          path: 'manage/dict/index',
+          meta:{
+            title: '数据字典',
+          },
+          name:'数据字典',
+          component: dictIndex
+        },
+        {
+          path: 'manage/dict/create',
+          meta:{
+            title: '新增数据字典',
+          },
+          name:'新增数据字典',
+          component: dictEdit
+        },
+        {
+          path: 'manage/dict/update',
+          meta:{
+            title: '修改数据字典',
+          },name:'修改数据字典',
+          component: dictEdit
         }
       ]
     }
