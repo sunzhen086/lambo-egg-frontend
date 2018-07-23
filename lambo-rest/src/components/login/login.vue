@@ -16,7 +16,7 @@
     methods:{
       doLogin:function(params){
         var self = this;
-        util.ajax.post('/login', {
+        util.ajax.post('/sso/login', {
           username:params.username,
           password:params.password
         }).then(function (resp) {
