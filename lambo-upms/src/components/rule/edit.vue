@@ -16,17 +16,14 @@
         <Form ref="form" :model="form" :label-width="80" >
         </Form>
         <Form ref="form" :model="form" :label-width="80" :rules="ruleValidate">
-          <FormItem label="字典名称" prop="dictName">
-            <Input v-model="form.dictName" placeholder="请输入名称"></Input>
+          <FormItem v-if="ruleId"label="规则标识" prop="ruleId">
+            <Input  v-model="form.ruleId" readonly placeholder="请输入标识id"></Input>
           </FormItem>
-          <FormItem v-if="dictId"label="字典标识" prop="dictId">
-            <Input  v-model="form.dictId" readonly placeholder="请输入标识id"></Input>
+          <FormItem v-else label="规则标识" prop="ruleId">
+            <Input  v-model="form.ruleId"  placeholder="请输入标识id"></Input>
           </FormItem>
-          <FormItem v-else label="字典标识" prop="dictId">
-            <Input  v-model="form.dictId"  placeholder="请输入标识id"></Input>
-          </FormItem>
-          <FormItem label="字典描述" prop="dictDesc">
-            <Input  v-model="form.dictDesc" placeholder="请输入描述"></Input>
+          <FormItem label="规则描述" prop="ruleDesc">
+            <Input  v-model="form.ruleDesc" placeholder="请输入描述"></Input>
           </FormItem>
 
         </Form>
@@ -37,11 +34,11 @@
       <Col span="24">
         <Card :bordered="false" :dis-hover="true">
           <p slot="title">
-            <Icon type="help-buoy"></Icon> 字典项信息
+            <Icon type="help-buoy"></Icon> 规则项信息
           </p>
           <div slot="extra">
-            <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增字典项</i-button>
-            <!--i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button-->
+            <i-button type="default" style="margin-top: -5px;" @click="newTableData">新增规则项</i-button>
+            <i-button type="default" style="margin-top: -5px;" @click="getTableData">获取数据</i-button>
           </div>
           <lambo-edit-table ref="table1"  v-model="datas" :columns="columns" ></lambo-edit-table>
         </Card>
@@ -67,7 +64,7 @@
       },
       on: {
         'click': () => {
-          vm.doDelete(currentRow.dictId,index);
+          vm.doDelete(currentRow.ruleId,index);
         }
       }
     }, '删除');
@@ -82,9 +79,8 @@
         created:false,
         datas: [],
         form: {
-          dictId:"",
-          dictName:"",
-          dictDesc:""
+          ruleId:"",
+          ruleDesc:""
         },
         ruleValidate: {
 
@@ -92,8 +88,8 @@
       };
     },
     computed: {
-      dictId: function() {
-        return this.$route.query.dictId;
+      ruleId: function() {
+        return this.$route.query.ruleId;
       },
       title: function() {
         return this.$route.meta.title;
@@ -103,9 +99,9 @@
         let self = this;
 
         columns.push(   {
-          title: '字典码',
+          title: '公司号',
           align: 'center',
-          key: 'dictKey',
+          key: 'comId',
           editor:{
             type:"text",
             //校验函数,参数分别为：新值、旧值、行数据、行号
@@ -121,21 +117,13 @@
           }
         });
         columns.push(   {
-          title: '字典值',
+          title: '规则值',
           align: 'center',
-          key: 'dictValue',
+          key: 'ruleValue',
           editor: {
             type: "text",
           }
          });
-        columns.push(   {
-          title: '顺序',
-          align: 'center',
-          key: 'orderNum',
-          editor: {
-            type: "text",
-          }
-        });
         columns.push({
           title: '操作',
           align: "center",
@@ -157,15 +145,14 @@
         var self = this;
 
               var params = {
-                dictId: self.form.dictId,
-                dictName: self.form.dictName,
-                dictDesc: self.form.dictDesc,
-                dictKeyList:JSON.stringify(this.$refs.table1.getTableData())
+                ruleId: self.form.ruleId,
+                ruleDesc: self.form.ruleDesc,
+                ruleKeyList:JSON.stringify(this.$refs.table1.getTableData())
 
               }
 
-            if(self.dictId) {  //修改
-              util.ajax.post("/manage/lamboDict/update" , params).then(function(resp) {
+            if(self.ruleId) {  //修改
+              util.ajax.post("/manage/lamboRule/update" , params).then(function(resp) {
                 if(resp.data && resp.data.code === 1){
                   self.$Message.success('保存成功');
                 }else{
@@ -173,7 +160,7 @@
                 }
               })
             } else { //新增
-              util.ajax.post("/manage/lamboDict/create", params).then(function(resp) {
+              util.ajax.post("/manage/lamboRule/create", params).then(function(resp) {
                 self.$Message.success('新增成功');
                 self.created = true;
               })
@@ -184,24 +171,23 @@
       },
       newTableData:function(){
         let row = {
-          dictKey: '',
-          dictValue:'',
-          orderNum:''
+          comId: '',
+          ruleValue:''
         }
         this.datas.push(row);
       },
       initData:function(){
         var self = this;
-        if(self.dictId) {
-           util.ajax.get("/manage/lamboDict/getDict/" + self.dictId).then(function(resp) {
+        if(self.ruleId) {
+           util.ajax.get("/manage/lamboRule/getRule/" + self.ruleId).then(function(resp) {
              var data = resp.data;
              for(var i=0;i<data.length;i++){
 
                self.datas.push(data[i]);
              }
-             self.form.dictId =  data[0].dictId;
-             self.form.dictName =data[0].dictName;
-             self.form.dictDesc = data[0].dictDesc;
+             self.form.ruleId =  data[0].ruleId;
+             self.form.ruleName =data[0].ruleName;
+             self.form.ruleDesc = data[0].ruleDesc;
           })
         }
       },

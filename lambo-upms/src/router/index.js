@@ -20,6 +20,8 @@ import scheduleLogIndex from '@/components/schedule/indexLog'
 import scheduleEdit from '@/components/schedule/edit'
 import dictIndex from '@/components/dict/index'
 import dictEdit from '@/components/dict/edit'
+import ruleIndex from '@/components/rule/index'
+import ruleEdit from '@/components/rule/edit'
 Vue.use(Router)
 
 export default new Router({
@@ -228,6 +230,29 @@ export default new Router({
             title: '修改数据字典',
           },name:'修改数据字典',
           component: dictEdit
+        },
+        {
+          path: 'manage/rule/index',
+          meta:{
+            title: '业务规则',
+          },
+          name:'业务规则',
+          component: ruleIndex
+        },
+        {
+          path: 'manage/rule/create',
+          meta:{
+            title: '新增业务规则',
+          },
+          name:'新增业务规则',
+          component: ruleEdit
+        },
+        {
+          path: 'manage/rule/update',
+          meta:{
+            title: '修改业务规则',
+          },name:'修改业务规则',
+          component: ruleEdit
         }
       ]
     }

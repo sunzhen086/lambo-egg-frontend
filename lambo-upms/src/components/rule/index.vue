@@ -3,11 +3,11 @@
     <Card>
       <div slot="extra">
       </div>
-      <LamboTable ref="table" dataUrl="/manage/lamboDict/list" :columns="tableColumn" :searchParams="dictSearchParams">
+      <LamboTable ref="table" dataUrl="/manage/lamboRule/list" :columns="tableColumn" :searchParams="ruleSearchParams">
         <div slot="search">
-          <Input v-model="searchDictName" placeholder="按名称搜索" style="width: 200px" />
+          <Input v-model="searchRuleId" placeholder="按名称搜索" style="width: 200px" />
           <Button type="primary" icon="ios-search" @click="doSearch">查询</Button>
-          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增字典</Button>
+          <Button type="ghost" icon="plus-round" @click="goCreatePage">新增规则</Button>
         </div>
       </LamboTable>
     </Card>
@@ -27,7 +27,7 @@
       },
       on: {
         'click': () => {
-          vm.goUpdatePage(currentRow.dictId);
+          vm.goUpdatePage(currentRow.ruleId);
         }
       }
     }, '编辑');
@@ -45,7 +45,7 @@
       },
       on: {
         'click': () => {
-          vm.doDelete(currentRow.dictId);
+          vm.doDelete(currentRow.ruleId);
         }
       }
     }, '删除');
@@ -53,9 +53,9 @@
   export default {
     data:function(){
       return {
-        searchDictId:"",
-        searchDictName:"",
-        dictSearchParams:{}
+        searchRuleId:"",
+        searchRuleName:"",
+        ruleSearchParams:{}
       }
     },
     computed: {
@@ -66,18 +66,13 @@
         let columns = [];
         let self = this;
         columns.push({
-          title: '字典Id',
-          key: 'dictId',
-          sortable: "custom"
-        });
-        columns.push({
-          title: '字典名称',
-          key: 'dictName',
+          title: '规则Id',
+          key: 'ruleId',
           sortable: "custom"
         });
         columns.push({
           title: '描述',
-          key: 'dictDesc',
+          key: 'ruleDesc',
           sortable: "custom"
         });
         columns.push({
@@ -95,33 +90,33 @@
     },
     methods:{
       doSearch:function(){
-        this.dictSearchParams = {
-          search:this.searchDictName
+        this.ruleSearchParams = {
+          search:this.searchRuleId
         }
       },
       goCreatePage: function() {
         this.$router.push({
-          name: '新增数据字典'
+          name: '新增业务规则'
         });
       },
-      goUpdatePage: function(dictId) {
+      goUpdatePage: function(ruleId) {
         this.$router.push({
-          name: '修改数据字典',
+          name: '修改业务规则',
           query: {
-            dictId
+            ruleId
           }
         });
       },
-      doDelete: function(dictId) {
+      doDelete: function(ruleId) {
         var self = this;
         var parm={
-          dictId:dictId
+          ruleId:ruleId
         }
         this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-            util.ajax.get("/manage/lamboDict/delete/"+dictId).then(function(resp) {
+            util.ajax.get("/manage/lamboRule/delete/"+ruleId).then(function(resp) {
               self.$Message.success('删除成功');
               self.doSearch();
             })
