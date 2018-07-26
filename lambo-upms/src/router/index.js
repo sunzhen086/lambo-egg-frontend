@@ -24,8 +24,7 @@ import ruleIndex from '@/components/rule/index'
 import ruleEdit from '@/components/rule/edit'
 Vue.use(Router)
 
-export default new Router({
-
+var routes = new Router({
   routes: [
     {
       path: '/',
@@ -169,6 +168,14 @@ export default new Router({
           name:'权限管理',
           component: permissionIndex
         },
+        /*{
+          path: 'manage/session/index',
+          meta:{
+            title: '会话管理',
+          },
+          name:'会话管理',
+          component: sessionIndex
+        },*/
         {
           path: 'manage/log/index',
           meta:{
@@ -257,5 +264,13 @@ export default new Router({
       ]
     }
   ]
-})
+});
+
+/*let localRoutes = sessionStorage.getItem('routes');
+console.log("localRoutes="+localRoutes);
+if(localRoutes){
+  routes.addRoutes(JSON.parse(localRoutes));
+}*/
+
+export default routes;
 
