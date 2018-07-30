@@ -9,15 +9,15 @@
 	export default {
 		data() {
 			return {
-				defaultUserName:"admin",
-				defaultPassword:"123456",
+				defaultUserName:"610222100306",
+				defaultPassword:"1",
 				successForwardUrl: process.env.NODE_ENV == "production" ? "/upms/#/frame/manage/user/index" : "/#/frame/manage/user/index"
 			}
 		},
 		methods:{
 			doLogin:function(params){
 				var self = this;
-        util.ajax.post('/sso/login', {
+        util.ajax.post('/sso/local/login', {
           username:params.username,
           password:params.password
         }).then(function (resp) {
