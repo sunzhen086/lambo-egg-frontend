@@ -121,6 +121,7 @@
               <Radio label="Coding">Coding</Radio>
               <Radio label="Fixed">Fixed</Radio>
               <Radio label="Closed">Closed</Radio>
+              <Radio label="Confirm">Confirm</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="接口交流：" >

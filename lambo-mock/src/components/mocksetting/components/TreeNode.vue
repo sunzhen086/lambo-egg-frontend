@@ -3,6 +3,7 @@
     <Icon type="ios-folder-outline" :size="14" v-if="struType === 'folder'" class="icon1"></Icon>
     <Icon type="social-reddit-outline" :size="16" v-else class="icon2"></Icon>
     <span class="title">{{title}}</span>
+    <span class="serviceNum">{{serviceNum}}</span>
   </span>
 </template>
 
@@ -11,12 +12,12 @@
         name: "tree-node",
         props:{
           title:String,
+          serviceNum:String,
           selected:Boolean,
           struType:String
         },
         methods:{
           onClick:function(){
-            console.log("123 node click");
             this.$emit("nodeOnClick");
           }
         }
@@ -42,6 +43,10 @@
       position:absolute;
       top:2px;
       left:5px;
+    }
+    .serviceNum{
+      float:right;
+      padding:0 10px;
     }
   }
 </style>
