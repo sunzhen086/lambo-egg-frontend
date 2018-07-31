@@ -119,8 +119,8 @@
             <RadioGroup v-model="develop.status" >
               <Radio label="New">New</Radio>
               <Radio label="Coding">Coding</Radio>
-              <Radio label="Fixed">Coding</Radio>
-              <Radio label="Closed">Coding</Radio>
+              <Radio label="Fixed">Fixed</Radio>
+              <Radio label="Closed">Closed</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="接口交流：" >
