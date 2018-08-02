@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Sider hide-trigger :style="{background: '#fff'}" width="300" class="left-sider">
+    <Sider hide-trigger :style="{background: '#fff'}" width="400" class="left-sider">
       <Tree :data="treeData" :load-data="loadTree" ref="tree"></Tree>
     </Sider>
     <Content>

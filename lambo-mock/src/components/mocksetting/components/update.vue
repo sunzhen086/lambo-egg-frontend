@@ -37,7 +37,7 @@
             服务
           </p>
           <FormItem label="服务URL：" required>
-            {{setting.url}}
+            {{setting.mockUrl}}
           </FormItem>
           <FormItem label="服务类型：" required>
             <RadioGroup v-model="setting.mockType" >
@@ -45,6 +45,7 @@
               <Radio label="post">post</Radio>
             </RadioGroup>
           </FormItem>
+          <!--
           <FormItem label="服务提供者：" >
             <Input v-model="setting.provider" type="text" style="width:300px"/>
           </FormItem>
@@ -54,6 +55,7 @@
           <FormItem label="认证方式：" >
             <Input v-model="setting.authMethod" type="text" style="width:300px"/>
           </FormItem>
+          -->
           <FormItem label="服务描述：">
             <Input v-model="setting.note" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder="描述一下服务的用途..." />
           </FormItem>
@@ -415,7 +417,7 @@
                     self.$emit("update-tree-node", struParams);
                   }else{
                     self.isloading = false;
-                    self.$Message.success('修改失败');
+                    self.$Message.error('修改失败');
                   }
                 });
 
@@ -428,7 +430,7 @@
 
             } else {
               self.isloading = false;
-              self.$Message.success('修改失败');
+              self.$Message.error('修改失败');
             }
           });
         }else{

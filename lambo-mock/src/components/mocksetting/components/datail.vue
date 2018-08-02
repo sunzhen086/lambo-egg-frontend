@@ -46,6 +46,7 @@
           <FormItem label="服务类型：">
             {{setting.mockType}}
           </FormItem>
+          <!--
           <FormItem label="服务提供者：" >
             {{setting.provider}}
           </FormItem>
@@ -55,6 +56,7 @@
           <FormItem label="认证方式：" >
             {{setting.authMethod}}
           </FormItem>
+          -->
           <FormItem label="服务描述：">
             {{setting.note}}
           </FormItem>
