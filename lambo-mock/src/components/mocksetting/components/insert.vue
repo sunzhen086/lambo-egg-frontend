@@ -412,12 +412,6 @@
         }else if(!self.stru.struUrl.startsWith('/')){
           self.checked.struUrl = "节点URL必须以‘/’开头";
           flag = false;
-        }else{
-          let reg = new RegExp(/^\w+$/);
-          if(!reg.test((self.stru.struUrl).substr(1))){
-            self.checked.struUrl = "节点URL格式不正确";
-            flag = false;
-          }
         }
 
         self.checked.mockDes = "";
