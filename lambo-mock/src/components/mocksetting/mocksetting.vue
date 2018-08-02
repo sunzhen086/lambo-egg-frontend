@@ -21,7 +21,6 @@
 
 <script>
   import util from '@/libs/util';
-  import config from '@/config/config';
   import Insert from "./components/insert";
   import Update from "./components/update";
   import Datail from "./components/datail";
@@ -58,7 +57,8 @@
       },
       getChildren(parentNode,callback){
         let self = this;
-        util.ajax.get('/manage/mock/stru/queryChildren?parentId='+parentNode.key).then(function(resp){
+
+        util.ajax.get('/manage/mock/stru/queryChildren?hasDevStatus=1&parentId='+parentNode.key).then(function(resp){
           let result = resp.data;
           const nodes = [];
           if(result.code == '1'){
@@ -69,9 +69,11 @@
                 obj.key = node.struId;
                 obj.title = node.struName;
                 obj.struType = node.struType;
+                obj.struUrl = node.struUrl;
                 obj.path = parentNode.path+node.struUrl;
                 obj.orderSeq = node.orderSeq;
                 obj.mockId = node.mockId;
+                obj.devStatus = node.devStatus;
                 obj.parentId = parentNode.key;
                 if (node.struType == "folder") {
                   obj.loading = false;
@@ -82,7 +84,8 @@
                     props:{
                       title:data.title,
                       selected:data.selected,
-                      struType:data.struType
+                      struType:data.struType,
+                      devStatus:data.devStatus
                     },
                     on:{
                       "nodeOnClick":function(){
@@ -114,9 +117,6 @@
         this.addCurStru(data);
         this.$set(data, "selected", true);
 
-        // let expand = data.expand;
-        // this.$set(data, "expand", !expand);
-
       },
       showPage(pageType){
         this.pageType = pageType;
@@ -128,7 +128,7 @@
         let addNum = 0;
         if(children && children.length>0){
           for(let i=0;i<children.length;i++) {
-            if(node.orderSeq && children[i].orderSeq && node.orderSeq>children[i].orderSeq) {
+            if(node.orderSeq>=children[i].orderSeq) {
               addNum = i+1;
             }
           }
@@ -142,6 +142,8 @@
         obj.struType = node.struType;
         obj.path = self.curStru.path+node.struUrl;
         obj.parentId = self.curStru.key;
+        obj.devStatus = node.devStatus
+        obj.orderSeq = node.orderSeq;
         obj.selected = true;
         if (node.struType == "folder") {
           obj.loading = false;
@@ -152,7 +154,8 @@
             props:{
               title:data.title,
               selected:data.selected,
-              struType:data.struType
+              struType:data.struType,
+              devStatus:data.devStatus
             },
             on:{
               "nodeOnClick":function(){
@@ -170,6 +173,7 @@
         let self = this;
         let last = self.$refs.tree.getSelectedNodes();
         last[0].title = node.struName;
+        last[0].devStatus = node.devStatus;
         last[0].orderSeq = node.orderSeq;
 
         //更新节点排序

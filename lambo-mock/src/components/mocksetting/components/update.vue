@@ -220,19 +220,10 @@
             title: '参数类型',
             align: 'center',
             key: 'paramType',
-            minWidth: 200,
+            minWidth: 100,
             editor:{
-              type:"text",
-              //校验函数,参数分别为：新值、旧值、行数据、行号
-              validate:function(newVal,oldVal,row,index){
-                if(newVal.trim() == ""){
-                  return{
-                    valid:false,
-                    msg:"输入不能为空！"
-                  }
-                }
-                return{valid:true}
-              }
+              type:"select",
+              enums:[{"value":"VARCHAR","label":"VARCHAR"},{"value":"NUMBER","label":"NUMBER"}]
             }
           },
           {
@@ -249,7 +240,7 @@
             title: '参数说明',
             align: 'center',
             key: 'note',
-            minWidth: 200,
+            minWidth: 400,
             editor:{
               type:"text"
             }
@@ -420,6 +411,7 @@
                     self.isloading = false;
                     self.$Message.success('修改成功');
                     //更新树
+                    struParams.devStatus = self.develop.status;
                     self.$emit("update-tree-node", struParams);
                   }else{
                     self.isloading = false;
@@ -534,7 +526,7 @@
       addNewRow:function(){
         let row = {
           paramKey: '',
-          paramName: '',
+          paramType: 'VARCHAR',
           necessary: '1',
           defaultValue: ''
         }

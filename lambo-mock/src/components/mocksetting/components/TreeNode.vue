@@ -3,21 +3,22 @@
     <Icon type="ios-folder-outline" :size="14" v-if="struType === 'folder'" class="icon1"></Icon>
     <Icon type="social-reddit-outline" :size="16" v-else class="icon2"></Icon>
     <span class="title">{{title}}</span>
-    <span class="serviceNum">{{serviceNum}}</span>
+    <span class="devStatus">{{devStatus}}</span>
   </span>
 </template>
 
 <script>
+    import util from '@/libs/util';
     export default {
         name: "tree-node",
         props:{
           title:String,
-          serviceNum:String,
           selected:Boolean,
-          struType:String
+          struType:String,
+          devStatus:String
         },
-        methods:{
-          onClick:function(){
+        methods: {
+          onClick: function () {
             this.$emit("nodeOnClick");
           }
         }
@@ -44,7 +45,7 @@
       top:2px;
       left:5px;
     }
-    .serviceNum{
+    .devStatus{
       float:right;
       padding:0 10px;
     }
