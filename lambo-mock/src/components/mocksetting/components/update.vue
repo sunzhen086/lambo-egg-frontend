@@ -223,7 +223,7 @@
             minWidth: 100,
             editor:{
               type:"select",
-              enums:[{"value":"VARCHAR","label":"VARCHAR"},{"value":"NUMBER","label":"NUMBER"}]
+              enums:[{"value":"String","label":"String"},{"value":"int","label":"int"},{"value":"double","label":"double"},{"value":"boolean","label":"boolean"}]
             }
           },
           {
@@ -526,7 +526,7 @@
       addNewRow:function(){
         let row = {
           paramKey: '',
-          paramType: 'VARCHAR',
+          paramType: 'String',
           necessary: '1',
           defaultValue: ''
         }
