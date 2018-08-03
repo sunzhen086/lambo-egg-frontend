@@ -62,6 +62,10 @@
           </FormItem>
           <FormItem label="输入参数：">
             <div class="line-table">
+              <div class="table-top" v-if="setting.isArray">
+                <Checkbox v-model="setting.isArray" disabled>数组参数</Checkbox>
+                <Input v-model="setting.groupKey" type="text" style="width:300px" readonly/>
+              </div>
               <Table :data="paramsData" :columns="columns" ></Table>
             </div>
           </FormItem>
@@ -156,6 +160,8 @@
           user:'',
           authMethod:'',
           mockData:'',
+          isArray:false,
+          groupKey:'',
           paramsDes:'',
           note:'',
           createTime:'',
@@ -311,6 +317,14 @@
 
                 self.paramsData.push(row);
 
+                if(null!=params.groupKey && params.groupKey!=''){
+                  self.setting.isArray = true;
+                  self.setting.groupKey = params.groupKey;
+                }else{
+                  self.setting.isArray = false;
+                  self.setting.groupKey = "";
+                }
+
               });
             }
           }
@@ -380,7 +394,7 @@
       .part {
         margin-top:20px;
         .line-table{
-          .table-btn{
+          .table-top{
             margin-bottom:10px;
           }
         }

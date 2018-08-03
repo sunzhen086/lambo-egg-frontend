@@ -65,12 +65,21 @@
           <FormItem label="服务描述：">
             <Input v-model="setting.note" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder="描述一下服务的用途..." />
           </FormItem>
-          <FormItem label="输入参数：">
+          <FormItem label="输入参数：" :required="setting.isArray">
             <div class="line-table">
-              <div class="table-btn">
-                <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
+              <div class="table-top">
+                <div class="table-type">
+                  <Checkbox v-model="setting.isArray">数组参数</Checkbox>
+                  <Input v-if="setting.isArray" v-model="setting.groupKey" type="text" style="width:300px" placeholder="请输入数组参数名称"/>
+                </div>
+                <div class="table-btn">
+                  <Button type="default" style="margin-top: -5px;" @click="addNewRow">增加一行</Button>
+                </div>
+                <div style="clear:both;"></div>
               </div>
+
               <lambo-edit-table ref="paramsTable"  v-model="paramsData" :columns="columns" ></lambo-edit-table>
+              <span class="errmsg" v-html="checked.paramsMsg"></span>
             </div>
           </FormItem>
           <FormItem label="输出参数：" required>
@@ -181,6 +190,8 @@
           user:'',
           authMethod:'',
           mockData:'',
+          isArray:false,
+          groupKey:'',
           paramsDes:'',
           note:''
         },
@@ -272,6 +283,7 @@
         checked:{
           struName:'',
           struUrl:'',
+          paramsMsg:'',
           mockDes:'',
           uploadMock:''
         }
@@ -333,7 +345,28 @@
             }
           });
         }else{
+
           self.isloading = false;
+
+          let msg = "新增失败，请正确维护必填信息<br/><br/>";
+          if(self.checked.struName != ""){
+            msg += self.checked.struName+"<br/>";
+          }
+          if(self.checked.struUrl != "") {
+            msg += self.checked.struUrl + "<br/>";
+          }
+          if(self.checked.paramsMsg != "") {
+            msg += self.checked.paramsMsg + "<br/>";
+          }
+          if(self.checked.mockDes != "") {
+            msg += self.checked.mockDes + "<br/>";
+          }
+          if(self.checked.uploadMock != "") {
+            msg += self.checked.uploadMock + "<br/>";
+          }
+
+          self.$Message.error(msg);
+
         }
       },
       insertMockSetting:function(){
@@ -351,8 +384,10 @@
               mockData:self.setting.mockData,
               paramsDes:self.setting.paramsDes,
               note:self.setting.note,
+              groupKey:self.setting.isArray?self.setting.groupKey:"",
               settingParams:JSON.stringify(self.$refs.paramsTable.getTableData())
             }
+
             util.ajax.post("/manage/mock/setting/insert", mockParams).then(function(resp){
               let result = resp.data;
               if (result.code === 1) {
@@ -416,14 +451,34 @@
           flag = false;
         }
 
+        self.checked.paramsMsg ="";
+        if(self.setting.isArray){
+          if(self.setting.groupKey == ""){
+            self.checked.paramsMsg = " 数组参数名称不能为空;";
+            flag = false;
+          }
+          if(self.paramsData.length < 2){
+            self.checked.paramsMsg += " 数组参数的参数项不能少于2个;";
+            flag = false;
+          }else{
+            for(let i=0;i<self.paramsData.length;i++){
+              if(self.paramsData[i].paramKey == ""){
+                self.checked.paramsMsg += " 参数名称不能为空;";
+                flag = false;
+                break;
+              }
+            }
+          }
+        }
+
         self.checked.mockDes = "";
         if(self.stru.struType == 'service'){
           if(self.setting.mockData == ''){
-            self.checked.mockDes += " MOCK数据不能为空";
+            self.checked.mockDes += " MOCK数据不能为空;";
             flag = false;
           }
           if(self.setting.paramsDes == ''){
-            self.checked.mockDes += "参数说明不能为空";
+            self.checked.mockDes += " 参数说明不能为空;";
             flag = false;
           }
         }
@@ -501,7 +556,13 @@
       .part {
         margin-top: 20px;
         .line-table {
-          .table-btn {
+          .table-top {
+            .table-type{
+              float:left;
+            }
+            .table-btn {
+              float:right;
+            }
             margin-bottom: 10px;
           }
         }

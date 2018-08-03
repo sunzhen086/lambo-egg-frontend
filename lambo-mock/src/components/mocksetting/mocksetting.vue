@@ -21,6 +21,7 @@
 
 <script>
   import util from '@/libs/util';
+  import config from '@/config/config';
   import Insert from "./components/insert";
   import Update from "./components/update";
   import Datail from "./components/datail";
