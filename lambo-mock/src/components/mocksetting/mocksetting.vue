@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Sider hide-trigger :style="{background: '#fff'}" width="400" class="left-sider">
-      <Tree :data="treeData" :load-data="loadTree" ref="tree"></Tree>
+      <Tree :data="treeData" :load-data="loadTree" ref="tree" @on-select-change="onRootSelectChange"></Tree>
     </Sider>
     <Content>
 
@@ -109,6 +109,15 @@
             self.$set(parentNode, "children", nodes);
           }
         });
+      },
+      onRootSelectChange:function(node){
+        if(node.length > 0){
+          this.addCurStru(node[0]);
+          this.$set(node[0], "selected", true);
+        }else{
+          this.treeData[0].selected = true;
+        }
+
       },
       onTreeSelectChange(data){
         if(!data.children || data.children.length === 0){

@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import login from '@/components/login/login';
 import mainnav from '@/components/main-nav';
 import mocksetting from '@/components/mocksetting/mocksetting';
+import mocktest from '@/components/mocktest/mocktest';
 
 Vue.use(Router)
 const router = new Router({
@@ -30,6 +31,11 @@ const router = new Router({
           path: '/mock-setting',
           name: '服务定义',
           component: mocksetting
+        },
+        {
+          path: '/mock-test',
+          name: '服务测试',
+          component: mocktest
         }
       ]
     }
