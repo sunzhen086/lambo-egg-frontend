@@ -554,8 +554,8 @@
             self.checked.paramsMsg = " 数组参数名称不能为空;";
             flag = false;
           }
-          if(self.paramsData.length < 2){
-            self.checked.paramsMsg += " 数组参数的参数项不能少于2个;";
+          if(self.paramsData.length < 1){
+            self.checked.paramsMsg += " 数组参数必须维护参数项;";
             flag = false;
           }else{
             for(let i=0;i<self.paramsData.length;i++){
