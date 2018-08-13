@@ -78,17 +78,22 @@
           <FormItem label="输出参数：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="MOCK数据" >
-                <div class="file-btn">
-                  <Upload ref="upload"
-                          :action="uploadUrl"
-                          :format="['xls','xlsx']"
-                          :on-format-error="formatError"
-                          :before-upload="beforeUpload"
-                          :on-success="uploadSuccess"
-                          :on-error="uploadError">
-                    <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
-                  </Upload>
-                  <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.mockId " :download=setting.mockName>下载MOCK数据</a></Button>
+                <div class="mock-top">
+                  <div class="checkbox-btn">
+                    <Checkbox v-model="setting.isPaging">分页数据</Checkbox>
+                  </div>
+                  <div class="file-btn">
+                    <Upload ref="upload"
+                            :action="uploadUrl"
+                            :format="['xls','xlsx']"
+                            :on-format-error="formatError"
+                            :before-upload="beforeUpload"
+                            :on-success="uploadSuccess"
+                            :on-error="uploadError">
+                      <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
+                    </Upload>
+                    <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.mockId " :download=setting.mockName>下载MOCK数据</a></Button>
+                  </div>
                 </div>
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 8,maxRows: 20}" placeholder="返回json数据样例。可手动填写，也可上传excel文件自动生成。" />
                 <Card class="msg-box">
@@ -192,6 +197,7 @@
           provider:'',
           user:'',
           authMethod:'',
+          isPaging:false,
           mockData:'',
           isArray:false,
           groupKey:'',
@@ -345,6 +351,7 @@
               self.setting.provider = mockSetting.provider;
               self.setting.user = mockSetting.user;
               self.setting.authMethod = mockSetting.authMethod;
+              self.setting.isPaging = mockSetting.isPaging;
               self.setting.mockData = mockSetting.mockData;
               self.setting.paramsDes = mockSetting.paramsDes;
               self.setting.note = mockSetting.note;
@@ -484,6 +491,7 @@
               provider:self.setting.provider,
               user:self.setting.user,
               authMethod:self.setting.authMethod,
+              isPaging:self.setting.isPaging,
               mockData:self.setting.mockData,
               paramsDes:self.setting.paramsDes,
               note:self.setting.note,
@@ -670,6 +678,23 @@
         }
         .tabs {
           margin-bottom: 10px !important;
+          .mock-top{
+            .checkbox-btn{
+              float:left;
+            }
+            .file-btn{
+              margin-left:100px;
+              position:relative;
+              .download {
+                position:absolute;
+                top:1px;
+                left:170px;
+                a{
+                  color:#495060;
+                }
+              }
+            }
+          }
         }
       }
       .errmsg{
@@ -678,18 +703,6 @@
       .msg-box{
         margin-top:10px;
       }
-      .file-btn{
-        position:relative;
-        .download {
-          position:absolute;
-          top:1px;
-          left:170px;
-          a{
-            color:#495060;
-          }
-        }
-      }
-
     }
   }
 </style>

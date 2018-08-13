@@ -85,15 +85,23 @@
           <FormItem label="输出参数：" required>
             <Tabs class="tabs" size="small">
               <TabPane label="MOCK数据" >
-                <Upload ref="upload"
-                        :action="uploadUrl"
-                        :format="['xls','xlsx']"
-                        :on-format-error="formatError"
-                        :before-upload="beforeUpload"
-                        :on-success="uploadSuccess"
-                        :on-error="uploadError">
-                  <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
-                </Upload>
+                <div class="mock-top">
+                  <div class="checkbox-btn">
+                    <Checkbox v-model="setting.isPaging">分页数据</Checkbox>
+                  </div>
+                  <div class="upload-btn">
+                    <Upload ref="upload"
+                            :action="uploadUrl"
+                            :data="{isPaging:setting.isPaging}"
+                            :format="['xls','xlsx']"
+                            :on-format-error="formatError"
+                            :before-upload="beforeUpload"
+                            :on-success="uploadSuccess"
+                            :on-error="uploadError">
+                      <Button type="ghost" icon="ios-cloud-upload-outline">选择EXCEL文件上传</Button> <span class="errmsg" v-html="checked.uploadMock"></span>
+                    </Upload>
+                  </div>
+                </div>
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 8,maxRows: 20}" placeholder="返回json数据样例。可手动填写，也可上传excel文件自动生成。" />
                 <Card class="msg-box">
                   <p slot="title">EXCEL文件说明</p>
@@ -189,6 +197,7 @@
           provider:'',
           user:'',
           authMethod:'',
+          isPaging:false,
           mockData:'',
           isArray:false,
           groupKey:'',
@@ -381,6 +390,7 @@
               provider:self.setting.provider,
               user:self.setting.user,
               authMethod:self.setting.authMethod,
+              isPaging:self.setting.isPaging,
               mockData:self.setting.mockData,
               paramsDes:self.setting.paramsDes,
               note:self.setting.note,
@@ -568,6 +578,14 @@
         }
         .tabs {
           margin-bottom: 10px !important;
+          .mock-top{
+            .checkbox-btn{
+              float:left;
+            }
+            .upload-btn{
+              margin-left:100px;
+            }
+          }
         }
       }
       .errmsg{

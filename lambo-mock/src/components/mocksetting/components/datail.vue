@@ -72,7 +72,14 @@
           <FormItem label="输出参数：">
             <Tabs class="tabs" size="small">
               <TabPane label="MOCK数据" >
-                <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.mockId " :download=setting.mockName>下载MOCK数据</a></Button>
+                <div class="mock-top">
+                  <div class="checkbox-btn">
+                    <Checkbox v-model="setting.isPaging" disabled>分页数据</Checkbox>
+                  </div>
+                  <div class="download-btn">
+                  <Button type="ghost" class="download"><Icon type="ios-cloud-download-outline"></Icon> <a :href="downloadUrl + '/'+setting.mockId " :download=setting.mockName>下载MOCK数据</a></Button>
+                  </div>
+                </div>
                 <Input v-model="setting.mockData" type="textarea" :autosize="{minRows: 10,maxRows:20}" readonly />
               </TabPane>
               <TabPane label="输出参数说明" >
@@ -159,6 +166,7 @@
           provider:'',
           user:'',
           authMethod:'',
+          isPaging:false,
           mockData:'',
           isArray:false,
           groupKey:'',
@@ -287,6 +295,7 @@
 
             let mockSetting = result.data.mockSetting;
             if(mockSetting){
+              console.log(mockSetting.isPaging);
               self.setting.mockId = mockSetting.mockId;
               self.setting.mockName = mockSetting.mockName;
               self.setting.mockUrl = mockSetting.mockUrl;
@@ -294,6 +303,7 @@
               self.setting.provider = mockSetting.provider;
               self.setting.user = mockSetting.user;
               self.setting.authMethod = mockSetting.authMethod;
+              self.setting.isPaging = mockSetting.isPaging;
               self.setting.mockData = mockSetting.mockData;
               self.setting.paramsDes = mockSetting.paramsDes;
               self.setting.note = mockSetting.note;
@@ -400,6 +410,14 @@
         }
         .tabs{
           margin-bottom:10px !important;
+          .mock-top{
+            .checkbox-btn{
+              float:left;
+            }
+            .download-btn{
+              margin-left:100px;
+            }
+          }
         }
       }
       .download {
