@@ -5,13 +5,14 @@
       <div class="title">服务明细</div>
       <div class="btn-box">
         <Button type="primary" icon="plus" @click="showPage('insert')" v-if="stru.struType==='folder'">新增</Button>
+        <Button type="primary" icon="ios-plus-outline" @click="selectNode" v-if="stru.struType==='folder' && stru.struId !='0'">克隆服务</Button>
         <Button type="primary" icon="edit" @click="showPage('update')" v-if="stru.struId !='0' ">修改</Button>
         <Button type="error" icon="trash-a" @click="doDelete" v-if="stru.struId !='0' ">删除</Button>
         <div style="clear:both;"></div>
       </div>
     </div>
 
-    <Form :label-width="100">
+    <Form :label-width="120">
 
       <Card>
         <p slot="title">
@@ -127,12 +128,15 @@
       </div>
 
     </Form>
+
+    <PopTree v-model="showPopTree" @on-change="onSelectNodeChange"></PopTree>
   </div>
 </template>
 
 <script>
   import util from '@/libs/util';
   import config from '@/config/config';
+  import PopTree from "./PopTree";
   export default {
     props: {
       struId:{
@@ -146,7 +150,7 @@
     },
     data () {
       return {
-        dsObj:[],
+        showPopTree:false,
         downloadUrl:"/"+config.serverContext+"/manage/mock/file/get",
         stru:{
           struId:this.struId,
@@ -221,9 +225,18 @@
         }
       }
     },
+    components:{
+      PopTree
+    },
     methods:{
       showPage(pageType){
         this.$emit("show-page",pageType);
+      },
+      selectNode(){
+        this.showPopTree = true;
+      },
+      onSelectNodeChange(nodeId){
+        this.$emit("show-page","copy",nodeId);
       },
       doDelete(){
         let self = this;
@@ -295,7 +308,6 @@
 
             let mockSetting = result.data.mockSetting;
             if(mockSetting){
-              console.log(mockSetting.isPaging);
               self.setting.mockId = mockSetting.mockId;
               self.setting.mockName = mockSetting.mockName;
               self.setting.mockUrl = mockSetting.mockUrl;
@@ -303,7 +315,7 @@
               self.setting.provider = mockSetting.provider;
               self.setting.user = mockSetting.user;
               self.setting.authMethod = mockSetting.authMethod;
-              self.setting.isPaging = mockSetting.isPaging;
+              self.setting.isPaging = mockSetting.isPaging==null?false:mockSetting.isPaging;
               self.setting.mockData = mockSetting.mockData;
               self.setting.paramsDes = mockSetting.paramsDes;
               self.setting.note = mockSetting.note;

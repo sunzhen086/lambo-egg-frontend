@@ -6,7 +6,7 @@
     <Content>
 
       <div v-if="pageType==='insert'" >
-        <Insert @show-page="showPage" @add-tree-node="addTreeNode" :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" :siblings="curStru.children"></Insert>
+        <Insert @show-page="showPage" @add-tree-node="addTreeNode" :parent-id="curStru.key" :parent-name="curStru.title" :stru-path="curStru.path" :siblings="curStru.children" :copyStruId="copyStruId"></Insert>
       </div>
       <div v-if="pageType==='update'" >
         <Update @show-page="showPage" @update-tree-node="updateTreeNode" :stru-id="curStru.key" :stru-name="curStru.title" :siblings="curSiblings"></Update>
@@ -32,6 +32,7 @@
         pageType:'',
         curStru:{},
         curSiblings:[],
+        copyStruId:"",
         treeData: [
           {
             key:'0',
@@ -128,8 +129,15 @@
         this.$set(data, "selected", true);
 
       },
-      showPage(pageType){
-        this.pageType = pageType;
+      showPage(pageType,key){
+        console.log(pageType);
+        if(pageType=="copy"){
+          this.copyStruId = key;
+          this.pageType = "insert";
+        }else{
+          this.copyStruId = "";
+          this.pageType = pageType;
+        }
       },
       addTreeNode(node){
         let self = this;

@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <Form :label-width="100">
+    <Form :label-width="120">
       <Card>
         <p slot="title">
           <Icon type="network"></Icon>
@@ -172,13 +172,16 @@
       siblings:{
         type:Array,
         default:[]
+      },
+      copyStruId:{
+        type:String,
+        default:""
       }
     },
     data () {
       return {
         isloading:false,
         uploadUrl:"/"+config.serverContext+"/manage/mock/file/put",
-        dsObj:[],
         stru: {
           struId:'',
           struName: '',
@@ -526,10 +529,98 @@
       },
       formatError (file) {
         this.checked.uploadMock = "文件 " + file.name + " 格式不正确，请选择excel文件。";
+      },
+      getMock(){
+        let self = this;
+        util.ajax.get('/manage/mock/stru/query?struId='+self.copyStruId).then(function(resp) {
+          let result = resp.data;
+          if (result.code == '1') {
+            self.stru.struName = result.data.struName;
+            self.stru.struUrl = result.data.struUrl;
+            self.stru.struType = result.data.struType;
+            self.stru.isUse = result.data.isUse;
+            self.stru.orderSeq = result.data.orderSeq;
+            if(self.stru.struType == 'service'){
+              self.getMockSetting();
+              self.getMockDevelop();
+            }
+          }
+        });
+      },
+      getMockSetting(){
+        let self = this;
+        util.ajax.get('/manage/mock/setting/query?mockId='+self.copyStruId).then(function(resp){
+          let result = resp.data;
+          if(result.code == '1'){
+
+            let mockSetting = result.data.mockSetting;
+            if(mockSetting){
+              self.setting.mockName = mockSetting.mockName;
+              self.setting.mockType = mockSetting.mockType;
+              self.setting.provider = mockSetting.provider;
+              self.setting.user = mockSetting.user;
+              self.setting.authMethod = mockSetting.authMethod;
+              self.setting.isPaging = mockSetting.isPaging==null?false:mockSetting.isPaging;
+              self.setting.mockData = mockSetting.mockData;
+              self.setting.paramsDes = mockSetting.paramsDes;
+              self.setting.note = mockSetting.note;
+              self.setting.createTime = mockSetting.createTime;
+              self.setting.updateTime = mockSetting.updateTime;
+              self.setting.createUser = mockSetting.createUser;
+            }
+
+            self.paramsData.splice(0,self.paramsData.length);
+            let paramsList = result.data.mockSettingParamsList;
+            if(paramsList && paramsList.length>0){
+              paramsList.forEach(params => {
+                let row = {
+                  paramKey: params.paramKey,
+                  paramType: params.paramType,
+                  necessary: params.necessary,
+                  necessaryName:params.necessary==0?'否':'是',
+                  note:params.note
+                };
+
+                self.paramsData.push(row);
+
+                if(null!=params.groupKey && params.groupKey!=''){
+                  self.setting.isArray = true;
+                  self.setting.groupKey = params.groupKey;
+                }else{
+                  self.setting.isArray = false;
+                  self.setting.groupKey = "";
+                }
+
+              });
+            }
+          }
+
+        });
+      },
+      getMockDevelop(){
+        let self = this;
+        util.ajax.get('/manage/mock/develop/query?mockId='+self.copyStruId).then(function(resp){
+          let result = resp.data;
+          if(result.code == '1'){
+
+            let mockDevelop = result.data;
+            if(mockDevelop){
+              self.develop.mockId = mockDevelop.mockId;
+              self.develop.status = mockDevelop.status;
+              self.develop.designer = mockDevelop.designer;
+              self.develop.developer = mockDevelop.developer;
+              self.develop.note = mockDevelop.note;
+            }
+
+          }
+
+        });
       }
     },
     mounted:function(){
-
+      if(this.copyStruId !=""){
+        this.getMock();
+      }
     }
   }
 </script>

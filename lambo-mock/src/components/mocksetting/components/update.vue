@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <Form :label-width="100">
+    <Form :label-width="120">
       <Card>
         <p slot="title">
           <Icon type="network"></Icon>
@@ -178,7 +178,6 @@
         isloading:false,
         uploadUrl:"/"+config.serverContext+"/manage/mock/file/put",
         downloadUrl:"/"+config.serverContext+"/manage/mock/file/get",
-        dsObj:[],
         stru:{
           struId:this.struId,
           struName:this.struName,
@@ -351,7 +350,7 @@
               self.setting.provider = mockSetting.provider;
               self.setting.user = mockSetting.user;
               self.setting.authMethod = mockSetting.authMethod;
-              self.setting.isPaging = mockSetting.isPaging;
+              self.setting.isPaging = mockSetting.isPaging==null?false:mockSetting.isPaging;
               self.setting.mockData = mockSetting.mockData;
               self.setting.paramsDes = mockSetting.paramsDes;
               self.setting.note = mockSetting.note;
