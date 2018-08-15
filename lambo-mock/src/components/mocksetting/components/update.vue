@@ -85,6 +85,7 @@
                   <div class="file-btn">
                     <Upload ref="upload"
                             :action="uploadUrl"
+                            :data="{isPaging:setting.isPaging}"
                             :format="['xls','xlsx']"
                             :on-format-error="formatError"
                             :before-upload="beforeUpload"
