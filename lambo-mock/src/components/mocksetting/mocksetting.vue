@@ -60,7 +60,7 @@
       getChildren(parentNode,callback){
         let self = this;
 
-        util.ajax.get('/manage/mock/stru/queryChildren?hasDevStatus=1&parentId='+parentNode.key).then(function(resp){
+        util.ajax.get('/manage/mock/stru/queryChildren?hasDevStatus=1&parentId='+parentNode.key+"&mockPath="+parentNode.path).then(function(resp){
           let result = resp.data;
           const nodes = [];
           if(result.code == '1'){
