@@ -5,6 +5,7 @@
       <div class="title">服务明细</div>
       <div class="btn-box">
         <Button type="primary" icon="plus" @click="showPage('insert')" v-if="stru.struType==='folder'">新增</Button>
+        <a :href="exportWord" download='数据服务.docx'><Button type="success" icon="social-wordpress" v-if="stru.struId =='0'">导出WORD</Button></a>
         <Button type="primary" icon="ios-plus-outline" @click="selectNode" v-if="stru.struType==='folder' && stru.struId !='0'">克隆服务</Button>
         <Button type="primary" icon="edit" @click="showPage('update')" v-if="stru.struId !='0' ">修改</Button>
         <Button type="error" icon="trash-a" @click="doDelete" v-if="stru.struId !='0' ">删除</Button>
@@ -152,6 +153,7 @@
       return {
         showPopTree:false,
         downloadUrl:"/"+config.serverContext+"/manage/mock/file/get",
+        exportWord:"/"+config.serverContext+"/manage/mock/export/getWord",
         stru:{
           struId:this.struId,
           struName:this.struName,
